@@ -11,9 +11,13 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
-public class User {
+public class LoginController {
 
     @Autowired
     private StuService stuService;
@@ -32,7 +36,7 @@ public class User {
 
     }
     @PostMapping(value = "/getCaptcha")
-//    发送邮件验证码
+//    发送邮件验证码 接受数据json
     public Message sendCaptcha(@Param(value = "mail") String mail,
                               @Param(value = "user") String user) {
             String code = SendMail.sendSimpleMail(mail);
@@ -40,12 +44,25 @@ public class User {
             if(num >= 1)
                 return new Message(true);
             else
-                return new Message(false,"验证码已失效");
+                return new Message(false,"c");
     }
     @PostMapping(value = "/verifyCode")
-//    验证验证码 #todo
-    public Message sendCaptcha(){
-        return new Message(true);
+//    验证验证码 接受数据json
+    public Message verifyCode(@Param(value = "user") String user,
+                               @Param(value = "captcha") String captcha){
+        Map<String,Object>map = new HashMap<>();
+        map.put("user",user);
+        map.put("time",new Date().getTime());
+        System.out.println(captcha);
+        String code = codeService.findCodeByUser(map);
+        System.out.println(code);
+        if(code!=null)
+            if(code.equals(captcha))
+                return new Message(true,"注册成功(sign in success)");
+            else
+                return new Message(false,"验证码错误(captcha error)");
+        else
+            return new Message(false,"验证码失效(captcha invalid)");
     }
 
 }
