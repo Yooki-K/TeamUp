@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://110.42.219.76:3306/teamup
+    username: root
+    password: ky
+
+  mail:
+    host: smtp.qq.com
+    username: 1486147017@qq.com
+    password: rzrzcvatmxnojhbg
+    port: 587
+    default-encoding: UTF-8
+    # 配置SSL 加密工厂
+    properties:
+      mail:
+        smtp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+        #表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
+        debug: true
+
+mybatis:
+  mapper-locations: classpath*:mybatis/mapper/*.xml
