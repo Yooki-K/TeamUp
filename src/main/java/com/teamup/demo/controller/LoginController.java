@@ -53,9 +53,9 @@ public class LoginController {
         Map<String,Object>map = new HashMap<>();
         map.put("user",user);
         map.put("time",new Date().getTime());
-        System.out.println(captcha);
+//        System.out.println(captcha);
         String code = codeService.findCodeByUser(map);
-        System.out.println(code);
+//        System.out.println(code);
         if(code!=null)
             if(code.equals(captcha))
                 return new Message(true,"注册成功(sign in success)");
