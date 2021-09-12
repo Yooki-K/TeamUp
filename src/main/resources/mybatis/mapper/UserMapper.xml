@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.teamup.demo.mapper.UserMapper">
+
+    <sql id="sel">select * from student</sql>
+    <select id="getAllStu" resultType="com.teamup.demo.entity.Student">
+        <include refid="sel"></include>
+    </select>
+
+    <select id="findUserByUser" parameterType="String" resultType="com.teamup.demo.entity.Student">
+        select * from ${table} where user = #{user}
+    </select>
+    <insert id="addStu" parameterType="com.teamup.demo.entity.Student">
+        insert into student (user,pwd,mail) values (#{user},#{pwd},#{mail})
+    </insert>
+    <insert id="addTea" parameterType="com.teamup.demo.entity.Teacher">
+        insert into teacher (user,pwd,mail) values (#{user},#{pwd},#{mail})
+    </insert>
+
+    <update id="updatePwdByUser" >
+        update ${table} set pwd = #{pwd} where user = #{user}
+    </update>
+
+    <select id="findPwdByUser" resultType="String">
+        select pwd from ${table} where user = #{user}
+    </select>
+</mapper>

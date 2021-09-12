@@ -2,6 +2,7 @@ package com.teamup.demo.service;
 
 import com.teamup.demo.entity.MailCode;
 import com.teamup.demo.mapper.CodeMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,7 +15,10 @@ public class CodeService {
     public int addCode(MailCode code){
         return codeMapper.addCode(code);
     }
-    public String findCodeByUser(Map<String,Object> map){
-        return codeMapper.findCodeByUser(map);
+    public String findCodeByUser(String user,long time,int sendType){
+        return codeMapper.findCodeByUser(user,time,sendType);
+    }
+    public int deleteInvalid(long time){
+        return codeMapper.deleteInvalid(time);
     }
 }

@@ -55,10 +55,5 @@ public class MailCode {
         this.code = code;
         setSendTime();
     }
-    public MailCode(String user, String code) {
-        this.user = user;
-        setSendType(1);
-        this.code = code;
-        setSendTime();
-    }
+
 }

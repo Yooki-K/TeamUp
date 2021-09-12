@@ -2,16 +2,13 @@ package com.teamup.demo.entity;
 
 import java.sql.Blob;
 
-public class Teacher{
-    String user;
-    String pwd;
+public class Teacher extends Admin{
     Blob blob;
     String school;
     String id;
     String name;
     String sex;
     String collage;
-    String mail;
 
     @Override
     public String toString() {

@@ -7,7 +7,10 @@
             captcha(user,sendType,code,sendTime)
         values(#{user},#{sendType},#{code},#{sendTime})
     </insert>
-    <select id="findCodeByUser" resultType="String" parameterType="map">
-        select code from captcha where  user = #{user} and sendTime > #{time}-5*60*1000 and sendType = 1
+    <select id="findCodeByUser" resultType="String">
+        select code from captcha where  user = #{user} and sendTime > #{time}-5*60*1000 and sendType = #{type}
     </select>
+    <delete id="deleteInvalid">
+        delete from captcha where #{time} -5*60*1000 > sendTime
+    </delete>
 </mapper>
