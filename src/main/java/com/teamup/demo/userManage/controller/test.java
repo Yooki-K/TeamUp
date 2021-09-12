@@ -1,7 +1,8 @@
-package com.teamup.demo.controller;
+package com.teamup.demo.userManage.controller;
 
 
-import com.teamup.demo.service.UserService;
+import com.teamup.demo.userManage.entity.Student;
+import com.teamup.demo.userManage.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,8 @@ public class test {
     }
 
     @PostMapping("/t")
-    public int Test3(@Param(value="user") String user,@Param(value="pwd") String pwd){
-        return userService.updatePwdByUser(user,pwd,"student");
+    public void Test3(Student user){
+//        System.out.println(user.toString());
+//        return userService.addUser2(user);
     }
 }

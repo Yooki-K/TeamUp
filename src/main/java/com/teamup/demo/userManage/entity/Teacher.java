@@ -1,4 +1,4 @@
-package com.teamup.demo.entity;
+package com.teamup.demo.userManage.entity;
 
 import java.sql.Blob;
 
@@ -7,7 +7,7 @@ public class Teacher extends Admin{
     String school;
     String id;
     String name;
-    String sex;
+    boolean sex;
     String collage;
 
     @Override
@@ -76,11 +76,11 @@ public class Teacher extends Admin{
         this.collage = collage;
     }
 
-    public String getSex() {
+    public boolean getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(boolean sex) {
         this.sex = sex;
     }
 

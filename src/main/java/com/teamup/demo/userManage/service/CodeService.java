@@ -1,12 +1,10 @@
-package com.teamup.demo.service;
+package com.teamup.demo.userManage.service;
 
-import com.teamup.demo.entity.MailCode;
-import com.teamup.demo.mapper.CodeMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.teamup.demo.userManage.entity.MailCode;
+import com.teamup.demo.userManage.mapper.CodeMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 @Service(value = "CodeService")
 public class CodeService {

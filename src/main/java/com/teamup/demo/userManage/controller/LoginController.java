@@ -1,17 +1,17 @@
-package com.teamup.demo.controller;
+package com.teamup.demo.userManage.controller;
 
 
-import com.teamup.demo.entity.*;
-import com.teamup.demo.service.CodeService;
-import com.teamup.demo.service.UserService;
+import com.teamup.demo.tool.Message;
+import com.teamup.demo.userManage.entity.*;
+import com.teamup.demo.userManage.service.CodeService;
+import com.teamup.demo.userManage.service.UserService;
 import com.teamup.demo.tool.SendMail;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
+import java.util.*;
 
 //get才判断session,post默认有session
 
@@ -25,7 +25,7 @@ public class LoginController {
 
     @PostMapping(value = "/signIn")
 //    注册 传参type 1学生 2老师 ，只需输入参数 {user,pwd,mail}
-    public Message signIn(@Param(value = "type") String type,Student user){
+    public Message signIn(@Param(value = "type") String type, Student user){
         if(userService.addUser(user, Integer.parseInt(type)) == 1){
             return new Message(true,"注册成功(sign in success)");
         }else{
@@ -103,5 +103,34 @@ public class LoginController {
         }else
             return new Message(false,"原密码输入错误");
     }
+    @PostMapping("/certificate")
+    /*实名认证 可用form表单提交 参数 学号*/
+    public Message addCertification(Certification certification,HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        String table = session.getAttribute("table").toString();
+        certification.setUser(user.getUser());
+        certification.setType(table.equals("student")?1:2);
+        if(userService.addCertification(certification)>0)
+            return new Message(true,"实名认证已提交，请等待审核");
+        else
+            return new Message(false,"实名认证提交失败，请重新提交");
+    }
 
+    @PostMapping("/queryCertification")
+    /*管理员查询实名认证 返回Map,可当作json使用*/
+    public Map<String, List<Certification>> queryCertification(){
+        Map<String, List<Certification>> cList = new HashMap<String, List<Certification>>();
+        cList.put("student",userService.getCertificationByType(1));
+        cList.put("teacher",userService.getCertificationByType(2));
+        return cList;
+    }
+    @PostMapping("/agreeCertification")
+    /*管理员查询实名认证 返回Map,可当作json使用*/
+    public Message agreeCertification(List<String>userList){
+        int num = userService.agreeCertification(userList);
+        if (num>0)
+            return new Message(true,String.format("同意%d条申请",num));
+        else
+            return new Message(false,"审核失败");
+    }
 }

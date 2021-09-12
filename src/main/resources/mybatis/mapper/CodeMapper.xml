@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.teamup.demo.mapper.CodeMapper">
-    <insert id="addCode" parameterType="com.teamup.demo.entity.MailCode" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+<mapper namespace="com.teamup.demo.userManage.mapper.CodeMapper">
+    <insert id="addCode" parameterType="com.teamup.demo.userManage.entity.MailCode" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into
             captcha(user,sendType,code,sendTime)
         values(#{user},#{sendType},#{code},#{sendTime})

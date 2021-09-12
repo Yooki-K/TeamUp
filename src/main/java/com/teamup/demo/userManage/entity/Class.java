@@ -1,4 +1,4 @@
-package com.teamup.demo.entity;
+package com.teamup.demo.userManage.entity;
 
 public class Class {
     private int id;

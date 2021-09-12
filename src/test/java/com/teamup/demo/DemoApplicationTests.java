@@ -1,9 +1,6 @@
 package com.teamup.demo;
 
-import com.teamup.demo.entity.MailCode;
-import com.teamup.demo.mapper.CodeMapper;
-import com.teamup.demo.service.CodeService;
-import com.teamup.demo.tool.SendMail;
+import com.teamup.demo.userManage.service.CodeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -26,7 +23,9 @@ class DemoApplicationTests {
     CodeService codeService;
     @Test
     void myTest(){
-        long t = codeService.deleteInvalid(new Date().getTime());
-        System.out.println(t);
+
+        System.out.println(new Date());
+        System.out.println(new Date());
+        System.out.println(new Date().toString());
     }
 }
