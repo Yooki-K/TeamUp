@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service(value = "UserService")
@@ -47,7 +48,6 @@ public class UserService {
             return 0;
         }
     }
-    //todo 未进行验证
     public int addCertification(Certification certification){
         try {
             return userMapper.addCertification(certification);

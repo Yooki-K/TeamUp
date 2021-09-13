@@ -22,19 +22,19 @@
     </update>
 
     <insert id="addCertification" parameterType="com.teamup.demo.userManage.entity.Certification">
-        insert into public.certification ("user", sex, id, school, name, time, isAgree) values
-           (#{user}, #{sex}, #{id}, #{school}, #{name}, #{time}, #{isAgree})
+        insert into public.certification ("user", sex, id, school, name, "isAgree" ,type,time) values
+           (#{user}, #{sex}, #{id}, #{school}, #{name}, #{isAgree},#{type},#{time})
     </insert>
 
     <select id="getCertificationByType" parameterType="int"
             resultType="com.teamup.demo.userManage.entity.Certification">
-        select * from public.certification where isAgree = false and type = #{type} order by time
+        select * from public.certification where "isAgree" = false and type = #{type} order by time
     </select>
     
     <update id="agreeCertification" parameterType="List">
-        update public.certification set isAgree = true where "user" in
+        update public.certification set "isAgree" = true where "user" in
         <foreach item="item" collection="list" separator="," open="(" close=")" index="">
-            item
+            #{item}
         </foreach>
     </update>
 </mapper>

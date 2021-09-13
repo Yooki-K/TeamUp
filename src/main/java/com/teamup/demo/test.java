@@ -1,4 +1,4 @@
-package com.teamup.demo.userManage.controller;
+package com.teamup.demo;
 
 
 import com.teamup.demo.userManage.entity.Student;

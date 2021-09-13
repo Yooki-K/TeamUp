@@ -13,12 +13,10 @@ import java.util.List;
 public interface UserMapper {
     List<Student> getAllStu();
     List<Teacher> getAllTea();
-    Student findUserByUser(@Param("user")String user,@Param("table")String table)throws SQLException;
+    Student findUserByUser(@Param("user")String user,@Param("table")String table)throws SQLException;//根据用户名查找用户
     int addUser(@Param("user")Student user,@Param("table") String table) throws SQLException; //注册
     int updatePwdByUser(@Param("user")String user,@Param("pwd")String pwd,@Param("table")String table) throws SQLException;//修改密码
     int addCertification(Certification certification) throws SQLException;//实名认证
     List<Certification> getCertificationByType(int type);//管理员查询实名认证申请
     int agreeCertification(List<String> userList) throws SQLException;//管理员同意实名认证
-    // todo
-
 }

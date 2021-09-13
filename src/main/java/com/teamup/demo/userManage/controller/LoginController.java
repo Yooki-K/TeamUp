@@ -104,7 +104,7 @@ public class LoginController {
             return new Message(false,"原密码输入错误");
     }
     @PostMapping("/certificate")
-    /*实名认证 可用form表单提交 参数 学号*/
+    /*实名认证 可用form表单提交 参数 学号、学校、姓名、性别*/
     public Message addCertification(Certification certification,HttpSession session){
         Student user = (Student) session.getAttribute("user");
         String table = session.getAttribute("table").toString();
@@ -125,9 +125,10 @@ public class LoginController {
         return cList;
     }
     @PostMapping("/agreeCertification")
-    /*管理员查询实名认证 返回Map,可当作json使用*/
-    public Message agreeCertification(List<String>userList){
-        int num = userService.agreeCertification(userList);
+    /*管理员审核实名认证，可当作json使用*/
+    public Message agreeCertification(@RequestBody List<String> users){
+        System.out.println(users);
+        int num = userService.agreeCertification(users);
         if (num>0)
             return new Message(true,String.format("同意%d条申请",num));
         else
