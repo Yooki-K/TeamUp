@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SpringBootTest
@@ -24,8 +27,5 @@ class DemoApplicationTests {
     @Test
     void myTest(){
 
-        System.out.println(new Date());
-        System.out.println(new Date());
-        System.out.println(new Date().toString());
     }
 }

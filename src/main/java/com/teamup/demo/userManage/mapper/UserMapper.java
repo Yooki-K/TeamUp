@@ -19,4 +19,6 @@ public interface UserMapper {
     int addCertification(Certification certification) throws SQLException;//实名认证
     List<Certification> getCertificationByType(int type);//管理员查询实名认证申请
     int agreeCertification(List<String> userList) throws SQLException;//管理员同意实名认证
+    // todo
+
 }
