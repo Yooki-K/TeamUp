@@ -9,6 +9,14 @@ public class MailCode {
     private String code;
     private long sendTime;
 
+    public MailCode(int id, String user, int sendType, String code, long sendTime) {
+        this.id = id;
+        this.user = user;
+        this.sendType = sendType;
+        this.code = code;
+        this.sendTime = sendTime;
+    }
+
     public int getId() {
         return id;
     }

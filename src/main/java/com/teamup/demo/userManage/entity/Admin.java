@@ -37,4 +37,10 @@ public class Admin {
     public void setMail(String mail) {
         this.mail = mail;
     }
+
+    public Admin(String user, String pwd, String mail) {
+        this.user = user;
+        this.pwd = pwd;
+        this.mail = mail;
+    }
 }

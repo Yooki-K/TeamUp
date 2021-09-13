@@ -10,6 +10,16 @@ public class Teacher extends Admin{
     boolean sex;
     String collage;
 
+    public Teacher(String user, String pwd, String mail, Blob blob, String school, String id, String name, boolean sex, String collage) {
+        super(user, pwd, mail);
+        this.blob = blob;
+        this.school = school;
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+        this.collage = collage;
+    }
+
     @Override
     public String toString() {
         return "Teacher{" +
