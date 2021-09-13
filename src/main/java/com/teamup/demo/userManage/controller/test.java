@@ -22,7 +22,12 @@ public class test {
 
     @PostMapping("/findbyuser")
     public String Test2(@Param(value="user") String user){
-        return userService.findUserByUser(user,"student").toString();
+        System.out.println(user);
+        Student u = userService.findUserByUser(user,"student");
+        if(u!=null)
+            return u.toString();
+        else
+            return "null!";
     }
 
     @PostMapping("/t")

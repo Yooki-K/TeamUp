@@ -4,35 +4,35 @@
 
 <mapper namespace="com.teamup.demo.userManage.mapper.UserMapper">
 
-    <sql id="sel">select * from student</sql>
+    <sql id="sel">select * from public.student</sql>
     <select id="getAllStu" resultType="com.teamup.demo.userManage.entity.Student">
         <include refid="sel"/>
     </select>
 
     <select id="findUserByUser" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
-        select * from ${table} where user = #{user}
+        select * from public.${table} where "user" = #{user}
     </select>
 
     <insert id="addUser">
-        insert into ${table} (user,pwd,mail) values (#{user.user},#{user.pwd},#{user.mail})
+        insert into public.${table} ("user",pwd,mail) values (#{user.user},#{user.pwd},#{user.mail})
     </insert>
 
     <update id="updatePwdByUser" >
-        update ${table} set pwd = #{pwd} where user = #{user}
+        update public.${table} set pwd = #{pwd} where "user" = #{user}
     </update>
 
     <insert id="addCertification" parameterType="com.teamup.demo.userManage.entity.Certification">
-        insert into certification (user, sex, id, school, name, time, isAgree) values
+        insert into public.certification ("user", sex, id, school, name, time, isAgree) values
            (#{user}, #{sex}, #{id}, #{school}, #{name}, #{time}, #{isAgree})
     </insert>
 
     <select id="getCertificationByType" parameterType="int"
             resultType="com.teamup.demo.userManage.entity.Certification">
-        select * from certification where isAgree = false and type = #{type} order by time
+        select * from public.certification where isAgree = false and type = #{type} order by time
     </select>
     
     <update id="agreeCertification" parameterType="List">
-        update certification set isAgree = true where user in
+        update public.certification set isAgree = true where "user" in
         <foreach item="item" collection="list" separator="," open="(" close=")" index="">
             item
         </foreach>

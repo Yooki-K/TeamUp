@@ -5,7 +5,7 @@ spring:
 #    username: root
 #    password: ky
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://124.70.67.204:26000/demo?ApplicationName=app1
+    url: jdbc:postgresql://124.70.67.204:26000/demo
     username: mcfly
     password: ks123456@
   mail:
