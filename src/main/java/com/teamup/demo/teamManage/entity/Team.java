@@ -1,4 +1,4 @@
-package com.teamup.demo.TeamManage.entity;
+package com.teamup.demo.teamManage.entity;
 
 public class Team {
     int teamId;

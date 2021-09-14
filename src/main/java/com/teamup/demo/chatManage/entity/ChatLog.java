@@ -1,4 +1,4 @@
-package com.teamup.demo.ChatManage.entity;
+package com.teamup.demo.chatManage.entity;
 
 import com.teamup.demo.tool.Util;
 

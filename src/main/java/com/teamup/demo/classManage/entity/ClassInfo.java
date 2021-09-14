@@ -1,4 +1,4 @@
-package com.teamup.demo.ClassManage.entity;
+package com.teamup.demo.classManage.entity;
 
 public class ClassInfo {
     private int id;

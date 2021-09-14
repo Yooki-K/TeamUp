@@ -1,4 +1,4 @@
-package com.teamup.demo.RoomManage.entity;
+package com.teamup.demo.roomManage.entity;
 
 import com.teamup.demo.tool.Util;
 

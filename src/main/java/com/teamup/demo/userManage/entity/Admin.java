@@ -1,9 +1,14 @@
 package com.teamup.demo.userManage.entity;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Component
+@ConfigurationProperties(prefix = "admin")
 public class Admin {
     String user;
     String pwd;
-    String mail;
+
 
     public String getUser() {
         return user;
@@ -14,7 +19,6 @@ public class Admin {
         return "Admin{" +
                 "user='" + user + '\'' +
                 ", pwd='" + pwd + '\'' +
-                ", mail='" + mail + '\'' +
                 '}';
     }
 
@@ -30,11 +34,4 @@ public class Admin {
         this.pwd = pwd;
     }
 
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
 }

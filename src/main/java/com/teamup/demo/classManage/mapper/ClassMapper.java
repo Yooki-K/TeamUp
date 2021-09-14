@@ -1,6 +1,6 @@
-package com.teamup.demo.ClassManage.mapper;
+package com.teamup.demo.classManage.mapper;
 
-import com.teamup.demo.ClassManage.entity.Class;
+import com.teamup.demo.classManage.entity.Class;
 import com.teamup.demo.userManage.entity.Student;
 import org.springframework.stereotype.Repository;
 
