@@ -5,6 +5,9 @@
     <select id="matchStuByLabel" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.student where "user" != #{user} and label like concat('%',#{aim},'%')
     </select>
+    <update>
+
+    </update>
     <insert id="addRoom" parameterType="com.teamup.demo.roomManage.entity.Room">
         insert into publicl.room ( "id", user, name, content, tag, background, targetNum, curNum, isPwd )
         values ( #{id}, #{user}, #{name}, #{content}, #{tag}, #{background}, #{targetNum}, #{curNum}, #{isPwd} )
@@ -18,4 +21,11 @@
     <select id="getRoomByTag" resultType="com.teamup.demo.roomManage.entity.Room">
         select * from public.room where tag like concat('%',#{tag},'%')
     </select>
+    <insert id="addStuById">
+        insert into public."roomInf" ("roomId",user)
+        values (#{roomId},#{user})
+    </insert>
+    <delete id="removeStuById">
+        delete from public."roomInf" where "roomId" = #{roomId} and "user" = #{user}
+    </delete>
 </mapper>

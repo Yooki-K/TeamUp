@@ -16,4 +16,15 @@
     <select id="getStuByClass" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public."classInfo" where "id" = #{classId}
     </select>
+    <select id="getClassById" resultType="com.teamup.demo.ClassManage.entity.Class">
+        select * from public.class where "id" = #{classId}
+    </select>
+    <delete id="deleteClass">
+        delete from public.class where "id" = #{Id};
+        delete from public."classInfo" where "id" = #{Id};
+    </delete>
+    <select id="getTeaByClass">
+        select * from public.teacher
+        where "user" in ( select "user" from public.class where "id" = #{classId} )
+    </select>
 </mapper>
