@@ -23,7 +23,7 @@ public class RoomController {
     Custom custom;
     @Resource
     private UserService userService;
-    @PostMapping("/matchTeammate")
+    @PostMapping("/data/matchTeammate")
 //    匹配 intel智能匹配  key 关键字匹配
     public Map<String,List<Student>> intelMatch(@Param("type") String type, @Param("aim") String aim,HttpSession session){
         Student user= (Student) session.getAttribute("user");

@@ -5,14 +5,12 @@ import com.teamup.demo.userManage.entity.Student;
 import com.teamup.demo.userManage.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import java.io.IOException;
+import java.sql.Blob;
 
 
 @RestController
@@ -21,14 +19,9 @@ public class test {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
-    public String Test1(@CookieValue(value = "isCertificated",defaultValue = "false")String v,
-                        HttpServletResponse response) {
-        Student student=new Student();
-        student.setUser("hzj");
-
-        System.out.println(userService.certification(student.getUser(),userService.findCertificationByUser(student.getUser())));
-        return "hello world，这里是java课设";
+    @RequestMapping(value = "/",method = RequestMethod.GET)
+    public ModelAndView Test1() {
+        return new ModelAndView("test");
     }
 
     @PostMapping("/findbyuser")
@@ -41,12 +34,21 @@ public class test {
             return "null!";
     }
 
-    @PostMapping("/t1")
-    public String Test3(@Param("ll") String ll,Student user){
-        System.out.println(user.toString());
-        System.out.println(ll);
-        int num = userService.updateLabelByUser(user,ll);
-        return String.format("%d",num);
+    @RequestMapping(value = "/t",method = RequestMethod.POST)
+    public String Test3(@RequestParam("file")MultipartFile file,
+                        @RequestParam("user")String user) {
+        try {
+            System.out.println(file.getName());
+            System.out.println(file.getBytes());
+            int num=userService.updateHeadshotByUser(
+                    userService.findUserByUser(user,"student"),
+                    file.getBytes(),"student"
+            );
+            System.out.println(num);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "!!!";
     }
 
 }
