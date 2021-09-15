@@ -36,8 +36,11 @@ class DemoApplicationTests {
     CodeService codeService;
     @Test
     void myTest(){
-        Custom cu = new Custom();
-        System.out.println(cu.toString());
-
+        byte[] a= new byte[10];
+        for (int i = 0; i < 10; i++) {
+            a[i]=(byte)'a';
+        }
+        System.out.println(a);
+        System.out.println(a.toString());
     }
 }

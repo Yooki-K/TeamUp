@@ -9,12 +9,14 @@ import com.teamup.demo.userManage.service.UserService;
 import com.teamup.demo.tool.SendMail;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.*;
 
 //get才判断session,post默认有session
@@ -155,7 +157,7 @@ public class LoginController {
             return new Message(false,"实名认证提交失败，请重新提交");
     }
 
-    @PostMapping("/queryCertification")
+    @PostMapping("/data/queryCertification")
     /*管理员查询实名认证 返回Map,可当作json使用*/
     public Map<String, List<Certification>> queryCertification(){
         Map<String, List<Certification>> cList = new HashMap<String, List<Certification>>();
@@ -180,6 +182,26 @@ public class LoginController {
             return new Message(true,"更改个人标签成功");
         else
             return new Message(false,"更改个人标签失败");
+    }
+    @RequestMapping(value = "/upload/headshot",method = RequestMethod.POST)
+//    上传头像 <form action="/t" method="post" enctype="multipart/form-data">
+    public Message uploadHeadshot(@RequestParam("file") MultipartFile file, HttpSession session) {
+        Student user = (Student) session.getAttribute("user");
+        String table =  session.getAttribute("table").toString();
+        int num= 0;
+        try {
+            num = userService.updateHeadshotByUser(
+                    userService.findUserByUser(user.getUser(),table),
+                    file.getBytes(),"student"
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Message(false,"上传文件错误");
+        }
+        if (num>0)
+            return new Message(true,"上传头像成功");
+        else
+            return new Message(false,"服务器出错");
     }
 
     @GetMapping("/loginOut")

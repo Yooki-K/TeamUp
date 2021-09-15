@@ -48,7 +48,9 @@
         </foreach>
         where "user" = #{user}
     </update>
-
+    <update id="updateHeadshot">
+        update public.${table} set headshot = #{headshot} where "user" = #{user}
+    </update>
     <select id="findCertificationByUser" resultType="com.teamup.demo.userManage.entity.Certification">
         select * from public.certification where "user" = #{user} order by time desc limit 1
     </select>

@@ -1,9 +1,8 @@
 package com.teamup.demo.userManage.entity;
 
-import java.sql.Blob;
 
 public class Teacher extends Admin{
-    Blob blob;
+    byte[] headshot;
     String school;
     String id;
     String name;
@@ -20,6 +19,13 @@ public class Teacher extends Admin{
                 '}';
     }
 
+    public byte[] getHeadshot() {
+        return headshot;
+    }
+
+    public void setHeadshot(byte[] headshot) {
+        this.headshot = headshot;
+    }
     public String getMail() {
         return mail;
     }
@@ -60,7 +66,7 @@ public class Teacher extends Admin{
         this.collage = collage;
     }
 
-    public boolean getSex() {
+    public boolean isSex() {
         return sex;
     }
 
@@ -68,11 +74,4 @@ public class Teacher extends Admin{
         this.sex = sex;
     }
 
-    public Blob getBlob() {
-        return blob;
-    }
-
-    public void setBlob(Blob blob) {
-        this.blob = blob;
-    }
 }

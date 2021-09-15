@@ -9,10 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service(value = "UserService")
 public class UserService {
@@ -53,6 +50,28 @@ public class UserService {
             return 0;
         }
     }
+    public int updateLabelByUser(Student stu,String label){
+        try {
+            Map<String,String> map = new HashMap<String,String>();
+            map.put("label",label);
+            return userMapper.updateUser(stu.getUser(),map,"student");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public int updateHeadshotByUser(Student user,byte[] bytes,String table){
+        try {
+            return userMapper.updateHeadshot(user.getUser(),bytes,table);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+
+    public List<Certification> getCertificationByType(int type){
+        return userMapper.getCertificationByType(type);
+    }
     public int addCertification(Certification certification){
         try {
             return userMapper.addCertification(certification);
@@ -60,9 +79,6 @@ public class UserService {
             throwables.printStackTrace();
             return 0;
         }
-    }
-    public List<Certification> getCertificationByType(int type){
-        return userMapper.getCertificationByType(type);
     }
     public int operateCertification (List<String> userList,String value){
         try {
@@ -77,7 +93,7 @@ public class UserService {
                     }
                 }
                 if(!failList.isEmpty())
-                    operateCertification(failList,"false");
+                    operateCertification(failList,"null");
             }
             return num;
         } catch (SQLException throwables) {
@@ -85,22 +101,10 @@ public class UserService {
             return 0;
         }
     }
-    public int updateLabelByUser(Student stu,String label){
-        try {
-            Map<String,String> map = new HashMap<String,String>();
-            map.put("label",label);
-            return userMapper.updateUser(stu.getUser(),map,label);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return 0;
-        }
-    }
-
     public Certification findCertificationByUser(String user){
         return userMapper.findCertificationByUser(user);
 
     }
-
     public boolean certification(String user,Certification certification){
         Map<String,String> map = new HashMap<String,String>();
         map.put("id",certification.getId());
