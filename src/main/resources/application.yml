@@ -1,9 +1,5 @@
 spring:
   datasource:
-#    driver-class-name: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://110.42.219.76:3306/teamup
-#    username: root
-#    password: ky
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://124.70.67.204:26000/demo
     username: mcfly
@@ -23,3 +19,10 @@ spring:
         debug: true
 mybatis:
   mapper-locations: classpath*:mybatis/mapper/*.xml
+
+custom:
+  labels: [擅长前端,擅长后端,擅长报告,擅长数据库]
+  schools: [南京理工大学,南京大学]
+admin:
+  user: root
+  pwd: 123

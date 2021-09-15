@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teamup.demo.classManage.mapper.ClassMapper">
+    <insert id="addClass" paramType="com.teamup.demo.classManage.entity.Class">
+        insert into public.class ( "id", user, invCode )
+        values ( #{id}, #{user}, #{invCode} )
+    </insert>
+    <select id="getClassByTea" resultType="com.teamup.demo.classManage.entity.Class">
+        select * from public.class where "user" = #{user};
+    </select>
+    <select id="getClassByStu" resultType="com.teamup.demo.classManage.entity.ClassInfo">
+        select * from public.class
+        where "id" in (select id from public."classInfo" where "user" = #{user} );
+    </select>
+    <select id="getStuByClass" resultType="com.teamup.demo.userManage.entity.Student">
+        select * from public."classInfo" where "id" = #{classId}
+    </select>
+</mapper>

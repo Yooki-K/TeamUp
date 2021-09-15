@@ -9,6 +9,8 @@ public class Teacher extends Admin{
     String name;
     boolean sex;
     String collage;
+    String mail;
+
 
     public Teacher(String user, String pwd, String mail, Blob blob, String school, String id, String name, boolean sex, String collage) {
         super(user, pwd, mail);
@@ -34,24 +36,6 @@ public class Teacher extends Admin{
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getPwd() {
-        return pwd;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
     }
 
     public String getId() {

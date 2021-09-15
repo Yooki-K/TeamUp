@@ -17,24 +17,40 @@
         insert into public.${table} ("user",pwd,mail) values (#{user.user},#{user.pwd},#{user.mail})
     </insert>
 
-    <update id="updatePwdByUser" >
-        update public.${table} set pwd = #{pwd} where "user" = #{user}
-    </update>
-
     <insert id="addCertification" parameterType="com.teamup.demo.userManage.entity.Certification">
-        insert into public.certification ("user", sex, id, school, name, time, isAgree) values
-           (#{user}, #{sex}, #{id}, #{school}, #{name}, #{time}, #{isAgree})
+        insert into public.certification ("user", sex, id, school, name, "isAgree" ,type,time) values
+           (#{user}, #{sex}, #{id}, #{school}, #{name}, #{isAgree},#{type},#{time})
     </insert>
 
     <select id="getCertificationByType" parameterType="int"
             resultType="com.teamup.demo.userManage.entity.Certification">
-        select * from public.certification where isAgree = false and type = #{type} order by time
+        select * from public.certification where "isAgree" = false and type = #{type} order by time
     </select>
     
-    <update id="agreeCertification" parameterType="List">
-        update public.certification set isAgree = true where "user" in
+    <update id="operateCertification" >
+        update public.certification set "isAgree" = ${value} where "user" in
         <foreach item="item" collection="list" separator="," open="(" close=")" index="">
-            item
+            #{item}
         </foreach>
     </update>
+
+    <update id="updateUser">
+        update public.${table} set
+        <foreach item="item" collection="map" separator="," open="" close="" index="key">
+            <choose>
+                <when test="key == 'sex'.toString()">
+                    ${key} = ${item}
+                </when>
+                <otherwise>
+                    ${key} = #{item}
+                </otherwise>
+            </choose>
+        </foreach>
+        where "user" = #{user}
+    </update>
+
+    <select id="findCertificationByUser" resultType="com.teamup.demo.userManage.entity.Certification">
+        select * from public.certification where "user" = #{user} order by time desc limit 1
+    </select>
+
 </mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.teamup.demo.roomManage.mapper.RoomMapper">
+    <select id="matchStuByLabel" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
+        select * from public.student where "user" != #{user} and label like concat('%',#{aim},'%')
+    </select>
+    <insert id="addRoom" parameterType="com.teamup.demo.roomManage.entity.Room">
+        insert into publicl.room ( "id", user, name, content, tag, background, targetNum, curNum, isPwd )
+        values ( #{id}, #{user}, #{name}, #{content}, #{tag}, #{background}, #{targetNum}, #{curNum}, #{isPwd} )
+    </insert>
+    <select id="getRoomByClass" parameterType="String" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.room where "classId" = #{ClassId}
+    </select>
+    <select id="getRoomPublic" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.room where "classId" is null
+    </select>
+    <select id="getRoomByTag" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.room where tag like concat('%',#{tag},'%')
+    </select>
+</mapper>

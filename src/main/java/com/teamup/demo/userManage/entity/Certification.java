@@ -6,15 +6,15 @@ import java.util.Date;
 
 public class Certification {
     private String user;
-    private String id;
     private boolean sex;
+    private String id;
     private String school;
     private String name;
     private Date time;
     private boolean isAgree;
     private int type;
 
-    public Certification(String user, String id, boolean sex, String school, String name) {
+    public Certification(String user,  boolean sex,String id, String school, String name) {
         this.user = user;
         this.id = id;
         this.sex = sex;
@@ -22,6 +22,20 @@ public class Certification {
         this.name = name;
         setTime();
         setSex(false);
+    }
+
+    @Override
+    public String toString() {
+        return "Certification{" +
+                "user='" + user + '\'' +
+                ", id='" + id + '\'' +
+                ", sex=" + sex +
+                ", school='" + school + '\'' +
+                ", name='" + name + '\'' +
+                ", time=" + time +
+                ", isAgree=" + isAgree +
+                ", type=" + type +
+                '}';
     }
 
     public int getType() {
