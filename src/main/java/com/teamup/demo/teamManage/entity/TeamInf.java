@@ -6,13 +6,15 @@ public class TeamInf {
     int teamId;
     String user;
     boolean isTeam;
+    int teacherId;
 
-    public TeamInf(int id, int classId, int teamId, String user, boolean isTeam) {
+    public TeamInf(int id, int classId, int teamId, String user, boolean isTeam, int teacherId) {
         this.id = id;
         this.classId = classId;
         this.teamId = teamId;
         this.user = user;
         this.isTeam = isTeam;
+        this.teacherId = teacherId;
     }
 
     public int getId() {
@@ -53,5 +55,13 @@ public class TeamInf {
 
     public void setTeam(boolean team) {
         isTeam = team;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 }
