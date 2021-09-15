@@ -17,8 +17,9 @@ public class Room {
     private boolean isPwd;
     private String pwd;
     private java.util.Date createTime;
+    private int classId;
 
-    public Room(int id, String user, String name, String content, String tag, Blob background, int targetNum, int curNum, boolean isPwd, String pwd, Date createTime) {
+    public Room(int id, String user, String name, String content, String tag, Blob background, int targetNum, int curNum, boolean isPwd, String pwd, Date createTime, int classId) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -30,6 +31,7 @@ public class Room {
         this.isPwd = isPwd;
         this.pwd = pwd;
         this.createTime = createTime;
+        this.classId = classId;
     }
 
     public int getId() {
@@ -118,5 +120,13 @@ public class Room {
 
     public void setCreateTime() {
         this.createTime = new java.util.Date();
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 }
