@@ -7,49 +7,60 @@ import java.util.Date;
 
 public class Room {
     private int id;
-    private int classId;
     private String user;
     private String name;
     private String content;
     private String tag;
     private String teamName;
-    private String color;
     private int targetNum;
     private int curNum;
     private boolean isPwd;
     private String pwd;
     private java.util.Date createTime;
+    private int classId;
+    private String color;
+    private int teacherId;
 
-    public Room(int id, int classId, String user, String name, String content, String tag, String teamName, String color, int targetNum, int curNum, boolean isPwd, String pwd, Date createTime) {
+    public Room(int id, String user, String name, String content, String tag, String teamName, int targetNum, int curNum, boolean isPwd, String pwd, int classId, String color, int teacherId) {
         this.id = id;
-        this.classId = classId;
         this.user = user;
         this.name = name;
         this.content = content;
         this.tag = tag;
         this.teamName = teamName;
+        this.targetNum = targetNum;
+        this.curNum = curNum;
+        this.isPwd = isPwd;
+        this.pwd = pwd;
+        this.classId = classId;
         this.color = color;
+        this.teacherId = teacherId;
+        setCreateTime();
+    }
+
+    public Room(int id, String user, String name, String content, String tag, String teamName, int targetNum, int curNum, boolean isPwd, String pwd, Date createTime, int classId, String color, int teacherId) {
+        this.id = id;
+        this.user = user;
+        this.name = name;
+        this.content = content;
+        this.tag = tag;
+        this.teamName = teamName;
         this.targetNum = targetNum;
         this.curNum = curNum;
         this.isPwd = isPwd;
         this.pwd = pwd;
         this.createTime = createTime;
+        this.classId = classId;
+        this.color = color;
+        this.teacherId = teacherId;
     }
 
-    public Room(int id, int classId, String user, String name, String content, String tag, String teamName, String color, int targetNum, int curNum, boolean isPwd, String pwd) {
-        this.id = id;
-        this.classId = classId;
-        this.user = user;
-        this.name = name;
-        this.content = content;
-        this.tag = tag;
-        this.teamName = teamName;
-        this.color = color;
-        this.targetNum = targetNum;
-        this.curNum = curNum;
-        this.isPwd = isPwd;
-        this.pwd = pwd;
-        setCreateTime();
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 
     public int getClassId() {

@@ -6,13 +6,23 @@ public class Team {
     int classId;
     String leader;
     int number;
+    int teacherId;
 
-    public Team(int teamId, String varchar, int classId, String leader, int number) {
+    public Team(int teamId, String varchar, int classId, String leader, int number, int teacherId) {
         this.teamId = teamId;
         this.varchar = varchar;
         this.classId = classId;
         this.leader = leader;
         this.number = number;
+        this.teacherId = teacherId;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 
     public int getTeamId() {
