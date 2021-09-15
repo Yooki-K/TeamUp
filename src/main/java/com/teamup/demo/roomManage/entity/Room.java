@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class Room {
     private int id;
+    private int classId;
     private String user;
     private String name;
     private String content;
@@ -19,9 +20,9 @@ public class Room {
     private String pwd;
     private java.util.Date createTime;
 
-    public Room(int id, String user, String name, String content, String tag, String teamName ,
-                String color, int targetNum, int curNum, boolean isPwd, String pwd, Date createTime) {
+    public Room(int id, int classId, String user, String name, String content, String tag, String teamName, String color, int targetNum, int curNum, boolean isPwd, String pwd, Date createTime) {
         this.id = id;
+        this.classId = classId;
         this.user = user;
         this.name = name;
         this.content = content;
@@ -33,6 +34,30 @@ public class Room {
         this.isPwd = isPwd;
         this.pwd = pwd;
         this.createTime = createTime;
+    }
+
+    public Room(int id, int classId, String user, String name, String content, String tag, String teamName, String color, int targetNum, int curNum, boolean isPwd, String pwd) {
+        this.id = id;
+        this.classId = classId;
+        this.user = user;
+        this.name = name;
+        this.content = content;
+        this.tag = tag;
+        this.teamName = teamName;
+        this.color = color;
+        this.targetNum = targetNum;
+        this.curNum = curNum;
+        this.isPwd = isPwd;
+        this.pwd = pwd;
+        setCreateTime();
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 
     public String getTeamName() {

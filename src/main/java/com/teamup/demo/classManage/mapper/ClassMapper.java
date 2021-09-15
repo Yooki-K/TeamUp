@@ -2,6 +2,7 @@ package com.teamup.demo.classManage.mapper;
 
 import com.teamup.demo.classManage.entity.Class;
 import com.teamup.demo.userManage.entity.Student;
+import com.teamup.demo.userManage.entity.Teacher;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -15,5 +16,6 @@ public interface ClassMapper {
     List<Class> getClassByStu(String user);//根据学生用户名查询所在班级
     List<Student> getStuByClass(String classId);//根据班级编号查询班级成员
 
+    Teacher getTeaByClass(String classId);//查找一个班级的指导老师
 
 }
