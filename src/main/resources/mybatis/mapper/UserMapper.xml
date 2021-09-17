@@ -9,6 +9,8 @@
         <include refid="sel"/>
     </select>
 
+
+
     <select id="findUserByUser" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.${table} where "user" = #{user}
     </select>

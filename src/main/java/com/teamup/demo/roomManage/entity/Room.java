@@ -21,6 +21,16 @@ public class Room {
     private String teamName;
     private String color;
 
+    public Room( int id, String user, String name, int targetNum, int curNum,boolean isPwd, Date createTime){
+        this.id = id;
+        this.user = user;
+        this.name = name;
+        this.targetNum = targetNum;
+        this.curNum = curNum;
+        this.isPwd = isPwd;
+        this.createTime = createTime;
+    }
+
     public Room(int id, String user, String name, String content, String tag, int targetNum, int curNum, boolean isPwd, String pwd, Date createTime, int classId, int teacherId, String teamName, String color) {
         this.id = id;
         this.user = user;

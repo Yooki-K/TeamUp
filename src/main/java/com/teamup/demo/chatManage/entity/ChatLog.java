@@ -12,6 +12,13 @@ public class ChatLog {
     private int teamId;
     private int roomId;
 
+    public ChatLog( int id, String user, String content,  Date time ) {
+        this.id = id;
+        this.user = user;
+        this.content = content;
+        this.time = time;
+    }
+
     public ChatLog(int id, String user, String content, Date time, int teamId, int roomId) {
         this.id = id;
         this.user = user;

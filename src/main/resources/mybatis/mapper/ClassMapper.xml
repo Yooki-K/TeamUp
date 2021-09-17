@@ -3,7 +3,7 @@
 
 <mapper namespace="com.teamup.demo.classManage.mapper.ClassMapper">
     <insert id="addClass" parameterType="com.teamup.demo.classManage.entity.Class">
-        insert into public.class ( "id", user, "invCode")
+        insert into public.class ( "id", "user", "invCode")
         values ( #{id}, #{user}, #{invCode})
     </insert>
     <select id="getClassByTea" resultType="com.teamup.demo.classManage.entity.Class">

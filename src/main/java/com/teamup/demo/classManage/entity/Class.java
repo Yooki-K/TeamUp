@@ -11,6 +11,19 @@ public class Class {
         this.name = name;
     }
 
+    public Class(int id, String user, String invCode ) {
+        this.id = id;
+        this.user = user;
+        this.invCode = invCode;
+    }
+
+    public Class(int id, String user, String invCode, String name) {
+        this.id = id;
+        this.user = user;
+        this.invCode = invCode;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Class{" +

@@ -1,4 +1,4 @@
-package main.java.com.teamup.demo.roomManage.entity;
+package com.teamup.demo.roomManage.entity;
 
 public class RoomInf {
     private int id;

@@ -2,18 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.teamup.demo.roomManage.mapper.RoomMapper">
-    <select id="matchStuByLabel" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
+    <select id="matchStuByLabel" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.student where "user" != #{user} and label like concat('%',#{aim},'%')
     </select>
-    <update>
-
-    </update>
     <insert id="addRoom" parameterType="com.teamup.demo.roomManage.entity.Room">
-        insert into publicl.room ( "id", user, name, content, tag, background, targetNum, curNum, isPwd )
-        values ( #{id}, #{user}, #{name}, #{content}, #{tag}, #{background}, #{targetNum}, #{curNum}, #{isPwd} )
+        insert into public.room ( "id", "user", "name", content, tag, teamname, "targetNum", "curNum", "isPwd", pwd, "createTime", "classId", color, "teacherId" )
+        values ( #{id}, #{user}, #{name}, #{content}, #{tag}, #{teamname}, #{targetNum}, #{curNum}, #{isPwd}, #{pwd}, #{createTime}, #{classId}, #{color}, #{teacherId} )
     </insert>
-    <select id="getRoomByClass" parameterType="String" resultType="com.teamup.demo.roomManage.entity.Room">
-        select * from public.room where "classId" = #{ClassId}
+    <select id="getRoomByClass" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.room where "classId" = #{classId}
     </select>
     <select id="getRoomPublic" resultType="com.teamup.demo.roomManage.entity.Room">
         select * from public.room where "classId" is null
@@ -21,11 +18,25 @@
     <select id="getRoomByTag" resultType="com.teamup.demo.roomManage.entity.Room">
         select * from public.room where tag like concat('%',#{tag},'%')
     </select>
+    <select id="getStuByRoom" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.student
+        where "user" in ( select "user" from public."roomInf" where "roomId" = #{roomId} )
+    </select>
     <insert id="addStuById">
-        insert into public."roomInf" ("roomId",user)
+        insert into public."roomInf" ("roomId","user")
         values (#{roomId},#{user})
     </insert>
     <delete id="removeStuById">
         delete from public."roomInf" where "roomId" = #{roomId} and "user" = #{user}
     </delete>
+    <update id="updateRoomById" parameterType="java.util.Map">
+        update public.room set content = #{content}, tag = #{tag}, teamname = #{teamname},
+            "targetNum" = #{targetNum}, "curNum" = #{curNum}, "isPwd" = #{isPwd}, pwd = #{pwd},
+            "classId" = #{classId}, color = #{color}, "teacherId" = #{teacherId}
+        <where>
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                "id" = #{id}
+            </foreach>
+        </where>
+    </update>
 </mapper>
