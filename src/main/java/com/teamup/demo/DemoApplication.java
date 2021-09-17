@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement   //开启事务管理
 @MapperScan({"com.teamup.demo.userManage.mapper",
-        "com.teamup.demo.roomManage.mapper"})//扫包
+        "com.teamup.demo.roomManage.mapper",
+        "com.teamup.demo.classManage.mapper"})//扫包
 public class DemoApplication {
 
     public static void main(String[] args) {

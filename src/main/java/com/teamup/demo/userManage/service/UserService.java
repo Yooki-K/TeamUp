@@ -68,7 +68,9 @@ public class UserService {
             return 0;
         }
     }
-
+    public List<Student>findUsersById(List<String>userIdList){
+        return userMapper.findUsersById(userIdList);
+    }
     public List<Certification> getCertificationByType(int type){
         return userMapper.getCertificationByType(type);
     }

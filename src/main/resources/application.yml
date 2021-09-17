@@ -1,9 +1,14 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://124.70.67.204:26000/demo
+    url: jdbc:postgresql://124.70.67.204:26000/demo?ApplicationName=app
     username: mcfly
     password: ks123456@
+  thymeleaf:
+  　　cache: false #重点是这个要设置false不然会无效
+  　　suffix: .html
+  　　mode: HTML5
+  　　encoding: UTF-8
   mail:
     host: smtp.qq.com
     username: 1486147017@qq.com

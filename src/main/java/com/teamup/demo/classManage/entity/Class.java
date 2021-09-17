@@ -3,18 +3,30 @@ package com.teamup.demo.classManage.entity;
 public class Class {
     private int id;
     private String user;
-    private String userId;
+    private String invCode;
+    private String name;
 
-    public Class(int id, String user, String userId) {
-        this.id = id;
-        this.user = user;
-        this.userId = userId;
+
+    public Class(String name) {
+        this.name = name;
     }
 
-    public Class(int id, String user) {
-        this.id = id;
-        this.user = user;
-        this.userId=null;
+    @Override
+    public String toString() {
+        return "Class{" +
+                "id=" + id +
+                ", user='" + user + '\'' +
+                ", invCode='" + invCode + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -33,11 +45,11 @@ public class Class {
         this.user = user;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getInvCode() {
+        return invCode;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setInvCode(String invCode) {
+        this.invCode = invCode;
     }
 }

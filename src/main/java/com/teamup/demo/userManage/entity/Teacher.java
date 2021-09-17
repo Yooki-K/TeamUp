@@ -9,7 +9,7 @@ public class Teacher extends Admin{
     boolean sex;
     String collage;
     String mail;
-
+    int No;
 
     public Teacher(String user, String pwd, String mail, Blob blob, String school, String id, String name, boolean sex, String collage) {
         super(user, pwd, mail);
@@ -27,6 +27,14 @@ public class Teacher extends Admin{
                 "user='" + user + '\'' +
                 ", mail='" + mail + '\'' +
                 '}';
+    }
+
+    public int getNo() {
+        return No;
+    }
+
+    public void setNo(int no) {
+        No = no;
     }
 
     public byte[] getHeadshot() {

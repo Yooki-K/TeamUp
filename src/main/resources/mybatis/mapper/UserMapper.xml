@@ -34,6 +34,13 @@
         </foreach>
     </update>
 
+    <select id="findUsersById" resultType="com.teamup.demo.userManage.entity.Student">
+        select "user","id" from public.student where "id" in
+        <foreach item="item" collection="list" index="" separator="," close=")" open="(">
+            #{item}
+        </foreach>
+    </select>
+
     <update id="updateUser">
         update public.${table} set
         <foreach item="item" collection="map" separator="," open="" close="" index="key">

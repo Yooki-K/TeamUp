@@ -22,4 +22,5 @@ public interface UserMapper {
     int operateCertification(@Param("list") List<String> list,@Param("value")String value) throws SQLException;//管理员同意、拒绝实名认证
     Certification findCertificationByUser(@Param("user")String user);//查询认证是否通过
     int updateHeadshot(@Param("user")String user,@Param("headshot")byte[] headshot, @Param("table")String table) throws SQLException;//上传头像
+    List<Student> findUsersById(@Param("list") List<String>list);
 }
