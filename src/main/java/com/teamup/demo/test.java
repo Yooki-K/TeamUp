@@ -1,7 +1,10 @@
 package com.teamup.demo;
 
 
+import com.teamup.demo.classManage.entity.Class;
+import com.teamup.demo.classManage.service.ClassService;
 import com.teamup.demo.userManage.entity.Student;
+import com.teamup.demo.userManage.entity.Teacher;
 import com.teamup.demo.userManage.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -18,7 +24,8 @@ public class test {
 
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private ClassService classService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public ModelAndView Test1() {
         return new ModelAndView("test");
@@ -39,7 +46,7 @@ public class test {
                         @RequestParam("user")String user) {
         try {
             System.out.println(file.getName());
-            System.out.println(file.getBytes());
+            System.out.println(file.getSize());
             int num=userService.updateHeadshotByUser(
                     userService.findUserByUser(user,"student"),
                     file.getBytes(),"student"

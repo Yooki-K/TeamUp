@@ -38,6 +38,10 @@ public class Room {
         setCreateTime();
     }
 
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
     public Room(int id, String user, String name, String content, String tag, String teamName, int targetNum, int curNum, boolean isPwd, String pwd, Date createTime, int classId, String color, int teacherId) {
         this.id = id;
         this.user = user;

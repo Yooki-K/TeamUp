@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>导入班级成员123</title>
+    <script src="./js/uploadImg.js"></script>
+    <script src="./js/jquery.min.js"></script>
 </head>
 <body>
-<form action="/t" method="post" enctype="multipart/form-data">
-    <input type="file" name="file"/>
-    <input type="text" name="user" value="ky"/>
-    <input type="submit" value="上传"/>
+<form action="/upload/member" method="post" enctype="multipart/form-data">
+    <input id="file" type="file" name="file"/>
+    <input id="classId" type="text" name="classId" value="10000"/>
+<!--    <button onclick="submitPic()">上传</button>-->
+    <input type="submit" value="上传">
 </form>
 </body>
 </html>

@@ -5,6 +5,12 @@ public class RoomInf {
     private int roomId;
     private String user;
 
+    public RoomInf(int id, int roomId, String user) {
+        this.id = id;
+        this.roomId = roomId;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }

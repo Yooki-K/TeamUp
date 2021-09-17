@@ -1,14 +1,23 @@
 package com.teamup.demo.classManage.entity;
 
-public class ClassInfo {
+public class ClassInf {
     private int id;
     private String user;
     private String userId;
 
-    public ClassInfo(int id, String user, String userId) {
+    public ClassInf(int id, String user, String userId) {
         this.id = id;
         this.user = user;
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassInf{" +
+                "id=" + id +
+                ", user='" + user + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 
     public int getId() {

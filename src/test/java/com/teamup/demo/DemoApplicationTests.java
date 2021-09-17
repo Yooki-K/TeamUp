@@ -1,16 +1,10 @@
 package com.teamup.demo;
 
-import com.teamup.demo.tool.Custom;
 import com.teamup.demo.userManage.service.CodeService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @SpringBootTest
 class DemoApplicationTests {
@@ -36,11 +30,5 @@ class DemoApplicationTests {
     CodeService codeService;
     @Test
     void myTest(){
-        byte[] a= new byte[10];
-        for (int i = 0; i < 10; i++) {
-            a[i]=(byte)'a';
-        }
-        System.out.println(a);
-        System.out.println(a.toString());
     }
 }

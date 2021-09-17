@@ -9,7 +9,7 @@ public class Teacher extends Admin{
     boolean sex;
     String collage;
     String mail;
-
+    int No;
 
     @Override
     public String toString() {
@@ -17,6 +17,14 @@ public class Teacher extends Admin{
                 "user='" + user + '\'' +
                 ", mail='" + mail + '\'' +
                 '}';
+    }
+
+    public int getNo() {
+        return No;
+    }
+
+    public void setNo(int no) {
+        No = no;
     }
 
     public byte[] getHeadshot() {
