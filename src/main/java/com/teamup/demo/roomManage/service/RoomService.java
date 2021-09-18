@@ -1,11 +1,14 @@
 package com.teamup.demo.roomManage.service;
 
+import com.teamup.demo.roomManage.entity.Room;
 import com.teamup.demo.roomManage.mapper.RoomMapper;
 import com.teamup.demo.userManage.entity.Student;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Service(value = "RoomService")
 public class RoomService {
@@ -13,7 +16,74 @@ public class RoomService {
     @Resource
     private RoomMapper roomMapper;
 
+    public int addRoom(Room room){
+        try {
+            return roomMapper.addRoom(room);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public int deleteRoom(Student student,int roomId){
+        try {
+            return roomMapper.deleteRoom(student.getUser(),roomId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public int updateRoomById(Map<String,String>map,int roomId){
+        try {
+            return roomMapper.updateRoomById(map,roomId);
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+            return 0;
+        }
+    }
+    public int updateCurNumById(int type,int roomId){
+        try {
+            return roomMapper.updateCurNum(type, roomId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public int addStuByRoom(String user,int roomId){
+        try {
+            return roomMapper.addStuById(user, roomId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public int removeStuByRoom(String user,int roomId){
+        try {
+            return roomMapper.removeStuById(user, roomId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public List<Student> getStuByRoom(int roomId){
+        return roomMapper.getStuByRoom(roomId);
+    }
     public List<Student> matchStuByLabel(Student stu, String aim){
         return roomMapper.matchStuByLabel(stu.getUser(),aim);
     }
+    public List<Room> getRoomByClass(int classId){
+        return roomMapper.getRoomByClass(classId);
+    }
+    public List<Room> getRoomPublic(String sort,boolean isAsc){
+        return roomMapper.getRoomPublic(sort, isAsc);
+    }
+    public List<Room> getRoomByTag(String tag){
+        return roomMapper.getRoomByTag(tag);
+    }
+    public List<Room> getRoomByName(String name){
+        return roomMapper.getRoomByName(name);
+    }
+    public Room findRoomById(int roomId){
+        return roomMapper.findRoomById(roomId);
+    }
+
 }

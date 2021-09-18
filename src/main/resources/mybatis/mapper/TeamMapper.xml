@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.teamup.demo.teamManage.mapper.TeamMapper">
+    <update id="updateTeamInfById">
+        update public."teamInf" set
+        <foreach item="item" collection="map" separator="," open="" close="" index="key">
+            <choose>
+                <when test="key.indexOf('Id'.toString()) != -1">
+                    "${key}" = ${item}
+                </when>
+                <otherwise>
+                    "${key}" = #{item}
+                </otherwise>
+            </choose>
+        </foreach>
+        where "id" = #{id}
+    </update>
+    <update id="setTeamId">
+        update public."teamInf" set "teamId" = #{teamId} where "user" = #{user} and "classId" = #{classId}
+    </update>
+</mapper>

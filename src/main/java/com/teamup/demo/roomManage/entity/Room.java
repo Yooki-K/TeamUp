@@ -14,14 +14,13 @@ public class Room {
     private String teamName;
     private int targetNum;
     private int curNum;
-    private boolean isPwd;
     private String pwd;
     private java.util.Date createTime;
     private int classId;
     private String color;
     private int teacherId;
 
-    public Room(int id, String user, String name, String content, String tag, String teamName, int targetNum, int curNum, boolean isPwd, String pwd, int classId, String color, int teacherId) {
+    public Room(int id, String user, String name, String content, String tag, String teamName, int targetNum, int curNum, String pwd, int classId, String color, int teacherId) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -30,7 +29,6 @@ public class Room {
         this.teamName = teamName;
         this.targetNum = targetNum;
         this.curNum = curNum;
-        this.isPwd = isPwd;
         this.pwd = pwd;
         this.classId = classId;
         this.color = color;
@@ -38,11 +36,33 @@ public class Room {
         setCreateTime();
     }
 
+    public Room() {
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", user='" + user + '\'' +
+                ", name='" + name + '\'' +
+                ", content='" + content + '\'' +
+                ", tag='" + tag + '\'' +
+                ", teamName='" + teamName + '\'' +
+                ", targetNum=" + targetNum +
+                ", curNum=" + curNum +
+                ", pwd='" + pwd + '\'' +
+                ", createTime=" + createTime +
+                ", classId=" + classId +
+                ", color='" + color + '\'' +
+                ", teacherId=" + teacherId +
+                '}';
+    }
+
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Room(int id, String user, String name, String content, String tag, String teamName, int targetNum, int curNum, boolean isPwd, String pwd, Date createTime, int classId, String color, int teacherId) {
+    public Room(int id, String user, String name, String content, String tag, String teamName, int targetNum, int curNum, String pwd, Date createTime, int classId, String color, int teacherId) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -51,7 +71,6 @@ public class Room {
         this.teamName = teamName;
         this.targetNum = targetNum;
         this.curNum = curNum;
-        this.isPwd = isPwd;
         this.pwd = pwd;
         this.createTime = createTime;
         this.classId = classId;
@@ -145,14 +164,6 @@ public class Room {
 
     public void setCurNum(int curNum) {
         this.curNum = curNum;
-    }
-
-    public boolean isPwd() {
-        return isPwd;
-    }
-
-    public void setPwd(boolean pwd) {
-        isPwd = pwd;
     }
 
     public String getPwd() {

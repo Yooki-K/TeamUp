@@ -5,24 +5,59 @@
     <select id="matchStuByLabel" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.student where "user" != #{user} and label like concat('%',#{aim},'%')
     </select>
-    <insert id="addRoom" parameterType="com.teamup.demo.roomManage.entity.Room">
-        insert into publicl.room ( "id", user, name, content, tag, background, "targetNum", "curNum", "isPwd" )
-        values ( #{id}, #{user}, #{name}, #{content}, #{tag}, #{background}, #{targetNum}, #{curNum}, #{isPwd} )
+    <select id="findRoomById">
+        select * from public.room where "id" = #{id};
+    </select>
+    <insert id="addRoom" parameterType="com.teamup.demo.roomManage.entity.Room" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into public.room ( "user", "name", content, tag, teamname, "targetNum", "curNum", pwd, "createTime", "classId", color, "teacherId" )
+        values (#{user}, #{name}, #{content}, #{tag}, #{teamname}, #{targetNum}, #{curNum}, #{pwd}, #{createTime}, #{classId}, #{color}, #{teacherId} )
     </insert>
-    <select id="getRoomByClass" parameterType="String" resultType="com.teamup.demo.roomManage.entity.Room">
-        select * from public.room where "classId" = #{ClassId}
+    <select id="getRoomByClass" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.room where "classId" = #{classId} order by "id" asc
     </select>
     <select id="getRoomPublic" resultType="com.teamup.demo.roomManage.entity.Room">
-        select * from public.room where "classId" is null
+        select * from public.room where "classId" is null order by "${sort}"
+        <if test="isAsc">asc </if>
+        <if test="!isAsc">desc</if>
     </select>
     <select id="getRoomByTag" resultType="com.teamup.demo.roomManage.entity.Room">
-        select * from public.room where tag like concat('%',#{tag},'%')
+        select * from public.room where tag like concat('%',#{tag},'%') order by "id" asc
+    </select>
+    <select id="getRoomByName" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.room where name like concat('%',#{name},'%') order by "id" asc
+    </select>
+    <select id="getStuByRoom" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.student
+        where "user" in ( select "user" from public."roomInf" where "roomId" = #{roomId} )
     </select>
     <insert id="addStuById">
-        insert into public."roomInf" ("roomId",user)
+        insert into public."roomInf" ("roomId","user")
         values (#{roomId},#{user})
     </insert>
     <delete id="removeStuById">
         delete from public."roomInf" where "roomId" = #{roomId} and "user" = #{user}
     </delete>
+    <delete id="deleteRoom">
+        delete from public.room where "user" = #{user} and "id" = #{id}
+    </delete>
+    <update id="updateRoomById">
+        update public.room set
+        <foreach item="item" collection="map" separator="," open="" close="" index="key">
+            <choose>
+                <when test="key.indexOf('Num'.toString()) != -1 || key.indexOf('Id'.toString()) != -1">
+                    "${key}" = ${item}
+                </when>
+                <otherwise>
+                    "${key}" = #{item}
+                </otherwise>
+            </choose>
+        </foreach>
+        where "id" = #{id}
+    </update>
+    <update id="updateCurNum">
+        update public.room set "curNum" =
+        <if test="type == 1">"curNum" + 1</if>
+        <if test="type == -1">"curNum" - 1</if>
+        where "id" = #{id}
+    </update>
 </mapper>

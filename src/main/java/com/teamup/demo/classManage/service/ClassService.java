@@ -36,10 +36,10 @@ public class ClassService {
         else
             return null;
     }
-    public List<Student> getStuByClassId(String classId){
+    public List<Student> getStuByClassId(int classId){
         return classMapper.getStuByClass(classId);
     }
-    public Teacher getTeaByClassId(String classId){
+    public Teacher getTeaByClassId(int classId){
         return classMapper.getTeaByClass(classId);
     }
     public int deleteClassByClassId(List<String> idList){

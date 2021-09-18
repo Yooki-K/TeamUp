@@ -4,13 +4,13 @@
 <mapper namespace="com.teamup.demo.userManage.mapper.CodeMapper">
     <insert id="addCode" parameterType="com.teamup.demo.userManage.entity.MailCode" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into
-            captcha(user,sendType,code,sendTime)
+            captcha("user","sendType",code,"sendTime")
         values(#{user},#{sendType},#{code},#{sendTime})
     </insert>
     <select id="findCodeByUser" resultType="String">
-        select code from captcha where  user = #{user} and sendTime > #{time}-5*60*1000 and sendType = #{type}
+        select code from captcha where  "user" = #{user} and "sendTime" > #{time}-5*60*1000 and "sendType" = #{type}
     </select>
     <delete id="deleteInvalid">
-        delete from captcha where #{time} -5*60*1000 > sendTime
+        delete from captcha where #{time} -5*60*1000 > "sendTime"
     </delete>
 </mapper>

@@ -26,7 +26,7 @@ public class ClassController {
     @Resource
     private UserService userService;
 //    创建班级 传递参数为json 只用传 班级名name 参数
-    @PostMapping("createClass")
+    @PostMapping("create/class")
     public Message createClass(@RequestBody Class c, HttpSession session){
         Teacher teacher = (Teacher)session.getAttribute("user");
         c.setUser(teacher.getUser());
@@ -41,7 +41,7 @@ public class ClassController {
             return new Message(false,"班级创建失败");
     }
 //    老师查询所建班级
-    @PostMapping("data/queryClass/teacher")
+    @PostMapping("data/query/class/teacher")
     public List<Class> queryClass1(HttpSession session){
         Student user = (Student)session.getAttribute("user");
         String table = session.getAttribute("table").toString();
@@ -49,12 +49,12 @@ public class ClassController {
     }
 
 //    查询班级所有成员
-    @PostMapping("data/queryClassMembers")
-    public List<Student> queryClassMembers(String classId){
+    @PostMapping("data/query/classMembers")
+    public List<Student> queryClassMembers(int classId){
         return classService.getStuByClassId(classId);
     }
 //    学生查询所在班级
-    @PostMapping("data/queryClass/student")
+    @PostMapping("data/query/class/student")
     public List<Map<String,Object>> queryClass2(HttpSession session){
         Student user = (Student)session.getAttribute("user");
         String table = session.getAttribute("table").toString();
@@ -63,7 +63,7 @@ public class ClassController {
         for (Class c:classList
              ) {
             Map<String,Object>map = new HashMap<String,Object>();
-            Teacher teacher = classService.getTeaByClassId(String.valueOf(c.getId()));
+            Teacher teacher = classService.getTeaByClassId(c.getId());
             map.put("class",c);
             map.put("teacherNo",teacher.getNo());
             map.put("teacherName",teacher.getName());
@@ -73,7 +73,7 @@ public class ClassController {
     }
     /*删除班级 接受json类型的list数据
     * @Param idList*/
-    @PostMapping("deleteClass")
+    @PostMapping("delete/class")
     public Message deleteClass(@RequestBody List<String>idList){
         int num = classService.deleteClassByClassId(idList);
         if (num>0){
@@ -107,7 +107,7 @@ public class ClassController {
         }
     }
     /*通过邀请码加入班级*/
-    @PostMapping("joinClass")
+    @PostMapping("join/class")
     public Message joinClass(@Param("invCode")String invCode,HttpSession session){
         Student user = (Student) session.getAttribute("user");
         if(user.getId()==null)

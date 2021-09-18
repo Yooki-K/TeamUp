@@ -40,6 +40,15 @@ public class LoginController {
             return new Message(false,"注册失败(sign in fail)");
         }
     }
+    @GetMapping("/judge/user/{table}")
+    /*注册时判断用户名是否已使用，焦点离开user input时使用*/
+    public Message userIsExist(@RequestParam("user") String user, @PathVariable String table){
+        Student USER=userService.findUserByUser(user,table);
+        if(USER==null)
+            return new Message(false);
+        else
+            return new Message(true);
+    }
     @PostMapping(value = "/getCaptcha/{table}")
 //    发送邮件验证码 接受数据json 1注册 2忘记密码
     public Message sendCaptcha(@Param(value = "mail") String mail,
@@ -117,7 +126,7 @@ public class LoginController {
             return new Message(false,"密码错误(password error)");
     }
 
-    @PostMapping("/updatePwd")
+    @PostMapping("/update/pwd")
     /*修改密码 参数 原密码*/
     public Message updatePwd(@Param(value = "pwd1")String pwd1,
                              @Param(value = "pwd2")String pwd2,
@@ -157,7 +166,7 @@ public class LoginController {
             return new Message(false,"实名认证提交失败，请重新提交");
     }
 
-    @PostMapping("/data/queryCertification")
+    @PostMapping("/data/query/certification")
     /*管理员查询实名认证 返回Map,可当作json使用*/
     public Map<String, List<Certification>> queryCertification(){
         Map<String, List<Certification>> cList = new HashMap<String, List<Certification>>();
@@ -174,7 +183,7 @@ public class LoginController {
         else
             return new Message(false,"审核失败");
     }
-    @PostMapping("/updateLabel")
+    @PostMapping("/update/label")
     /*设置个人标签*/
     public Message updateLabel(@Param("label") String label,HttpSession session){
         Student user= (Student) session.getAttribute("user");

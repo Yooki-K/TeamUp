@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.teamup.demo.classManage.mapper.ClassMapper">
-    <insert id="addClass" parameterType="com.teamup.demo.classManage.entity.Class">
-        insert into public.class ( "id", user, "invCode")
-        values ( #{id}, #{user}, #{invCode})
+    <insert id="addClass" parameterType="com.teamup.demo.classManage.entity.Class" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into public.class ("user", "invCode","name")
+        values (#{user}, #{invCode}, #{name})
     </insert>
     <select id="getClassByTea" resultType="com.teamup.demo.classManage.entity.Class">
         select * from public.class where "user" = #{user};
@@ -30,5 +30,18 @@
     <select id="getTeaByClass" resultType="com.teamup.demo.userManage.entity.Teacher">
         select * from public.teacher
         where "user" in ( select "user" from public.class where "id" = #{classId} )
+    </select>
+    <update id="updateClassInf" parameterType="com.teamup.demo.classManage.entity.ClassInf">
+        update public."classInfo" set "user"=#{classInf.user} where "userId" = #{classInf.userId};
+    </update>
+    <insert id="joinClass" parameterType="java.util.List">
+        insert into public."classInfo" ("id", "user", "userId" )
+        values
+        <foreach collection="list" index="" item="item" separator=",">
+            (#{item.id}, #{item.user}, #{item.userId})
+        </foreach>
+    </insert>
+    <select id="codeIsExist">
+        select "id" from public.class where "invCode"=#{invCode}
     </select>
 </mapper>

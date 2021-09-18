@@ -5,16 +5,25 @@ public class TeamInf {
     int classId;
     int teamId;
     String user;
-    boolean isTeam;
     int teacherId;
 
-    public TeamInf(int id, int classId, int teamId, String user, boolean isTeam, int teacherId) {
+    public TeamInf(int id, int classId, int teamId, String user, int teacherId) {
         this.id = id;
         this.classId = classId;
         this.teamId = teamId;
         this.user = user;
-        this.isTeam = isTeam;
         this.teacherId = teacherId;
+    }
+
+    @Override
+    public String toString() {
+        return "TeamInf{" +
+                "id=" + id +
+                ", classId=" + classId +
+                ", teamId=" + teamId +
+                ", user='" + user + '\'' +
+                ", teacherId=" + teacherId +
+                '}';
     }
 
     public int getId() {
@@ -47,14 +56,6 @@ public class TeamInf {
 
     public void setUser(String user) {
         this.user = user;
-    }
-
-    public boolean isTeam() {
-        return isTeam;
-    }
-
-    public void setTeam(boolean team) {
-        isTeam = team;
     }
 
     public int getTeacherId() {
