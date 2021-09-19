@@ -5,7 +5,7 @@ import com.teamup.demo.userManage.entity.Student;
 import com.teamup.demo.userManage.entity.Teacher;
 import com.teamup.demo.userManage.mapper.UserMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
@@ -21,6 +21,12 @@ public class UserService {
         return userMapper.getAllStu();
     }
     public List<Teacher> getAllTea() { return userMapper.getAllTea(); }
+    public List<Student>findUsersById(List<String>userIdList){
+        return userMapper.findUsersById(userIdList);
+    }
+    public List<Student>fuzzyMatchUsersByUser(String param,String table){
+        return userMapper.fuzzyMatchUsersByUser(param, table);
+    }
     public Student findUserByUser(String user,String table) {
         try {
             return userMapper.findUserByUser(user,table);
@@ -67,9 +73,6 @@ public class UserService {
             throwables.printStackTrace();
             return 0;
         }
-    }
-    public List<Student>findUsersById(List<String>userIdList){
-        return userMapper.findUsersById(userIdList);
     }
     public List<Certification> getCertificationByType(int type){
         return userMapper.getCertificationByType(type);

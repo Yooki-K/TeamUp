@@ -2,17 +2,14 @@ package com.teamup.demo.roomManage.controller;
 
 
 import com.sun.istack.internal.NotNull;
-import com.teamup.demo.classManage.service.ClassService;
+import com.teamup.demo.roomManage.entity.Invitation;
 import com.teamup.demo.roomManage.entity.Room;
 import com.teamup.demo.roomManage.service.RoomService;
 import com.teamup.demo.tool.Custom;
 import com.teamup.demo.tool.Message;
 import com.teamup.demo.userManage.entity.Student;
-import com.teamup.demo.userManage.entity.Teacher;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -26,10 +23,8 @@ public class RoomController {
     private RoomService roomService;
     @Resource
     Custom custom;
-    @Resource
-    private ClassService classService;
     @PostMapping("/data/matchTeammate")
-//    匹配 参数type {intel智能匹配  key 关键字匹配}
+    /*匹配 参数type {intel智能匹配  key 关键字匹配}*/
     public Map<String,List<Student>> intelMatch(@Param("type") String type, @Param("aim") String aim,HttpSession session){
         Student user= (Student) session.getAttribute("user");
         Map<String,List<Student>> map =new HashMap<>();
@@ -49,6 +44,11 @@ public class RoomController {
             map.put("error",null);
         return map;
     }
+    @PostMapping("data/query/room/member")
+    /*查询房间成员*/
+    public List<Student> queryClassMember(@Param("roomId")int roomId){
+        return roomService.getStuByRoom(roomId);
+    }
     @PostMapping("/updateRoom")
     /*必须带参数int roomId*/
     public Message updateRoomById(@RequestBody Map<String,String> room){
@@ -59,18 +59,13 @@ public class RoomController {
         else
             return new Message(false);
     }
-    /*创建房间 必须参数 name teamName content tag targetNum isPwd(pwd)
+    /*创建房间 必须参数 name teamName content tag targetNum pwd
               可选参数 color classId*/
     @PostMapping("/create/room")
     public Message createRoom(@RequestBody Room room, HttpSession session){
         Student student = (Student) session.getAttribute("user");
         room.setUser(student.getUser());
         room.setCreateTime();
-        if(room.getClassId()!=0){
-            Teacher teacher = classService.getTeaByClassId(room.getClassId());
-            if (teacher != null)
-                room.setTeacherId(teacher.getNo());
-        }
         if(roomService.addRoom(room) > 0)
             return new Message(true,String.format("%s房间创建成功",room.getName()));
         else
@@ -106,26 +101,27 @@ public class RoomController {
         }else
             return new Message(false,String.format("%s操作参数未知",type));
     }
-    //todo 创建房间触发器，roomInf添加一天记录
-    //todo 邀请加入房间
-    /*根据参数查询房间*/
     @PostMapping("/data/query/room")
     public List<Room> queryRoom( @Param("type")@NotNull String type, @Param("param")String param,
-                                @Param("sort")String sort, @Param("isAsc")String isAsc){
+            /*根据参数查询房间*/
+                                 @Param("sort")String sort, @Param("isAsc")String isAsc){
         List<Room> list = null;
         switch (type){
             case "class":
                 list = roomService.getRoomByClass(Integer.parseInt(param));
                 break;
             case "public":
-                if(sort!=null)
+                if(sort!=null) {
                     if ("false".equals(isAsc)) {
                         list = roomService.getRoomPublic(sort, false);
                         break;
-                    }else
+                    }else {
                         list = roomService.getRoomPublic(sort,true);
-                else
+                    }
+                }
+                else {
                     list = roomService.getRoomPublic("id",true);
+                }
                 break;
             case "tag":
                 list = roomService.getRoomByTag(param);
@@ -137,5 +133,39 @@ public class RoomController {
         }
         return list;
     }
-
+    /*邀请加入房间 table参数 student teacher*/
+    @PostMapping("/invite/{table}")
+    public Message inviteMember(@PathVariable String table,@Param("toUser")String toUser,
+                                @Param("roomId")int roomId, HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        Invitation invitation = new Invitation(user.getUser(),toUser,roomId, "student".equals(table));
+        if(roomService.addInvitation(invitation)>0)
+            return new Message(true,"邀请成功");
+        else
+            return new Message(false,"邀请失败");
+    }
+    /*查看邀请 type参数 send我发送的 recv我接收的*/
+    @PostMapping("/query/invitation/{type}")
+    public List<Invitation> queryInvitation(@PathVariable String type,HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        return roomService.getInvitation(user.getUser(), type);
+    }
+    /*对邀请进行操作 json
+    * type参数 agree disagree*/
+    @RequestMapping(value = "/operate/invitation/{type}",method = RequestMethod.POST)
+    public Message operateInvitation(@RequestBody int[] idList, @PathVariable String type){
+        if ("agree".equals(type)){
+            if(roomService.operateInvitation(true,idList)>0)
+                return new Message(true);
+            else
+                return new Message(false);
+        }else if("disagree".equals(type)){
+            if(roomService.operateInvitation(false,idList)>0)
+                return new Message(true);
+            else
+                return new Message(false);
+        }else{
+            return new Message(false,"操作未知");
+        }
+    }
 }

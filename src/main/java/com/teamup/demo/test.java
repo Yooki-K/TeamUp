@@ -7,11 +7,11 @@ import com.teamup.demo.userManage.entity.Student;
 import com.teamup.demo.userManage.entity.Teacher;
 import com.teamup.demo.userManage.service.UserService;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,21 +22,25 @@ import java.util.Map;
 @RestController
 public class test {
 
-    @Autowired
+    @Resource
     private UserService userService;
-    @Autowired
-    private ClassService classService;
+//    @Autowired
+//    private ClassService classService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public ModelAndView Test1() {
         return new ModelAndView("test");
     }
 
-    @PostMapping("/findbyuser")
-    public String Test2(@Param(value="user") String user){
-        System.out.println(user);
-        Student u = userService.findUserByUser(user,"student");
+    @PostMapping("/fuzzyMatchUsers")
+    public String Test2(@Param(value="param") String param,
+                        @Param(value="table") String table){
+        System.out.println(param);
+        List<Student> u = userService.fuzzyMatchUsersByUser(param,table);
+        for(Student uu:u){
+            System.out.println(uu.toString());
+        }
         if(u!=null)
-            return u.toString();
+            return "yes";
         else
             return "null!";
     }

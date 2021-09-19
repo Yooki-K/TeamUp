@@ -22,7 +22,7 @@ import java.util.*;
 //get才判断session,post默认有session
 
 @RestController
-public class LoginController {
+public class UserController {
 
     @Resource
     private UserService userService;
@@ -32,7 +32,7 @@ public class LoginController {
     Admin admin;
 
     @PostMapping(value = "/signIn")
-//    注册 传参type 1学生 2老师 ，只需输入参数 {user,pwd,mail}
+    //注册 传参type 1学生 2老师 ，只需输入参数 {user,pwd,mail}
     public Message signIn(@Param(value = "type") String type, Student user){
         if(userService.addUser(user, Integer.parseInt(type)) == 1){
             return new Message(true,"注册成功(sign in success)");
@@ -50,7 +50,7 @@ public class LoginController {
             return new Message(true);
     }
     @PostMapping(value = "/getCaptcha/{table}")
-//    发送邮件验证码 接受数据json 1注册 2忘记密码
+    //发送邮件验证码 接受数据json 1注册 2忘记密码
     public Message sendCaptcha(@Param(value = "mail") String mail,
                                @Param(value = "user") String user,
                                @Param(value = "type") String type,
@@ -71,7 +71,7 @@ public class LoginController {
                 return new Message(false,"验证码失效(captcha invalid)");
     }
     @PostMapping(value = "/verifyCode")
-//    验证验证码 接受数据json
+    //验证验证码 接受数据json
     public Message verifyCode(@Param(value = "user") String user,
                               @Param(value = "captcha") String captcha,
                               @Param(value = "type") String type){
@@ -193,7 +193,7 @@ public class LoginController {
             return new Message(false,"更改个人标签失败");
     }
     @RequestMapping(value = "/upload/headshot",method = RequestMethod.POST)
-//    上传头像 <form action="/t" method="post" enctype="multipart/form-data">
+    //上传头像 <form action="/t" method="post" enctype="multipart/form-data">
     public Message uploadHeadshot(@RequestParam("file") MultipartFile file, HttpSession session) {
         Student user = (Student) session.getAttribute("user");
         String table =  session.getAttribute("table").toString();
@@ -218,6 +218,12 @@ public class LoginController {
     public String loginOut(HttpSession session){
         session.removeAttribute("user");
         return "redirect:{}";//todo 主页
+    }
+    @RequestMapping(value = "/data/query/{table}/fuzzy",method = RequestMethod.GET)
+    /*按用户名模糊查询*/
+    public List<Student> fuzzyMatchUsersById(@PathVariable String table,
+                                             @RequestParam("param")String param){
+        return userService.fuzzyMatchUsersByUser(param,table);
     }
 
 }

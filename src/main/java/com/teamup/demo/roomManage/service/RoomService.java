@@ -1,9 +1,11 @@
 package com.teamup.demo.roomManage.service;
 
+import com.teamup.demo.roomManage.entity.Invitation;
 import com.teamup.demo.roomManage.entity.Room;
 import com.teamup.demo.roomManage.mapper.RoomMapper;
 import com.teamup.demo.userManage.entity.Student;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
@@ -40,14 +42,6 @@ public class RoomService {
             return 0;
         }
     }
-    public int updateCurNumById(int type,int roomId){
-        try {
-            return roomMapper.updateCurNum(type, roomId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return 0;
-        }
-    }
     public int addStuByRoom(String user,int roomId){
         try {
             return roomMapper.addStuById(user, roomId);
@@ -63,6 +57,26 @@ public class RoomService {
             throwables.printStackTrace();
             return 0;
         }
+    }
+    public int addInvitation(Invitation invitation){
+        try {
+            return roomMapper.addInvitation(invitation);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public int operateInvitation(boolean isAgree,int[] id){
+        try {
+            return roomMapper.operateInvitation(isAgree, id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return 0;
+        }
+    }
+    public List<Invitation> getInvitation(String user,String type){
+        return roomMapper.getInvitation(user, type);
     }
     public List<Student> getStuByRoom(int roomId){
         return roomMapper.getStuByRoom(roomId);
@@ -85,5 +99,4 @@ public class RoomService {
     public Room findRoomById(int roomId){
         return roomMapper.findRoomById(roomId);
     }
-
 }

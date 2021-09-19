@@ -16,7 +16,4 @@
         </foreach>
         where "id" = #{id}
     </update>
-    <update id="setTeamId">
-        update public."teamInf" set "teamId" = #{teamId} where "user" = #{user} and "classId" = #{classId}
-    </update>
 </mapper>

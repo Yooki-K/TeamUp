@@ -11,6 +11,9 @@ public class Invitation {
     private int roomId;
     private java.util.Date time;
     private boolean isAgree;
+    private boolean isStudent;
+
+
 
     public Invitation(int id, String user1, String user2, int roomId, Date time, boolean isAgree) {
         this.id = id;
@@ -19,6 +22,20 @@ public class Invitation {
         this.roomId = roomId;
         this.time = time;
         this.isAgree = isAgree;
+    }
+    public boolean isStudent() {
+        return isStudent;
+    }
+
+    public void setStudent(boolean student) {
+        isStudent = student;
+    }
+    public Invitation(String user1, String user2, int roomId, boolean isStudent) {
+        this.user1 = user1;
+        this.user2 = user2;
+        this.roomId = roomId;
+        setTime();
+        this.isStudent = isStudent;
     }
 
     public int getId() {

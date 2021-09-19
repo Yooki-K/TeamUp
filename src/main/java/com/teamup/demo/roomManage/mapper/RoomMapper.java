@@ -1,5 +1,6 @@
 package com.teamup.demo.roomManage.mapper;
 
+import com.teamup.demo.roomManage.entity.Invitation;
 import com.teamup.demo.roomManage.entity.Room;
 import com.teamup.demo.userManage.entity.Student;
 import org.apache.ibatis.annotations.Param;
@@ -22,7 +23,9 @@ public interface RoomMapper {
     int addStuById(@Param("user")String user,@Param("roomId")int roomId)throws SQLException;//根据房间编号添加成员
     int removeStuById(@Param("user") String user,@Param("roomId")int roomId)throws SQLException;//根据房间编号移除成员
     int updateRoomById(@Param("map") Map<String,String> map,@Param("id")int id)throws SQLException;//修改房间信息
-    int updateCurNum(@Param("type")int type,@Param("id")int id)throws SQLException;//type 1增加 -1减少
     int deleteRoom(@Param("user")String user,@Param("id")int id)throws SQLException;//房主删除所建房间
     Room findRoomById(@Param("id")int id);
+    int addInvitation(Invitation invitation)throws SQLException;
+    int operateInvitation(@Param("isAgree")boolean isAgree,@Param("idList")int[] id)throws SQLException;
+    List<Invitation> getInvitation(@Param("user")String user,@Param("type")String type);
 }

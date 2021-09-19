@@ -13,12 +13,5 @@ public class TeamService {
 //    public int updateTeamInf(){
 //
 //    }
-    public int setTeamId(String user,int classId,int teamId){
-        try {
-            return teamMapper.setTeamId(user, classId, teamId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return 0;
-        }
-    }
+
 }

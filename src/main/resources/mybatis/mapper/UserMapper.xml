@@ -4,12 +4,13 @@
 
 <mapper namespace="com.teamup.demo.userManage.mapper.UserMapper">
 
-    <sql id="sel">select * from public.student</sql>
     <select id="getAllStu" resultType="com.teamup.demo.userManage.entity.Student">
-        <include refid="sel"/>
+        select * from public.student
     </select>
 
-
+    <select id="fuzzyMatchUsersByUser" resultType="com.teamup.demo.userManage.entity.Student">
+        select * from public.${table} where "user" like concat(#{param},'%')
+    </select>
 
     <select id="findUserByUser" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.${table} where "user" = #{user}
@@ -57,9 +58,11 @@
         </foreach>
         where "user" = #{user}
     </update>
+
     <update id="updateHeadshot">
         update public.${table} set headshot = #{headshot} where "user" = #{user}
     </update>
+
     <select id="findCertificationByUser" resultType="com.teamup.demo.userManage.entity.Certification">
         select * from public.certification where "user" = #{user} order by time desc limit 1
     </select>

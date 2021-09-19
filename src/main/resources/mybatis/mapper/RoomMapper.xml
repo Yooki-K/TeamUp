@@ -54,10 +54,23 @@
         </foreach>
         where "id" = #{id}
     </update>
-    <update id="updateCurNum">
-        update public.room set "curNum" =
-        <if test="type == 1">"curNum" + 1</if>
-        <if test="type == -1">"curNum" - 1</if>
-        where "id" = #{id}
+    <update id="operateInvitation">
+        update public.invitation set "isAgree" = #{isAgree} where "id" in
+        <foreach collection="idList" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </update>
+    <insert id="addInvitation" parameterType="com.teamup.demo.roomManage.entity.Invitation">
+        insert into public.invitation values (#{user1},#{user2},#{roomId},#{time},#{isStudent})
+    </insert>
+    <select id="getInvitation">
+        select * from public.invitation where
+        <if test="type=='send'.toString">
+            user1 = #{user}
+        </if>
+        <if test="type=='recv'.toString">
+            user2 = #{user}
+        </if>
+        order by "recvTime" is null ,"recvTime" desc
+    </select>
 </mapper>
