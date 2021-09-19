@@ -5,8 +5,10 @@ public class Admin {
     String pwd;
     String mail;
 
-    public String getUser() {
-        return user;
+    public Admin(String user, String pwd, String mail) {
+        this.user = user;
+        this.pwd = pwd;
+        this.mail = mail;
     }
 
     @Override
@@ -16,6 +18,10 @@ public class Admin {
                 ", pwd='" + pwd + '\'' +
                 ", mail='" + mail + '\'' +
                 '}';
+    }
+
+    public String getUser() {
+        return user;
     }
 
     public void setUser(String user) {

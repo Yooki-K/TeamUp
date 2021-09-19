@@ -7,8 +7,8 @@ public class Student extends Teacher{
 
     private String label;
 
-    public Student(String user, String pwd, String mail, Blob blob, String school, String id, String name, boolean sex, String collage, String label) {
-        super(user, pwd, mail, blob, school, id, name, sex, collage);
+    public Student(String user, String pwd, byte[] headshot, String school, String id, String name, boolean sex, String collage, String mail, int no, String label) {
+        super(user, pwd, headshot, school, id, name, sex, collage, mail, no);
         this.label = label;
     }
 

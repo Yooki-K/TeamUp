@@ -4,45 +4,27 @@
 
 <mapper namespace="com.teamup.demo.userManage.mapper.UserMapper">
 
-    <sql id="sel">select * from public.student</sql>
+    <sql id="sel">select * </sql>
     <select id="getAllStu" resultType="com.teamup.demo.userManage.entity.Student">
-        <include refid="sel"/>
+        <include refid="sel"/> from public.student
     </select>
-
-
-
-    <select id="findUserByUser" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
+    <select id="getAllTea" resultType="com.teamup.demo.userManage.entity.Teacher">
+        <include refid="sel"/> from public.teacher
+    </select>
+    <select id="findUserByUser" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.${table} where "user" = #{user}
     </select>
-
     <insert id="addUser">
         insert into public.${table} ("user",pwd,mail) values (#{user.user},#{user.pwd},#{user.mail})
     </insert>
-
     <insert id="addCertification" parameterType="com.teamup.demo.userManage.entity.Certification">
-        insert into public.certification ("user", sex, id, school, name, "isAgree" ,type,time) values
+        insert into public.certification ("user", sex, id, school, "name", "isAgree" ,type,time) values
            (#{user}, #{sex}, #{id}, #{school}, #{name}, #{isAgree},#{type},#{time})
     </insert>
-
     <select id="getCertificationByType" parameterType="int"
             resultType="com.teamup.demo.userManage.entity.Certification">
         select * from public.certification where "isAgree" = false and type = #{type} order by time
     </select>
-    
-    <update id="operateCertification" >
-        update public.certification set "isAgree" = ${value} where "user" in
-        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
-            #{item}
-        </foreach>
-    </update>
-
-    <select id="findUsersById" resultType="com.teamup.demo.userManage.entity.Student">
-        select "user","id" from public.student where "id" in
-        <foreach item="item" collection="list" index="" separator="," close=")" open="(">
-            #{item}
-        </foreach>
-    </select>
-
     <update id="updateUser">
         update public.${table} set
         <foreach item="item" collection="map" separator="," open="" close="" index="key">
@@ -57,11 +39,29 @@
         </foreach>
         where "user" = #{user}
     </update>
-    <update id="updateHeadshot">
-        update public.${table} set headshot = #{headshot} where "user" = #{user}
+    <select id="getCertificationByType" resultType="com.teamup.demo.userManage.entity.Certification">
+        select * from public.certifiction where "type" = #{type}
+    </select>
+    <update id="operateCertification" >
+        update public.certification set "isAgree" = ${value} where "user" in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
     </update>
     <select id="findCertificationByUser" resultType="com.teamup.demo.userManage.entity.Certification">
         select * from public.certification where "user" = #{user} order by time desc limit 1
+    </select>
+    <update id="updateHeadshot">
+        update public.${table} set headshot = #{headshot} where "user" = #{user}
+    </update>
+    <select id="findUserById" parameterType="com.teamup.demo.userManage.entity.Student" resultType="com.teamup.demo.userManage.entity.Teacher">
+        select "user","id" from public.student
+        <where>
+            "id" in
+            <foreach collection="list" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
     </select>
 
 </mapper>
