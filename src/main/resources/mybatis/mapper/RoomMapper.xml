@@ -59,6 +59,7 @@
         <foreach collection="idList" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
+        and "user2" = #{user}
     </update>
     <insert id="addInvitation" parameterType="com.teamup.demo.roomManage.entity.Invitation">
         insert into public.invitation values (#{user1},#{user2},#{roomId},#{time},#{isStudent})
@@ -71,6 +72,22 @@
         <if test="type=='recv'.toString">
             user2 = #{user}
         </if>
-        order by "recvTime" is null ,"recvTime" desc
+        order by "recvTime" desc,"sendTime" desc
+    </select>
+    <insert id="addApplication" parameterType="com.teamup.demo.roomManage.entity.ApplyRoom">
+        insert into public."applyRoom" ("user","roomId","content") values
+        (#{user},#{roomId},#{content})
+    </insert>
+    <update id="operateApplication">
+        update public."applyRoom" set "isAgree" = #{isAgree} where "id" in
+        <foreach collection="idList" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+    <select id="getApplicationByRoom" resultType="com.teamup.demo.roomManage.entity.ApplyRoom">
+        select * from public."applyRoom" where "roomId" = #{roomId}
+    </select>
+    <select id="getApplicationNum" resultType="int">
+        select count(*) from public."applyRoom" where "roomId" = #{roomId} group by "isAgree" having "isAgree" is null
     </select>
 </mapper>

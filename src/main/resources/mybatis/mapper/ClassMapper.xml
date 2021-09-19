@@ -16,7 +16,7 @@
     <select id="getStuByClass" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.student where "user" in
         (select "user" from public."classInfo"
-        where "id" = #{classId} order by "userId" is NULL,"userId")
+        where "id" = #{classId} ) order by -"id" desc
     </select>
     <select id="getClassById" resultType="com.teamup.demo.classManage.entity.Class">
         select * from public.class where "id" = #{classId}

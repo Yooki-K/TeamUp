@@ -2,6 +2,7 @@ package com.teamup.demo.roomManage.controller;
 
 
 import com.sun.istack.internal.NotNull;
+import com.teamup.demo.roomManage.entity.ApplyRoom;
 import com.teamup.demo.roomManage.entity.Invitation;
 import com.teamup.demo.roomManage.entity.Room;
 import com.teamup.demo.roomManage.service.RoomService;
@@ -44,7 +45,7 @@ public class RoomController {
             map.put("error",null);
         return map;
     }
-    @PostMapping("data/query/room/member")
+    @PostMapping("/data/query/room/member")
     /*查询房间成员*/
     public List<Student> queryClassMember(@Param("roomId")int roomId){
         return roomService.getStuByRoom(roomId);
@@ -59,7 +60,7 @@ public class RoomController {
         else
             return new Message(false);
     }
-    /*创建房间 必须参数 name teamName content tag targetNum pwd
+    /*创建房间 必须参数 name teamName content tag targetNum
               可选参数 color classId*/
     @PostMapping("/create/room")
     public Message createRoom(@RequestBody Room room, HttpSession session){
@@ -145,22 +146,68 @@ public class RoomController {
             return new Message(false,"邀请失败");
     }
     /*查看邀请 type参数 send我发送的 recv我接收的*/
-    @PostMapping("/query/invitation/{type}")
+    @PostMapping("/data/query/invitation/{type}")
     public List<Invitation> queryInvitation(@PathVariable String type,HttpSession session){
         Student user = (Student) session.getAttribute("user");
         return roomService.getInvitation(user.getUser(), type);
     }
-    /*对邀请进行操作 json
+    /*对邀请进行操作 json 数组
     * type参数 agree disagree*/
     @RequestMapping(value = "/operate/invitation/{type}",method = RequestMethod.POST)
-    public Message operateInvitation(@RequestBody int[] idList, @PathVariable String type){
+    public Message operateInvitation(@RequestBody int[] idList, @PathVariable String type,HttpSession session){
+        Student user = (Student) session.getAttribute("user");
         if ("agree".equals(type)){
-            if(roomService.operateInvitation(true,idList)>0)
+            if(roomService.operateInvitation(true,idList,user.getUser())>0)
                 return new Message(true);
             else
                 return new Message(false);
         }else if("disagree".equals(type)){
-            if(roomService.operateInvitation(false,idList)>0)
+            if(roomService.operateInvitation(false,idList, user.getUser())>0)
+                return new Message(true);
+            else
+                return new Message(false);
+        }else{
+            return new Message(false,"操作未知");
+        }
+    }
+    /*申请加入房间 json roomId content*/
+    @PostMapping("/apply/room")
+    public Message applyRoom(@RequestBody  ApplyRoom applyRoom, HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        applyRoom.setUser(user.getUser());
+        if(roomService.addApplication(applyRoom)>0)
+            return new Message(true);
+        else
+            return new Message(false);
+    }
+    /*查看未处理申请数量*/
+    @GetMapping("/data/query/application/num")
+    public int queryApplicationNum(@Param("roomId")int roomId){
+        return roomService.getApplicationNum(roomId);
+    }
+    /*查看申请*/
+    @PostMapping("/data/query/application")
+    public List<ApplyRoom> queryApplication(@Param("roomId")int roomId){
+        return roomService.getApplicationByRoom(roomId);
+    }
+    /*对申请进行操作 json 数组
+    * type参数 agree disagree*/
+    @RequestMapping(value = "/operate/application/{type}/{roomId}",method = RequestMethod.POST)
+    public Message operateApplication(@RequestBody int[] idList, @PathVariable String type,
+                                      @PathVariable int roomId,HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        Room room = roomService.findRoomById(roomId);
+        if(room == null)
+            return new Message(false,"班级不存在");
+        if (!user.getUser().equals(room.getUser()))
+            return new Message(false,"只有房主有同意申请的权限");
+        if ("agree".equals(type)){
+            if(roomService.operateApplication(true,idList)>0)
+                return new Message(true);
+            else
+                return new Message(false);
+        }else if("disagree".equals(type)){
+            if(roomService.operateApplication(false,idList)>0)
                 return new Message(true);
             else
                 return new Message(false);

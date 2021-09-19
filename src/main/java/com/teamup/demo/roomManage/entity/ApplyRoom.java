@@ -1,26 +1,23 @@
-package com.teamup.demo.chatManage.entity;
+package com.teamup.demo.roomManage.entity;
 
 import com.teamup.demo.tool.Util;
 
 import java.util.Date;
 
-public class ChatLog {
+public class ApplyRoom {
     private int id;
     private String user;
-    private String content;
-    private java.util.Date time;
-    private int teamId;
     private int roomId;
+    private String content;
+    private boolean isAgree;
+    private Date time;
 
-    public ChatLog(int id, String user, String content, Date time, int teamId, int roomId) {
-        this.id = id;
+    public ApplyRoom(String user, int roomId, String content) {
         this.user = user;
-        this.content = content;
-        this.time = time;
-        this.teamId = teamId;
         this.roomId = roomId;
+        this.content = content;
     }
-
+    public ApplyRoom(){}
     public int getId() {
         return id;
     }
@@ -37,6 +34,14 @@ public class ChatLog {
         this.user = user;
     }
 
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
     public String getContent() {
         return content;
     }
@@ -50,22 +55,14 @@ public class ChatLog {
     }
 
     public void setTime() {
-        this.time = new Date();
+        time = new Date();
     }
 
-    public int getTeamId() {
-        return teamId;
+    public boolean isAgree() {
+        return isAgree;
     }
 
-    public void setTeamId(int teamId) {
-        this.teamId = teamId;
-    }
-
-    public int getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+    public void setAgree(boolean agree) {
+        isAgree = agree;
     }
 }

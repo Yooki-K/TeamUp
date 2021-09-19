@@ -5,8 +5,7 @@ public class Evaluation {
     private String user2;
     private String content;
 
-    public Evaluation(String user1, String user2, String content) {
-        this.user1 = user1;
+    public Evaluation(String user2, String content) {
         this.user2 = user2;
         this.content = content;
     }

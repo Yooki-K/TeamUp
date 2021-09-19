@@ -1,5 +1,6 @@
 package com.teamup.demo.roomManage.service;
 
+import com.teamup.demo.roomManage.entity.ApplyRoom;
 import com.teamup.demo.roomManage.entity.Invitation;
 import com.teamup.demo.roomManage.entity.Room;
 import com.teamup.demo.roomManage.mapper.RoomMapper;
@@ -66,14 +67,37 @@ public class RoomService {
             return 0;
         }
     }
-    public int operateInvitation(boolean isAgree,int[] id){
+    public int operateInvitation(boolean isAgree,int[] id,String user){
         try {
-            return roomMapper.operateInvitation(isAgree, id);
+            return roomMapper.operateInvitation(isAgree, id, user);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return 0;
         }
+    }
+    public int addApplication(ApplyRoom applyRoom){
+        try {
+            return roomMapper.addApplication(applyRoom);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public int operateApplication(boolean isAgree,int[] id){
+        try {
+            return roomMapper.operateApplication(isAgree, id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return 0;
+        }
+    }
+    public int getApplicationNum(int roomId){
+        return roomMapper.getApplicationNum(roomId);
+    }
+    public List<ApplyRoom> getApplicationByRoom(int roomId){
+        return roomMapper.getApplicationByRoom(roomId);
     }
     public List<Invitation> getInvitation(String user,String type){
         return roomMapper.getInvitation(user, type);
