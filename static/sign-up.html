@@ -1,0 +1,133 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="js/vue.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css"/>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".nav-trigger").click(function(){
+               $(".navbar-collapse .collapse").addClass("in");
+            });
+            $(window).resize(function(){
+                
+            });
+        });
+    </script>
+    <style>
+        .ss_main {
+            position: relative;
+            width: 1200px;
+            margin: 0 auto;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "microsoft yahei";
+            color: #333;
+            font-size: 16px;
+        }
+        .zctype1 h2 {
+            margin-top: 93px;
+            font-size: 24px;
+            text-align: center;
+        }
+        .zctype1 h6 {
+            font-size: 14px;
+            margin: 18px 0 42px;
+            text-align: center;
+        }
+        .zctype1 ul{
+            text-align: center;
+            font-size: 0;
+        }
+        .zctype1 li {
+            width: 220px;
+            height: 220px;
+            display: inline-block;
+            background: #f5f6f8;
+            text-align: center;
+            overflow: hidden;
+            margin: 0 20px;
+            cursor: pointer;
+        }
+        .zctype1 li:hover {
+            background: #554747;
+        }
+        .zctype1 li img {
+            margin-top: 38px;
+        }
+        img {
+            border: none;
+            width: 80px;
+            height: 80px;
+            max-width: 100%;
+        }
+        .zctype1 li:hover span {
+            color: #fff;
+        }
+        .zctype1 li span {
+            font-size: 18px;
+            display: block;
+            margin-top: 20px;
+        }
+        @media screen and (max-width: 1200px){
+            .ss_main {
+            width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!--背景图片-->
+    <div class="body-background"></div>
+    <ul class="bg-bubbles" id="bubbles">
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+    </ul>
+    <!--顶部导航栏-->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapsed" data-target=".navbar-collapse">
+                    <span class="nav-trigger glyphicon glyphicon-align-justify" style="color: white;"></span>
+                </button>
+                <span class="navbar-brand">卷起来网</span>
+            </div>
+            <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
+                <ul class="nav navbar-nav">
+                    <li><a>关于我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ss_main">
+		<div class="zcpage-main">
+			<div class="zctype1">
+				<h2>选择注册账号类型</h2>
+				<h6>请选择以下任一种类型完成网站注册</h6>
+				<ul>
+					<li id="naturalRegisterBtn" onclick="window.location='sign-up-teacher.html'"><img src="img/teacher.png"><span>老师注册</span></li>
+					<li id="legalRegisterBtn" onclick="window.location='sign-up-student.html'"><img src="img/student.png"><span>学生注册</span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
