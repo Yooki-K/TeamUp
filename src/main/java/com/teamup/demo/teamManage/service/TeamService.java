@@ -47,5 +47,18 @@ public class TeamService {
     public int getNumNeedTeam(Student student){
         return teamMapper.getNumNeedTeam(student.getUser());
     }
-
+    public int dissolveTeam(int teamId){
+        try {
+            return teamMapper.dissolveTeam(teamId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public Team getTeamById(int id){
+        return teamMapper.getTeamById(id);
+    }
+    public int getNotTeamNum(int classId){
+        return teamMapper.getNotTeamNum(classId);
+    }
 }

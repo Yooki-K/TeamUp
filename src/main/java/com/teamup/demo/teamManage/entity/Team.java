@@ -1,5 +1,9 @@
 package com.teamup.demo.teamManage.entity;
 
+import com.teamup.demo.tool.Util;
+
+import java.util.Date;
+
 public class Team {
     int teamId;
     String varchar;
@@ -7,6 +11,7 @@ public class Team {
     String leader;
     int number;
     int teacherId;
+    Date dissolveTime;
 
     public Team(int teamId, String varchar, int classId, String leader, int number, int teacherId) {
         this.teamId = teamId;
@@ -15,6 +20,14 @@ public class Team {
         this.leader = leader;
         this.number = number;
         this.teacherId = teacherId;
+    }
+
+    public String getDissolveTime() {
+        return Util.getStringDate(dissolveTime);
+    }
+
+    public void setDissolveTime() {
+        this.dissolveTime = new Date();
     }
 
     public int getTeacherId() {

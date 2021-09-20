@@ -36,6 +36,16 @@
         (select #{classId} as "classId","user",#{teacherId} as "teacherId" from public."classInfo"
             where "id" = #{classId} and "user" is not null)
     </insert>
+    <update id="dissolveTeam">
+        update public.team set "dissolveTime" = now() where "teamId" = #{teamId}
+    </update>
+    <select id="getTeamById" resultType="com.teamup.demo.teamManage.entity.Team">
+        select * from public.team where "teamId" = #{id}
+    </select>
+    <select id="getNotTeamNum">
+        select count(*) from public."teamInf" where "classId" = #{classId} group by "teamId"
+        having "teamId" is null
+    </select>
 <!--    <insert id="addChatLog" parameterType="com.teamup.demo.teamManage.entity.ChatLog">-->
 <!--        insert into public."chatLog" ("user","content","teamId")-->
 <!--        values (#{user},#{content},#{teamId})-->

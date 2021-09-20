@@ -51,7 +51,7 @@ public class TeamController {
             return new Message(false);
     }
     /*获取组队任务个数*/
-    @PostMapping("/data/query/needTeam")
+    @PostMapping("/data/query/num/needTeam")
     public int queryNeedTeam(HttpSession session){
         Student user = (Student) session.getAttribute("user");
         return teamService.getNumNeedTeam(user);
@@ -67,6 +67,25 @@ public class TeamController {
         Student user = (Student) session.getAttribute("user");
         return teamService.getTeamInfByUser(user);
     }
+    /*查看班级未组队人数*/
+    @GetMapping("/data/query/num/notTeam")
+    public int queryNotTeam(@Param("classId")int classId){
+        return teamService.getNotTeamNum(classId);
+    }
+    /*解散团队*/
+    @PostMapping("/delete/team")
+    public Message dissolveTeam(@Param("teamId")int teamId,HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        Team team = teamService.getTeamById(teamId);
+        if (team==null)
+            return new Message(false,"团队不存在");
+        if(!user.getUser().equals(team.getLeader()))
+            return new Message(false,"只有团队负责人有权限解散团队");
+        if(teamService.dissolveTeam(teamId)>0)
+            return new Message(true);
+        return new Message(false);
+    }
+
 //    todo 待定 发送聊天
 //    @PostMapping("/create/chat")
 //    public Message sendChat(@Param("content")String content, @Param("teamId")int teamId,

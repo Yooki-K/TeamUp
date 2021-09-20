@@ -215,4 +215,25 @@ public class RoomController {
             return new Message(false,"操作未知");
         }
     }
+    /*退出房间以及房主踢人 不传toUser参数自己退出，传房主踢人*/
+    @PostMapping("/delete/room/member")
+    public Message removeRoomMember(@Param("roomId")int roomId,@Param("toUser")String toUser,
+                                    HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        Room room = roomService.findRoomById(roomId);
+        if(room==null)
+            return new Message(false,"房间不存在");
+        if (toUser!=null){
+            if(!room.getUser().equals(user.getUser()))
+                return new Message(false,"只有房主才有踢人权限");
+            if(roomService.removeStuByRoom(toUser,roomId)>0)
+                return new Message(true);
+            else
+                return new Message(false);
+        }
+        if(roomService.removeStuByRoom(user.getUser(),roomId)>0)
+            return new Message(true);
+        else
+            return new Message(false);
+    }
 }

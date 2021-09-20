@@ -44,4 +44,7 @@
     <select id="codeIsExist">
         select "id" from public.class where "invCode"=#{invCode}
     </select>
+    <update id="setAnnouncement">
+        update public.class set announcement = #{text} where "id" = #{classId}
+    </update>
 </mapper>

@@ -1,16 +1,20 @@
 package com.teamup.demo.classManage.entity;
 
+import java.util.Date;
+
 public class Class {
     private int id;
     private String user;
     private String invCode;
     private String name;
+    private String announcement;
+    private Date publishTime;
 
 
     public Class(String name) {
         this.name = name;
     }
-
+    public Class(){}
     @Override
     public String toString() {
         return "Class{" +
@@ -19,6 +23,22 @@ public class Class {
                 ", invCode='" + invCode + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public String getAnnouncement() {
+        return announcement;
+    }
+
+    public void setAnnouncement(String announcement) {
+        this.announcement = announcement;
+    }
+
+    public Date getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
     }
 
     public String getName() {

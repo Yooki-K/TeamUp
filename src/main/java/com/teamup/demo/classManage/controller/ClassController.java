@@ -26,7 +26,7 @@ public class ClassController {
     @Resource
     private UserService userService;
 //    创建班级 传递参数为json 只用传 班级名name 参数
-    @PostMapping("create/class")
+    @PostMapping("/create/class")
     public Message createClass(@RequestBody Class c, HttpSession session){
         Teacher teacher = (Teacher)session.getAttribute("user");
         c.setUser(teacher.getUser());
@@ -41,7 +41,7 @@ public class ClassController {
             return new Message(false,"班级创建失败");
     }
 //    老师查询所建班级
-    @PostMapping("data/query/class/teacher")
+    @PostMapping("/data/query/class/teacher")
     public List<Class> queryClass1(HttpSession session){
         Student user = (Student)session.getAttribute("user");
         String table = session.getAttribute("table").toString();
@@ -49,12 +49,12 @@ public class ClassController {
     }
 
 //    查询班级所有成员
-    @PostMapping("data/query/classMembers")
+    @PostMapping("/data/query/classMembers")
     public List<Student> queryClassMembers(int classId){
         return classService.getStuByClassId(classId);
     }
 //    学生查询所在班级
-    @PostMapping("data/query/class/student")
+    @PostMapping("/data/query/class/student")
     public List<Map<String,Object>> queryClass2(HttpSession session){
         Student user = (Student)session.getAttribute("user");
         String table = session.getAttribute("table").toString();
@@ -71,9 +71,22 @@ public class ClassController {
         }
         return list;
     }
+    /*老师设置班级公告 json announcement classId*/
+    @PostMapping("/update/class/announcement")
+    public Message setAnnouncement(@RequestBody Class c,HttpSession session){
+       Student user = (Student) session.getAttribute("user");
+       Class cc = classService.getClassById(c.getId());
+       if(cc==null)
+           return new Message(false,"班级不存在");
+       if(!user.getUser().equals(cc.getUser()))
+           return new Message(false,"非当前班级老师");
+       if (classService.setAnnouncement(cc.getAnnouncement(),cc.getId())>0)
+           return new Message(true);
+       return new Message(false);
+    }
     /*删除班级 接受json类型的list数据
     * @Param idList*/
-    @PostMapping("delete/class")
+    @PostMapping("/delete/class")
     public Message deleteClass(@RequestBody List<String>idList){
         int num = classService.deleteClassByClassId(idList);
         if (num>0){
@@ -83,7 +96,7 @@ public class ClassController {
         }
     }
     /*导入班级成员名单 仅支持.xls文件 */
-    @RequestMapping(value = "upload/member",method = RequestMethod.POST)
+    @RequestMapping(value = "/upload/member",method = RequestMethod.POST)
     public Message importClassMember(@RequestParam("file")MultipartFile file,@RequestParam("classId")int classId){
         try {
             List<ClassInf>classInfs = new ArrayList<ClassInf>();
@@ -107,7 +120,7 @@ public class ClassController {
         }
     }
     /*通过邀请码加入班级*/
-    @PostMapping("join/class")
+    @PostMapping("/join/class")
     public Message joinClass(@Param("invCode")String invCode,HttpSession session){
         Student user = (Student) session.getAttribute("user");
         if(user.getId()==null)

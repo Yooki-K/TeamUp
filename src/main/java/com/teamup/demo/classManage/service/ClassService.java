@@ -70,4 +70,15 @@ public class ClassService {
             return 0;
         }
     }
+    public int setAnnouncement(String text,int classId){
+        try {
+            return classMapper.setAnnouncement(text, classId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public Class getClassById(int classId){
+        return classMapper.getClassById(classId);
+    }
 }

@@ -26,7 +26,7 @@ mybatis:
   mapper-locations: classpath*:mybatis/mapper/*.xml
 
 custom:
-  labels: [擅长前端,擅长后端,擅长报告,擅长数据库]
+  labels: [擅长前端,擅长后端,擅长报告,擅长数据库,擅长答辩]
   schools: [南京理工大学,南京大学]
 admin:
   user: root
