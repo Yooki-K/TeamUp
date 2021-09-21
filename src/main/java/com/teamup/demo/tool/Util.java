@@ -19,4 +19,15 @@ public class Util {
         }
         return new String(text);
     }
+    public static String getImgType(byte[] data) {
+        if (data[1] == 'P' && data[2] == 'N' && data[3] == 'G') {
+            return "PNG";
+        }
+
+        if (data[6] == 'J' && data[7] == 'F' && data[8] == 'I'
+                && data[9] == 'F') {
+            return "JPG";
+        }
+        return null;
+    }
 }

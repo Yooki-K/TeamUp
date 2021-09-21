@@ -8,15 +8,15 @@ import com.teamup.demo.roomManage.entity.Room;
 import com.teamup.demo.roomManage.service.RoomService;
 import com.teamup.demo.tool.Custom;
 import com.teamup.demo.tool.Message;
+import com.teamup.demo.tool.Util;
 import com.teamup.demo.userManage.entity.Student;
+import com.teamup.demo.userManage.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class RoomController {
@@ -24,6 +24,8 @@ public class RoomController {
     private RoomService roomService;
     @Resource
     Custom custom;
+    @Resource
+    private UserService userService;
     @PostMapping("/data/matchTeammate")
     /*匹配 参数type {intel智能匹配  key 关键字匹配}*/
     public Map<String,List<Student>> intelMatch(@Param("type") String type, @Param("aim") String aim,HttpSession session){
@@ -63,7 +65,7 @@ public class RoomController {
     /*创建房间 必须参数 name teamName content tag targetNum
               可选参数 color classId*/
     @PostMapping("/create/room")
-    public Message createRoom(@RequestBody Room room, HttpSession session){
+    public Message createRoom(Room room, HttpSession session){
         Student student = (Student) session.getAttribute("user");
         room.setUser(student.getUser());
         room.setCreateTime();
@@ -103,34 +105,55 @@ public class RoomController {
             return new Message(false,String.format("%s操作参数未知",type));
     }
     @PostMapping("/data/query/room")
-    public List<Room> queryRoom( @Param("type")@NotNull String type, @Param("param")String param,
+    public List<Map<String,Object>> queryRoom( @Param("type")@NotNull String type, @Param("param")String param,
             /*根据参数查询房间*/
                                  @Param("sort")String sort, @Param("isAsc")String isAsc){
-        List<Room> list = null;
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        List<Room> rooms=null;
         switch (type){
             case "class":
-                list = roomService.getRoomByClass(Integer.parseInt(param));
+                rooms = roomService.getRoomByClass(Integer.parseInt(param));
                 break;
             case "public":
                 if(sort!=null) {
                     if ("false".equals(isAsc)) {
-                        list = roomService.getRoomPublic(sort, false);
+                        rooms = roomService.getRoomPublic(sort, false);
                         break;
                     }else {
-                        list = roomService.getRoomPublic(sort,true);
+                        rooms = roomService.getRoomPublic(sort,true);
                     }
                 }
                 else {
-                    list = roomService.getRoomPublic("id",true);
+                    rooms = roomService.getRoomPublic("id",true);
                 }
                 break;
             case "tag":
-                list = roomService.getRoomByTag(param);
+                rooms = roomService.getRoomByTag(param);
                 break;
             case "name":
-                list = roomService.getRoomByName(param);
+                rooms = roomService.getRoomByName(param);
                 break;
             default:break;
+        }
+        for(Room x :rooms){
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("room",x);
+            map.put("teacher",userService.findUserByNo(x.getTeacherId(),"teacher").getName());
+            Student student = userService.findUserByUser(x.getUser(),"student");
+            if(student.getHeadshot()!=null) {
+                String imgType = Util.getImgType(student.getHeadshot());
+                if(imgType!=null)
+                    map.put("headShot", String.format("data:image/%s;base64,", imgType) +
+                        Base64.getEncoder().encodeToString(student.getHeadshot()));
+                student.setHeadshot(null);
+            }
+            else{
+                map.put("headShot","/img/nullPerson.png");
+            }
+            map.put("tag",x.getTag());
+            map.put("user",student);
+
+            list.add(map);
         }
         return list;
     }

@@ -30,7 +30,8 @@ public class test {
     private TeamService teamService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public ModelAndView Test1() {
-        return new ModelAndView("test");
+//        return new ModelAndView("test");
+        return new ModelAndView("main");
     }
 
     @PostMapping("/fuzzyMatchUsers")

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   		<meta name="description" content="">
+    	<meta name="author" content="">
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="/js/vue.min.js"></script>
+        <script src="/js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/send.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/main.css"/>
+        <link rel="stylesheet" href="/css/login.css"/>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".nav-trigger").click(function(){
+                   $(".navbar-collapse .collapse").addClass("in");
+                });
+                $(window).resize(function(){
+                    
+                });
+
+            });
+            $(function (){
+                search("public","");
+                $('#search').bind('keypress',function (event){
+                    if(event.keyCode == 13){
+                        search("name", $(this).val());
+                    }
+                });
+                $('.check-btn').bind('click',queryMember())
+                $('.join-btn').bind('click',joinRoom())
+            });
+        </script>
+        <style>
+            .modal-header{
+                border-radius: 6px 6px 0 0;
+                background: #de685e;
+                
+            }
+        </style>
+    </head>
+    <body>
+        <div class="body-background">
+
+        </div>
+        <ul class="bg-bubbles" id="bubbles">
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+            <li class="bubble"></li>
+        </ul>
+        <div class="modal fade create" id="createModal" style="width: 50%;left: 25%;">
+			<div class="modal-dialog create animated" style="width: auto;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">创建房间</h4>
+					</div>
+					<div class="modal-body">
+						<div class="">
+							<div class="content registerBox" style="">
+								<div class="form">
+									<form method="post" action="/create/room" enctype="multipart/form-data">
+                                        <input type="text" class="form-control" name="name" value="" placeholder="竞赛名字"
+											   autofocus='' style="margin-bottom: 15px;">
+										<input type="text" class="form-control" name="teamName" value="" placeholder="团队名字"
+											   autofocus='' style="margin-bottom: 15px;">
+                                        <textarea name="content" class="form-control" placeholder="团队描述" autofocus="" cols="10" rows="5" style="margin-bottom: 15px;resize: none;"></textarea>
+                                        <h5 style="display: inline-block;">卡片颜色：</h5>
+                                        <input type="color" name="color" id="color" value="#ea746a">
+										<input class="btn btn-register" type="submit" value="创建" name="commit">
+									</form>
+								</div>
+		
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <!--顶部导航栏 start-->
+        <div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapsed" data-target=".navbar-collapse">
+                        <span class="nav-trigger glyphicon glyphicon-align-justify" style="color: white;"></span>
+                    </button>
+                    <span class="navbar-brand">JAVA课设</span>
+                </div>
+				<div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
+                    <ul class="nav navbar-nav">
+                        <li><a>关于我们</a></li>
+                    </ul>
+                </div>
+            </div>
+		</div>
+        <!--顶部导航栏 end-->
+
+        <!--侧方导航栏 start-->
+        <div class="menubar">
+            <div class="shell">
+                <a href="#" class="box"><i class="fa fa-navicon"></i><span></span></a>
+                <a href="index.html" class="box"><i class="fa fa-home"></i><span>首页</span></a>
+                <a href="my.html" class="box"><i class="fa fa-user"></i><span>我的</span></a>
+                <a href="myclass.html" class="box"><i class="fa fa-users"></i><span>团队</span></a>
+                <a href="main.html" class="box"><i class="fa fa-television"></i><span>组队大厅</span></a>
+                <a href="#" class="box"><i class="fa fa-history"></i><span>历史记录</span></a>
+                <a href="#" class="box"><i class="fa fa-envelope"></i><span>信息</span></a>
+                <a href="index.html" class="box"><i class="fa fa-sign-out"></i><span>退出</span></a>
+            </div>
+        </div>
+        <!--侧方导航栏 end-->
+        
+        <!--主界面 start-->
+        <div class="main">
+            <!--新建组队按钮 start-->
+            <div class="create-team">
+                <div id="create-team-btn" onclick="openCreateModal();">
+                </div>
+            </div>
+            <!--新建组队按钮 end-->
+
+            <!--搜索框 start-->
+            <div class="searchbar">
+                <input type="checkbox" id="checkbox">
+                <label for="checkbox"></label>
+                <input type="text" class="input" id="search">
+                <div class="fonts">
+                    <span style="--i:1">S</span>
+                    <span style="--i:2">e</span>
+                    <span style="--i:3">a</span>
+                    <span style="--i:4">r</span>
+                    <span style="--i:5">c</span>
+                    <span style="--i:6">h</span>
+                    <span style="--i:7">.</span>
+                    <span style="--i:8">.</span>
+                    <span style="--i:9">.</span>
+                    <span style="--i:10">.</span>
+                    <span style="--i:11">.</span>
+                    <span style="--i:12">.</span>
+                </div>
+            </div>
+            <!--搜索框 end-->
+            <br />
+            <!--组队大厅区域 start-->
+            <div class="teaming-area">
+
+                <div class="contain" id="rooms">
+                </div>
+
+            </div>
+            <!--组队大厅区域 end-->
+        </div>
+        <!--主界面 end-->
+
+    </body>
+</html>

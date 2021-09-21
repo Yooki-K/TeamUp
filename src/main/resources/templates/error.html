@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>ERROR</title>
+	<!-- Meta tags -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- //Meta tags -->
+	<link rel="stylesheet" href="/css/error.css" type="text/css" media="all" /><!-- Style-CSS -->
+	<link href="/css/font-awesome.min.css" rel="stylesheet"><!-- font-awesome-icons -->
+</head>
+
+<body>
+	<!-- content -->
+	<section class="w3l-error-block">
+		<div class="mainw3 form">
+			<div class="subscribe wrapper">
+				<div class="subscribe-w3lsbottom text-center">
+					<div class="w3l-page">
+						Oops!
+					</div>
+					<h6>It looks like you have taken a wrong turn.</h6>
+					<h2 th:utext="${mes}">
+					</h2>
+					<a class="play-icon popup-with-zoom-anim btn" th:href="@{${from}}">
+						Come back</a>
+				</div>
+			</div>
+		</div>
+		<!-- //content -->
+
+		<!-- /popup -->
+		<div id="p1" class="pop-overlay">
+			<div class="popup">
+				<div class="main vlcone mfp-hide text-center">
+					<h3>Subscribe to the newsletter</h3>
+					<div class="w3ls-form">
+						<form action="#" method="post" class="d-flex">
+							<input type="email" placeholder="Enter your Email.." name="Subscribe" required="">
+							<button class="btn1">
+								<i class="fa fa-paper-plane" aria-hidden="true"></i>
+							</button>
+						</form>
+					</div>
+					<div class="info">
+						<h5>(OR)</h5>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- /popup -->
+	</section>
+
+</body>
+</html>

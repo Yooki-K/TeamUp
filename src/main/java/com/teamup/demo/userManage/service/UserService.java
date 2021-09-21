@@ -35,6 +35,9 @@ public class UserService {
             return null;
         }
     }
+    public Student findUserByNo(int no,String table) {
+        return userMapper.findUserByNo(no,table);
+    }
     public int addUser(Student user,int Type) {
             try {
                 if (Type == 1)

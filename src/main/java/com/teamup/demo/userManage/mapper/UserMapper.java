@@ -24,4 +24,5 @@ public interface UserMapper {
     int updateHeadshot(@Param("user")String user,@Param("headshot")byte[] headshot, @Param("table")String table) throws SQLException;//上传头像
     List<Certification> getCertificationByType(int type);//管理员查询实名认证申请
     Certification findCertificationByUser(@Param("user")String user);//查询认证是否通过
+    Student findUserByNo(@Param("no") int no, @Param("table")String table);
 }
