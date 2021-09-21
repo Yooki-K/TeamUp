@@ -33,13 +33,37 @@ $('#loginModal .modal-dialog').addClass('shake');
 }, 1000 ); 
 }
 
+function queryMember(event){
+    var e = $(event.target);
+    var id = e.id;
+    var roomId = id.substr(6);
+}
+function joinRoom(event){
+    var e = $(event.target);
+    var id = e.id;
+    var roomId = id.substr(5);
+    sendJSON("post","/apply/room");
+}
+function createRoom(){
+    var form = $('#form');
+    sendQUERY("post","/create/room",form.serialize(),function (data) {
+        alert(data.mes);
+        location.reload();//刷新
+        // document.getElementById("form").reset();
+        // $("#closeBtn").click();
+    });
+}
+function changecolor(){
+    val = $("#color").val();
+    $(".modal-header").css("background", val);
+}
 function search(type,value){
     sendQUERY("POST","/data/query/room",{type:type,param:value},function (data){
         $("#rooms").empty();
         for (let i = 0; i<data.length; i++) {
             let str = "<div class='teaming-room'>" +
                 "<div class='card'>" +
-                "<div class='additional'>" +
+                "<div class='additional' style=\"background:{0}\">".format(data[i].room.color) +
                 "<div class='user-card'>" +
                 "<div class='points center'>" +
                 "<a href=\"{0}\" >{1}</a>".format("#", data[i].user.user) +
@@ -65,7 +89,7 @@ function search(type,value){
             "<li>"+
             "<a >指导老师：</a>"+
             "</li>"+
-            "<a href='{0}'><h5>{1}</h5></a>".format("#",data[i].teacher.user)+
+            "<a href='{0}'><h5>{1}</h5></a>".format("#",data[i].teacher)+
             "</ul>"+
             "</div>"+
             "<div class='todo-btn'>"+
@@ -88,15 +112,4 @@ function search(type,value){
             $("#rooms").append(str);
         }
     });
-}
-function queryMember(event){
-    var e = $(event.target);
-    var id = $(this).id;
-}
-function joinRoom(){
-
-}
-function changecolor(){
-    val = $("#color").val();
-    $(".modal-header").css("background", val);
 }

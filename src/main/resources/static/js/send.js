@@ -12,17 +12,25 @@ String.prototype.format = function() {
     }
     return result;
 }
+//发送数据为json
 function sendJSON(type,url,data,func){
     $.ajax({
         type: type,
         url: url,
         data: JSON.stringify(data),
         contentType: "application/json",
-        success: func,
+        success: function(data){
+            if(data.successful) {
+                func(data);
+            }
+            else{
+                formPost("/errorPage",{status:data.successful,mes:data.mes,from:window.location.href});
+            }
+        },
         error:function (XMLHttpRequest) {
             const errorInfo = JSON.parse(XMLHttpRequest.responseText);
             const data = JSON.stringify({
-                status:errorInfo.code,
+                status:errorInfo.status,
                 mes:errorInfo.message,
                 from:window.location.href
             });
@@ -31,18 +39,25 @@ function sendJSON(type,url,data,func){
         }
     });
 }
-
+//发送数据为普通参数
 function sendQUERY(type,url,data,func){
     $.ajax({
         type: type,
         url: url,
         data: data,
         contentType: 'application/x-www-form-urlencoded',
-        success: func,
+        success: function(data){
+            if(data.successful) {
+                func(data);
+            }
+            else{
+                formPost("/errorPage",{status:data.successful,mes:data.mes,from:window.location.href});
+            }
+        },
         error:function (XMLHttpRequest) {
             const errorInfo = JSON.parse(XMLHttpRequest.responseText);
             const data = JSON.stringify({
-                status:errorInfo.code,
+                status:errorInfo.status,
                 mes:errorInfo.message,
                 from:window.location.href
             });

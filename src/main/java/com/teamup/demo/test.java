@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,9 +30,11 @@ public class test {
     @Resource
     private TeamService teamService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public ModelAndView Test1() {
+    public ModelAndView Test1(HttpSession session) {
 //        return new ModelAndView("test");
-        return new ModelAndView("main");
+//        session.setAttribute("user",userService.findUserByUser("黄子进二号","student"));
+//        return new ModelAndView("main");
+        return new ModelAndView("index");
     }
 
     @PostMapping("/fuzzyMatchUsers")

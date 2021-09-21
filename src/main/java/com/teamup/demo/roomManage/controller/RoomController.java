@@ -10,6 +10,7 @@ import com.teamup.demo.tool.Custom;
 import com.teamup.demo.tool.Message;
 import com.teamup.demo.tool.Util;
 import com.teamup.demo.userManage.entity.Student;
+import com.teamup.demo.userManage.entity.Teacher;
 import com.teamup.demo.userManage.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,7 @@ public class RoomController {
     @PostMapping("/create/room")
     public Message createRoom(Room room, HttpSession session){
         Student student = (Student) session.getAttribute("user");
+        System.out.println(student.toString());
         room.setUser(student.getUser());
         room.setCreateTime();
         if(roomService.addRoom(room) > 0)
@@ -138,7 +140,11 @@ public class RoomController {
         for(Room x :rooms){
             Map<String,Object> map = new HashMap<String,Object>();
             map.put("room",x);
-            map.put("teacher",userService.findUserByNo(x.getTeacherId(),"teacher").getName());
+            Teacher teacher = userService.findUserByNo(x.getTeacherId(),"teacher");
+            if (teacher==null)
+                map.put("teacher","无");
+            else
+                map.put("teacher",teacher.getName()==null?"未实名认证":teacher.getName());
             Student student = userService.findUserByUser(x.getUser(),"student");
             if(student.getHeadshot()!=null) {
                 String imgType = Util.getImgType(student.getHeadshot());

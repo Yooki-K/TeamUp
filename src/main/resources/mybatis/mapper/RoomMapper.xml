@@ -9,8 +9,14 @@
         select * from public.room where "id" = #{id};
     </select>
     <insert id="addRoom" parameterType="com.teamup.demo.roomManage.entity.Room" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into public.room ( "user", "name", content, tag, teamname, "targetNum", "curNum", pwd, "createTime", "classId", color, "teacherId" )
-        values (#{user}, #{name}, #{content}, #{tag}, #{teamname}, #{targetNum}, #{curNum}, #{pwd}, #{createTime}, #{classId}, #{color}, #{teacherId} )
+        <if test="classId == 0">
+            insert into public.room ( "user", "name", content, tag, teamname, "targetNum", "createTime", color )
+            values (#{user}, #{name}, #{content}, #{tag}, #{teamName}, #{targetNum}, #{createTime}, #{color} )
+        </if>
+        <if test="classId!=0">
+            insert into public.room ( "user", "name", content, tag, teamname, "targetNum", "createTime", "classId", color )
+            values (#{user}, #{name}, #{content}, #{tag}, #{teamName}, #{targetNum}, #{createTime}, #{classId}, #{color} )
+        </if>
     </insert>
     <select id="getRoomByClass" resultType="com.teamup.demo.roomManage.entity.Room">
         select * from public.room where "classId" = #{classId} order by "id" asc

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<!--todo 申请加入；查看成员；-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8">
@@ -68,14 +68,14 @@
 			<div class="modal-dialog create animated" style="width: auto;">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closeBtn">&times;</button>
 						<h4 class="modal-title">创建房间</h4>
 					</div>
 					<div class="modal-body">
 						<div class="">
 							<div class="content registerBox" style="">
 								<div class="form">
-									<form method="post" action="/create/room" enctype="multipart/form-data">
+									<form id="form" method="post" action="/create/room" enctype="multipart/form-data">
                                         <input type="text" class="form-control" name="name" value="" placeholder="竞赛名字"
 											   autofocus='' style="margin-bottom: 15px;">
 										<input type="text" class="form-control" name="teamName" value="" placeholder="团队名字"
@@ -83,9 +83,17 @@
                                         <textarea name="content" class="form-control" placeholder="团队描述" autofocus="" cols="10" rows="5" style="margin-bottom: 15px;resize: none;"></textarea>
                                         <h5 style="display: inline-block;">卡片颜色：</h5>
                                         <input type="color" name="color" id="color" value="#ea746a">
-										<input class="btn btn-register" type="submit" value="创建" name="commit">
+                                        <br />
+                                        <h5 style="display: inline-block;">团队人数:</h5>
+                                        <div class="mui-numbox" data-numbox-min="1" style="margin-bottom: 15px;" >
+                                            <input class="mui-input-numbox" type="number" name="targetNum" >
+                                        </div>
+                                        <br />
+                                        <h5>标签(多个标签用‘;’分开):</h5>
+                                        <input type="text" class="form-control" name="tag" style="margin-bottom: 15px;" />
 									</form>
-								</div>
+                                    <button class="btn btn-register" onclick="createRoom()">创建</button>
+                                </div>
 		
 							</div>
 						</div>
