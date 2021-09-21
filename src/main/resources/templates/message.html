@@ -28,6 +28,11 @@
         });
     </script>
     <style>
+        ul,
+        li {
+            list-style: none;
+        }
+
         .contain {
             width: 100%;
             background-color: white;
@@ -55,26 +60,6 @@
             flex-wrap: wrap;
             width: 80%;
             margin: 0 auto;
-        }
-
-        .card_item {
-            flex-basis: 100%;
-            margin-bottom: 16px;
-            padding: 0px 8px;
-            box-sizing: border-box;
-        }
-
-        .card_content {
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 2px;
-            height: 80px;
-            width: 100%;
-        }
-
-        .my-area p {
-            color: black;
-            font-size: 12;
-            margin-left: 10%;
         }
 
         .d-flex {
@@ -189,108 +174,86 @@
             border-color: var(--color-border-default);
         }
 
-        .v-align-middle {
-            vertical-align: middle !important;
-        }
-
-        .text-small {
-            font-size: 12px !important;
-        }
-
-        .mb-2 {
-            margin-bottom: 8px !important;
-        }
-
-        .color-text-secondary {
-            color: var(--color-fg-muted) !important;
-        }
-
-        .text-normal {
-            font-weight: 400 !important;
-        }
-
-        .pb-4 {
-            padding-bottom: 24px !important;
-        }
-
-        ul,
-        li {
-            list-style: none;
-        }
-
-        .zla_m_tab {
-            position: fixed;
-            width: 850px;
-            height: 40px;
-            border-bottom: 2px #ccc solid;
-            font-size: 20px;
-            color: #777;
-        }
-
-        .zla_m_item {
-            float: left;
-            width: 106px;
-            height: 40px;
-        }
-
-        .zla_m_item a:hover,
-        .zla_m_cur a {
-            display: inline-block;
-            text-decoration: none;
-            border-bottom: 2px solid #0099ff;
-            font-size: 20px;
-            color: #333;
-        }
-
-        .zla_m_item a,
-        .zla_m_cur a {
-            display: inline-block;
-            width: 100px;
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
-            font-size: 20px;
-            color: #777;
-        }
-
-        .cert-message {
-            padding-top: 40px;
-        }
-
-        .cert-message .cert-message-show {
-            padding: 16px 0 16px 16px;
-            margin: 16px auto 0;
+        .view-container {
             position: relative;
-            width: 80%;
-            align-items: center;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+            margin: 10px;
+            border-radius: 6px;
+            background-color: rgb(255, 255, 255, .7);
+            padding: 24px 16px;
+            -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .05);
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .05);
+            height: 100%;
         }
 
-        .cert-message .cert-message-show .cert-show-box {
+        .msg-all {
+            margin: 10px;
+        }
+
+        .msg-info {
+            width: 100%;
+            margin: 0;
+            font-size: 14px;
+            color: #3d3d3d;
+        }
+
+        .msg-info-title {
             display: -webkit-box;
             display: -ms-flexbox;
-            margin: 0 auto 32px;
             display: flex;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #6666b8;
+            line-height: 22px;
         }
 
-        .cert-message .cert-message-show .cert-show-box>p {
-            min-width: 56px;
-            font-size: 14px;
-            color: black;
-            line-height: 24px;
-            margin-right: 40px;
-            text-align: right;
-        }
-
-        .cert-message .cert-message-title {
+        .msg-info-title .msg-info-title-msg {
+            font-size: 16px;
+            font-weight: 600;
             color: #222226;
-            font-size: 18px;
-            font-weight: 500;
-            font-family: PingFangSC-Medium, PingFang SC;
-            margin-left: 10%;
+            margin-left: 5%;
+        }
+
+        .msg-list .list-system {
+            position: relative;
+        }
+
+        .msg-list ul {
+            font-size: 14px;
+        }
+
+        .msg-list .list li .drop-content {
+            margin-top: 15px;
+            margin-bottom: -16px;
+            padding: 15px;
+            background-color: #f7f7f7;
+            font-size: 14px;
+            color: #4d4d4d;
+            line-height: 22px;
+            overflow: hidden;
+        }
+
+        .msg-list .list li {
+            width: 100%;
+        }
+
+        .msg-list ul li {
+            position: relative;
+            padding: 16px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .msg-list .list li .drop-content {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: -16px;
+            padding: 15px;
+            background-color: #f7f7f7;
+            font-size: 14px;
+            color: #4d4d4d;
+            line-height: 22px;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -343,38 +306,46 @@
     </div>
     <!--主界面-->
     <div class="main">
-        <!--个人资料-->
+        <!--区域-->
         <div class="my-area">
-            <!--“个人资料”-->
-            <ul class="zla_m_tab" id="zla_title">
-                <li class="zla_m_item"><a href="my.html" onclick="getMyStudyCourse(0);">个人资料</a></li>
-                <li class="zla_m_item zla_m_cur"><a href="#">学生认证</a></li>
-            </ul>
-            <div class="cert-message">
-                <div class="cert-message-title">认证信息</div>
-                <div class="cert-message-show">
-                    <div class="cert-show-box">
-                        <p>学校名称</p>
-                        <input class="cert-show-box-content" />
+            <div class="view-container">
+                <div class="msg-all">
+                    <div class="msg-info clearfix">
+                        <div class="msg-info-title">
+                            <p class="msg-info-title-msg">通知</p>
+                        </div>
                     </div>
-                    <div class="cert-show-box">
-                        <p>真实姓名</p>
-                        <input class="cert-show-box-content" />
+                    <div class="msg-list">
+                        <ul class="list list-system">
+                            <li class="msg-unread">
+                                <span class="msg-title msg-info">
+                                    <span class="title">2021.09.15</span>
+                                </span>
+                                <span class="drop-content">你向“这个队伍不太冷”的组队申请已通过</span>
+                            </li>
+                            <li class="msg-unread">
+                                <span class="msg-title msg-info">
+                                    <span class="title">2021.09.14</span>
+                                </span>
+                                <span class="drop-content">你的团队“开心就好”已被队长解散</span>
+                            </li>
+                            <li class="msg-unread">
+                                <span class="msg-title msg-info">
+                                    <span class="title">2021.09.05</span>
+                                </span>
+                                <span class="drop-content">你向“开心就好”的组队申请已通过</span>
+                            </li>
+                            <li class="msg-unread">
+                                <span class="msg-title msg-info">
+                                    <span class="title">2021.09.01</span>
+                                </span>
+                                <span class="drop-content">你向“蒟蒻队”的组队申请被队长拒绝</span>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="cert-show-box">
-                        <p>专业</p>
-                        <input class="cert-show-box-content" />
-                    </div>
-                    <div class="cert-show-box">
-                        <p>学号</p>
-                        <input class="cert-show-box-content" />
-                    </div>
-                    <input type="submit" value="提交" class="btn btn-primary"
-                        style="margin-left: 200px; background: coral;width: 100px;" />
                 </div>
             </div>
         </div>
-
     </div>
 </body>
 
