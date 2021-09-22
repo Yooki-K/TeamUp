@@ -1,11 +1,11 @@
 package com.teamup.demo.tool;
 
 public class Error {
-    private int status;
+    private String status;
     private String mes;
     private String from;
 
-    public Error(int status, String mes, String from) {
+    public Error(String status, String mes, String from) {
         this.status = status;
         this.mes = mes;
         this.from = from;
@@ -20,11 +20,11 @@ public class Error {
                 '}';
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

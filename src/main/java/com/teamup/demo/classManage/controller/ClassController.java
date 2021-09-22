@@ -13,8 +13,10 @@ import jxl.read.biff.BiffException;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
@@ -54,22 +56,38 @@ public class ClassController {
         return classService.getStuByClassId(classId);
     }
 //    学生查询所在班级
-    @PostMapping("/data/query/class/student")
-    public List<Map<String,Object>> queryClass2(HttpSession session){
+    @GetMapping("/{studentNo}/class")
+    public ModelAndView queryClass2(HttpSession session, @PathVariable int studentNo,HttpServletRequest request){
         Student user = (Student)session.getAttribute("user");
-        String table = session.getAttribute("table").toString();
-        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
-        List<Class>classList = classService.getClassByUser(user,table);
-        for (Class c:classList
-             ) {
-            Map<String,Object>map = new HashMap<String,Object>();
-            Teacher teacher = classService.getTeaByClassId(c.getId());
-            map.put("class",c);
-            map.put("teacherNo",teacher.getNo());
-            map.put("teacherName",teacher.getName());
-            list.add(map);
+        if (user==null) {
+            return Util.createError("false","请先登录","index");
         }
-        return list;
+        if (studentNo!=user.getNo()){
+            return Util.createError("404","访问错误页面",request.getRequestURI());
+        }else
+        {
+            ModelAndView mav = new ModelAndView();
+            String table = session.getAttribute("table").toString();
+            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+            List<Class> classList = classService.getClassByUser(user, table);
+            for (Class c : classList
+            ) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                Teacher teacher = classService.getTeaByClassId(c.getId());
+                map.put("class", c);
+                map.put("teacherNo", teacher.getNo());
+                if (teacher.getName()==null)
+                    map.put("teacherName", teacher.getName());
+                else
+                    map.put("teacherName", "未实名认证");
+                list.add(map);
+            }
+            System.out.println(list);
+            mav.addObject("data", list);
+            mav.addObject("user", user);
+            mav.setViewName("myclass");
+            return mav;
+        }
     }
     /*老师设置班级公告 json announcement classId*/
     @PostMapping("/update/class/announcement")

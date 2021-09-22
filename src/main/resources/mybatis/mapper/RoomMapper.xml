@@ -27,12 +27,12 @@
         <if test="!isAsc">desc</if>
     </select>
     <select id="getRoomByTag" resultType="com.teamup.demo.roomManage.entity.Room">
-        select * from public.room where tag like concat('%',#{tag},'%') order by "id" asc
+        select * from public.room where tag like concat('%',#{tag},'%') and "classId" is null order by "id" asc
     </select>
     <select id="getRoomByName" resultType="com.teamup.demo.roomManage.entity.Room">
-        select * from public.room where name like concat('%',#{name},'%') order by "id" asc
+        select * from public.room where name like concat('%',#{name},'%') and "classId" is null order by "id" asc
     </select>
-    <select id="getStuByRoom" resultType="com.teamup.demo.roomManage.entity.Room">
+    <select id="getStuByRoom" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.student
         where "user" in ( select "user" from public."roomInf" where "roomId" = #{roomId} )
     </select>

@@ -84,7 +84,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										autofocus="">
 
 									<input class="btn btn-register" type="submit" value="登录" name="commit">
-									<a href="../../../../static/main.html">管理员通道</a>
+									<a href="main.html">管理员通道</a>
 								</form>
 							</div>
 
@@ -138,13 +138,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="men ">
 			<div class="wall wow bounceIn" data-wow-delay="0.4s">
 				<div id="pg_container" class="pg_container">
-
+					<div class="about">
+						<div class="container">
+							<h3>在这里，邂逅你的队友</h3>
+							<div class="about-in wow bounceIn" data-wow-delay="0.4s">
+								<h6>随着移动互联网的飞速发展,移动设备承担着越来越多的任务,这其中就包括了团队活动的组织。
+									传统的团队活动组织是通过线下的方式,由活动发起人负责一手包办组织、宣传和管理工作,非常繁琐而又耗费精力。
+									当今移动互联网市场上,正缺乏一款完整性的活动组织系统来满足大学生在面对团队任务时的多种需求。</h6>
+								<p></p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
 		<script type="text/javascript">
 			/*
 			the img preload plugin
@@ -351,7 +359,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					navigator.userAgent.toLowerCase().indexOf('chrome') == -1,
 					pg_photos_width = 0;
 
-				//preload the img				
+				//preload the img
 				$pg_photos_img.preload({
 					onComplete: function () {
 						init();
@@ -389,7 +397,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					$pg_scrollWrapper.show();
 					//innitialize the slider
 					var old_value = 0, //last value of the slider
-						dir = 1; //direction 	
+						dir = 1; //direction
 					$slider.slider('destroy').slider({
 						orientation: 'horizontal',
 						max: pg_photos_width - $pg_photos.children(':last').outerWidth(true),
@@ -478,11 +486,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						}
 						//set the thumb nav elem as selected
 						$thumbnailSlider.thumbnailSlider('update', idx - 1);
-						//based on the current left value for the pg_photos, 
+						//based on the current left value for the pg_photos,
 						//and the left of the element, we know how much to slide
 						var current_left = parseFloat($pg_photos.css('left'), 10),
 							elem_left = $pg_photos_elem.eq(idx - 1).offset().left;
-						//update the ui slider 
+						//update the ui slider
 						$slider.slider('value', Math.abs(parseInt(current_left - elem_left, 10)));
 						//slide to element
 						$pg_photos.stop().animate({

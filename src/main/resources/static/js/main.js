@@ -33,24 +33,45 @@ $('#loginModal .modal-dialog').addClass('shake');
 }, 1000 ); 
 }
 
-function queryMember(event){
-    var e = $(event.target);
-    var id = e.id;
-    var roomId = id.substr(6);
+function queryMember(obj){
+    var id = obj.id;
+    var roomId = Number(id.substr(6));
+    const ee = $("#member");
+    const len = ee.children().length;
+    if(len>0){
+        ee.empty();
+    }else{
+        sendQUERY("post","/data/query/room/member",{roomId:roomId},function(data){
+            var str="";
+            for(var i=0;i<data.length;i++){
+                str += "<a class=\"dropdown-item\" href=\"{0}\"><img src=\"{1}\">{2}</a>".format("#",data[i].headshot,data[i].user);
+                console.log(data[i]);
+            }
+            $("#member").append(str);
+        });
+    }
 }
-function joinRoom(event){
-    var e = $(event.target);
-    var id = e.id;
-    var roomId = id.substr(5);
-    sendJSON("post","/apply/room");
+function joinRoom(){
+    var roomId = Number($("#teamid").text());
+    var content = $("#joinContent").val();
+    sendJSON("post","/apply/room",{roomId:roomId,content:content},function (data) {
+        alert(data.mes);
+        $("#joinContent").val("");
+        $("#closeJoin").click();
+    });
+}
+function setAlert(obj) {
+    const id = obj.id;
+    var roomId = Number(id.substr(6));
+    const teamName = $(obj).parents("div").eq(2).children("div").eq(0).children("h1").eq(0).html();
+    $("#teamname").text("你正在加入\"{0}\"...".format(teamName));
+    $("#teamid").text("{0}".format(roomId));
 }
 function createRoom(){
-    var form = $('#form');
+    var form = $('#form1');
     sendQUERY("post","/create/room",form.serialize(),function (data) {
         alert(data.mes);
         location.reload();//刷新
-        // document.getElementById("form").reset();
-        // $("#closeBtn").click();
     });
 }
 function changecolor(){
@@ -68,7 +89,7 @@ function search(type,value){
                 "<div class='points center'>" +
                 "<a href=\"{0}\" >{1}</a>".format("#", data[i].user.user) +
                 "</div>" +
-                "<img src=\"{0}\" style=\"border-radius: 50%;margin-top: 40px;margin-left: 7px;width: 135px;height: 135px;\"></img>".format(data[i].headShot) +
+                "<img src=\"{0}\" style=\"border-radius: 50%;margin-top: 40px;margin-left: 7px;width: 135px;height: 135px;\"></img>".format(data[i].user.headshot) +
                 "</div>" +
                 "<div class='more-info'>" +
                 "<div class='group-name'>" +
@@ -84,21 +105,22 @@ function search(type,value){
             else
                 str+="<h5>{0}</h5>".format( "未实名认证" );
             str+=
-            "</ul>"+
-            "<ul class='tags teacher'>"+
-            "<li>"+
-            "<a >指导老师：</a>"+
-            "</li>"+
-            "<a href='{0}'><h5>{1}</h5></a>".format("#",data[i].teacher)+
-            "</ul>"+
-            "</div>"+
-            "<div class='todo-btn'>"+
-            "<button class=\"btn btn-info check-btn\" id=\"check_{0}\"><i class='fa fa-user'></i>查看({1}/{2})</button>".format(data[i].room.id,data[i].room.curNum,data[i].room.targetNum)+
-            "<button class='btn btn-info join-btn' th:id='join_{0}'>申请加入</button>".format(data[i].room.id)+
-            "</div></div></div>"+
-            "<div class='general'>"+
-            "<h1>{0}</h1><p>{1}</p>".format(data[i].room.name,data[i].room.content)+
-            "<ul class='tags'>";
+                "</ul>"+
+                "<ul class='tags teacher'>"+
+                "<li>"+
+                "<a >指导老师：</a>"+
+                "</li>"+
+                "<a href='{0}'><h5>{1}</h5></a>".format("#",data[i].teacher)+
+                "</ul>"+
+                "</div>"+
+                "<div class='todo-btn'>"+
+                "<div class=\"dropup\" style=\"display: inline;\">"+
+                "<button class=\"btn btn-info check-btn dropdown-toggle\"  data-toggle=\"dropdown\" id=\"check_{0}\" onclick='queryMember(this)'><i class='fa fa-user'></i>查看({1}/{2})</button>".format(data[i].room.id,data[i].room.curNum,data[i].room.targetNum)+
+                "<div class=\"dropdown-menu\" id='member'></div>"+
+                "<button class='btn btn-info join-btn' id='alert_{0}' data-toggle='modal' data-target=\"#join\" onclick='setAlert(this)'>申请加入</button>".format(data[i].room.id)+ "</div></div></div></div>"+
+                "<div class='general'>"+
+                "<h1>{0}</h1><p>{1}</p>".format(data[i].room.name,data[i].room.content)+
+                "<ul class='tags'>";
             var tags = data[i].tag;
             if(tags!=null){
                 tags = tags.split(";");

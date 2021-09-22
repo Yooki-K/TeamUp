@@ -1,17 +1,25 @@
 package com.teamup.demo.teamManage.controller;
 
+import com.teamup.demo.classManage.entity.Class;
 import com.teamup.demo.teamManage.entity.ChatLog;
 import com.teamup.demo.teamManage.entity.Evaluation;
 import com.teamup.demo.teamManage.entity.Team;
 import com.teamup.demo.teamManage.entity.TeamInf;
 import com.teamup.demo.teamManage.service.TeamService;
 import com.teamup.demo.tool.Message;
+import com.teamup.demo.tool.Util;
 import com.teamup.demo.userManage.entity.Student;
+import com.teamup.demo.userManage.entity.Teacher;
+import com.teamup.demo.userManage.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +28,8 @@ import java.util.Map;
 public class TeamController {
     @Resource
     private TeamService teamService;
+    @Resource
+    private UserService userService;
 
     /*创建评价 json isAnonymous toUser content*/
     @PostMapping("/create/evaluation")
@@ -62,10 +72,44 @@ public class TeamController {
         return teamService.getTeamByClass(classId);
     }
     /*查看个人组队信息*/
-    @PostMapping("/data/query/teamInf")
-    public List<TeamInf> queryMyTeamInf(HttpSession session ){
-        Student user = (Student) session.getAttribute("user");
-        return teamService.getTeamInfByUser(user);
+    @GetMapping("/{studentNo}/team")
+    public ModelAndView queryMyTeamInf(HttpSession session, @PathVariable int studentNo, HttpServletRequest request){
+        Student user = (Student)session.getAttribute("user");
+        if (user==null) {
+            return Util.createError("false","请先登录","index");
+        }
+        if (studentNo!=user.getNo()){
+            return Util.createError("404","访问错误页面",request.getRequestURI());
+        }else
+        {
+            ModelAndView mav = new ModelAndView();
+            String table = session.getAttribute("table").toString();
+            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+            List<TeamInf> TeamInfs = teamService.getTeamInfByUser(user);
+            for (TeamInf teamInf : TeamInfs
+            ) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                Team team = teamService.getTeamById(teamInf.getTeamId());
+                map.put("team", team);
+                if (team.getLeader().equals(user.getUser())) {
+                    map.put("position", "队长");
+                    map.put("leaderUser", user.getUser());
+                    map.put("leaderNo", user.getNo());
+                }
+                else{
+                    map.put("position", "队员");
+                    Student leader = userService.findUserByUser(team.getLeader(),"student");
+                    map.put("leaderUser",leader.getUser());
+                    map.put("leaderNo",leader.getNo());
+                }
+                list.add(map);
+            }
+            System.out.println(list);
+            mav.addObject("data", list);
+            mav.addObject("user", user);
+            mav.setViewName("myteam");
+            return mav;
+        }
     }
     /*查看班级未组队人数*/
     @GetMapping("/data/query/num/notTeam")

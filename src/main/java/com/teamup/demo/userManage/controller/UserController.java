@@ -10,6 +10,7 @@ import com.teamup.demo.tool.SendMail;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -225,5 +226,17 @@ public class UserController {
                                              @RequestParam("param")String param){
         return userService.fuzzyMatchUsersByUser(param,table);
     }
+    @GetMapping(value = "/{studentNo}/index")
+//    todo 个人页面
+    public ModelAndView index(@PathVariable int studentNo,HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        ModelAndView modelAndView = new ModelAndView();
 
+        if(user==null || user.getNo() != studentNo){
+            modelAndView.addObject("user",null);
+        }else
+            modelAndView.addObject("user",user);
+//            String table =  session.getAttribute("table").toString();
+        return modelAndView;
+    }
 }

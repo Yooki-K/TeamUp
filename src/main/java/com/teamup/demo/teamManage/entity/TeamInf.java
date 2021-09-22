@@ -14,7 +14,9 @@ public class TeamInf {
         this.user = user;
         this.teacherId = teacherId;
     }
+    public TeamInf(){
 
+    }
     @Override
     public String toString() {
         return "TeamInf{" +

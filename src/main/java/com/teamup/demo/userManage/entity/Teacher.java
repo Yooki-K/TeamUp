@@ -1,8 +1,12 @@
 package com.teamup.demo.userManage.entity;
 
 
+import com.teamup.demo.tool.Util;
+
+import java.util.Base64;
+
 public class Teacher extends Admin{
-    byte[] headshot;
+    String headshot;
     String school;
     String id;
     String name;
@@ -27,13 +31,14 @@ public class Teacher extends Admin{
         No = no;
     }
 
-    public byte[] getHeadshot() {
+    public String getHeadshot() {
         return headshot;
     }
 
-    public void setHeadshot(byte[] headshot) {
+    public void setHeadshot(String headshot) {
         this.headshot = headshot;
     }
+
     public String getMail() {
         return mail;
     }

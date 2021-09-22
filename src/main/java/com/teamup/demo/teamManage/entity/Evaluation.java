@@ -9,7 +9,7 @@ public class Evaluation {
         this.user2 = user2;
         this.content = content;
     }
-
+    public Evaluation(){}
     public String getUser1() {
         return user1;
     }

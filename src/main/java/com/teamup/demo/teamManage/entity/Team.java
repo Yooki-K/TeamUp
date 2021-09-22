@@ -6,16 +6,16 @@ import java.util.Date;
 
 public class Team {
     int teamId;
-    String varchar;
+    String name;
     int classId;
     String leader;
     int number;
     int teacherId;
     Date dissolveTime;
-
-    public Team(int teamId, String varchar, int classId, String leader, int number, int teacherId) {
+    public Team(){}
+    public Team(int teamId, String name, int classId, String leader, int number, int teacherId) {
         this.teamId = teamId;
-        this.varchar = varchar;
+        this.name = name;
         this.classId = classId;
         this.leader = leader;
         this.number = number;
@@ -46,12 +46,12 @@ public class Team {
         this.teamId = teamId;
     }
 
-    public String getVarchar() {
-        return varchar;
+    public String getName() {
+        return name;
     }
 
-    public void setVarchar(String varchar) {
-        this.varchar = varchar;
+    public void setName(String varchar) {
+        this.name = varchar;
     }
 
     public int getClassId() {

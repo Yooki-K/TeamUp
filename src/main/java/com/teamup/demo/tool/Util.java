@@ -1,6 +1,9 @@
 package com.teamup.demo.tool;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Random;
 
@@ -29,5 +32,20 @@ public class Util {
             return "JPG";
         }
         return null;
+    }
+
+    public static String byteToBase64(byte[] headshot) {
+        String imgType = getImgType(headshot);
+        if(imgType!=null)
+            return String.format("data:image/%s;base64,", imgType)+ Base64.getEncoder().encodeToString(headshot);
+        else
+            return null;
+    }
+    public static ModelAndView createError(String status,String mes,String url){
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("mes", String.format("%s<p class=\"page-mk\">%s</p>",status,mes));
+        mav.addObject("from", url);
+        mav.setViewName("error");
+        return mav;
     }
 }

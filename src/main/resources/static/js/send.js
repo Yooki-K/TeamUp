@@ -47,12 +47,17 @@ function sendQUERY(type,url,data,func){
         data: data,
         contentType: 'application/x-www-form-urlencoded',
         success: function(data){
-            if(data.successful) {
+            if ('successful' in data){
+                if(data.successful) {
+                    func(data);
+                }
+                else{
+                    formPost("/errorPage",{status:data.successful,mes:data.mes,from:window.location.href});
+                }
+            }else{
                 func(data);
             }
-            else{
-                formPost("/errorPage",{status:data.successful,mes:data.mes,from:window.location.href});
-            }
+
         },
         error:function (XMLHttpRequest) {
             const errorInfo = JSON.parse(XMLHttpRequest.responseText);
@@ -61,6 +66,7 @@ function sendQUERY(type,url,data,func){
                 mes:errorInfo.message,
                 from:window.location.href
             });
+            // console.log(data);
             formPost("/errorPage",data);
         }
     });

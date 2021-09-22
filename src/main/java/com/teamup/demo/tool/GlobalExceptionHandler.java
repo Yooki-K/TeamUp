@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
     public ModelAndView defaultErrorHandler(Error error){
         ModelAndView mav = new ModelAndView();
         System.out.println(error.toString());
-        mav.addObject("mes", String.format("%d<p class=\"page-mk\">%s</p>",error.getStatus(),error.getMes()));
+        mav.addObject("mes", String.format("%s<p class=\"page-mk\">%s</p>",error.getStatus(),error.getMes()));
         mav.addObject("from", error.getFrom());
         mav.setViewName("error");
         return mav;

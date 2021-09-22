@@ -30,11 +30,16 @@ public class test {
     @Resource
     private TeamService teamService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public ModelAndView Test1(HttpSession session) {
+    public ModelAndView  Test1(HttpSession session) {
 //        return new ModelAndView("test");
-//        session.setAttribute("user",userService.findUserByUser("黄子进二号","student"));
-//        return new ModelAndView("main");
-        return new ModelAndView("index");
+        Student student = userService.findUserByUser("黄子进二号","student");
+        session.setAttribute("user",student);
+        session.setAttribute("table","student");
+        String url =String.format("redirect:/%d/team",student.getNo());
+        System.out.println(url);
+        System.out.println(student.toString());
+        return new ModelAndView(url);
+//        return new ModelAndView("index");
     }
 
     @PostMapping("/fuzzyMatchUsers")

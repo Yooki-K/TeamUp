@@ -129,11 +129,9 @@ public class RoomController {
                     rooms = roomService.getRoomPublic("id",true);
                 }
                 break;
-            case "tag":
+            case "other":
                 rooms = roomService.getRoomByTag(param);
-                break;
-            case "name":
-                rooms = roomService.getRoomByName(param);
+                rooms.addAll(roomService.getRoomByName(param));
                 break;
             default:break;
         }
@@ -146,16 +144,6 @@ public class RoomController {
             else
                 map.put("teacher",teacher.getName()==null?"未实名认证":teacher.getName());
             Student student = userService.findUserByUser(x.getUser(),"student");
-            if(student.getHeadshot()!=null) {
-                String imgType = Util.getImgType(student.getHeadshot());
-                if(imgType!=null)
-                    map.put("headShot", String.format("data:image/%s;base64,", imgType) +
-                        Base64.getEncoder().encodeToString(student.getHeadshot()));
-                student.setHeadshot(null);
-            }
-            else{
-                map.put("headShot","/img/nullPerson.png");
-            }
             map.put("tag",x.getTag());
             map.put("user",student);
 
@@ -203,11 +191,18 @@ public class RoomController {
     @PostMapping("/apply/room")
     public Message applyRoom(@RequestBody  ApplyRoom applyRoom, HttpSession session){
         Student user = (Student) session.getAttribute("user");
+        List<Student> students = roomService.getStuByRoom(applyRoom.getRoomId());
+        for(Student student:students){
+            if (student.getUser().equals(user.getUser())){
+                return new Message(false,"您已加入当前房间，不可重复加入");
+            }
+        }
         applyRoom.setUser(user.getUser());
+
         if(roomService.addApplication(applyRoom)>0)
-            return new Message(true);
+            return new Message(true,"申请成功");
         else
-            return new Message(false);
+            return new Message(false,"申请失败");
     }
     /*查看未处理申请数量*/
     @GetMapping("/data/query/application/num")

@@ -1,5 +1,6 @@
 package com.teamup.demo.userManage.service;
 
+import com.teamup.demo.tool.Util;
 import com.teamup.demo.userManage.entity.Certification;
 import com.teamup.demo.userManage.entity.Student;
 import com.teamup.demo.userManage.entity.Teacher;
@@ -59,6 +60,7 @@ public class UserService {
             return 0;
         }
     }
+
     public int updateLabelByUser(Student stu,String label){
         try {
             Map<String,String> map = new HashMap<String,String>();
@@ -69,9 +71,10 @@ public class UserService {
             return 0;
         }
     }
+
     public int updateHeadshotByUser(Student user,byte[] bytes,String table){
         try {
-            return userMapper.updateHeadshot(user.getUser(),bytes,table);
+            return userMapper.updateHeadshot(user.getUser(), Util.byteToBase64(bytes),table);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return 0;

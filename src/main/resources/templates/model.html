@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--todo # 补充-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6" th:fragment="class(obj)">
+        <div class="Box pinned-item-list-item d-flex p-3 width-full public fork">
+            <div class="pinned-item-list-item-content">
+                <div class="d-flex width-full flex-items-center position-relative">
+                    <a href="#" class="text-bold flex-auto min-width-0">
+                        <span class="repo" th:title="${obj.class.name}" th:text="${obj.class.name}"/>
+                    </a>
+                    <span class="Label Label--secondary v-align-middle ">校内班</span>
+                </div>
+
+                <p class="color-text-secondary text-small mb-2">
+                    指导老师
+                    <a class="Link--muted" th:href="@{#}" th:text="${obj.teacherName}"></a>
+                </p>
+
+                <p class="pinned-item-desc color-text-secondary text-small d-block mt-2 mb-3"></p>
+                <p class="mb-0 f6 color-text-secondary">
+                    <span class="d-inline-block mr-3"></span>
+                </p>
+            </div>
+        </div>
+    </li>
+
+    <li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6" th:fragment="team(obj)">
+        <div class="Box pinned-item-list-item d-flex p-3 width-full public fork">
+            <div class="pinned-item-list-item-content">
+                <div class="d-flex width-full flex-items-center position-relative">
+                    <a href="#" class="text-bold flex-auto min-width-0">
+                        <span class="repo" th:title="${obj.team.name}" th:text="${obj.team.name}"></span>
+                    </a>
+                    <span class="Label Label--secondary v-align-middle "th:text="${obj.position}"></span>
+                </div>
+
+                <p class="color-text-secondary text-small mb-2">
+                    队长 <a class="Link--muted" th:href="@{#}" th:text="${obj.leaderUser}"></a>
+                </p>
+                <p class="pinned-item-desc color-text-secondary text-small d-block mt-2 mb-3"></p>
+                <button class="manage-btn" th:if="${obj.position == '队长'}">解散</button>
+<!--                <button class="drop-out-btn">退出</button>-->
+                <p class="mb-0 f6 color-text-secondary">
+                    <span class="d-inline-block mr-3"></span>
+                </p>
+            </div>
+        </div>
+    </li>
+</body>
+</html>

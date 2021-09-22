@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--todo 申请加入；查看成员；-->
+<!--todo 查看成员；#补充-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8">
@@ -8,35 +8,35 @@
    		<meta name="description" content="">
     	<meta name="author" content="">
 		<meta charset="utf-8" />
-		<title></title>
+		<title>主页</title>
 		<script src="/js/vue.min.js"></script>
         <script src="/js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
         <script src="js/send.js"></script>
+        <script src="/js/mui.js"></script>
 		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="/css/font-awesome.min.css">
         <link rel="stylesheet" href="/css/main.css"/>
         <link rel="stylesheet" href="/css/login.css"/>
         <script type="text/javascript">
-            $(document).ready(function(){
-                $(".nav-trigger").click(function(){
-                   $(".navbar-collapse .collapse").addClass("in");
-                });
-                $(window).resize(function(){
-                    
-                });
 
+            $(document).ready(function () {
+                $(".shell").height($(window).height() - 50);
+                $(".nav-trigger").click(function () {
+                    $(".navbar-collapse .collapse").addClass("in");
+                });
+                $(window).resize(function () {
+                    $(".shell").height($(window).height() - 50);
+                });
             });
             $(function (){
                 search("public","");
                 $('#search').bind('keypress',function (event){
                     if(event.keyCode == 13){
-                        search("name", $(this).val());
+                        search("other", $(this).val());
                     }
                 });
-                $('.check-btn').bind('click',queryMember())
-                $('.join-btn').bind('click',joinRoom())
             });
         </script>
         <style>
@@ -44,6 +44,28 @@
                 border-radius: 6px 6px 0 0;
                 background: #de685e;
                 
+            }
+
+            .dropdown-menu {
+                overflow-y: scroll;
+                height: 180px;
+                border-bottom: 1px solid #ad8888;
+                /* transition: .4s; */
+                margin-bottom: 15px !important;
+            }
+
+            .dropdown-menu .dropdown-item {
+                display: block;
+                padding: 5px;
+                text-align: center;
+                border-bottom: 1px solid #000000;
+            }
+
+            .dropdown-menu .dropdown-item img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                padding: 5px;
             }
         </style>
     </head>
@@ -75,7 +97,7 @@
 						<div class="">
 							<div class="content registerBox" style="">
 								<div class="form">
-									<form id="form" method="post" action="/create/room" enctype="multipart/form-data">
+									<form id="form1" method="post" action="/create/room" enctype="multipart/form-data">
                                         <input type="text" class="form-control" name="name" value="" placeholder="竞赛名字"
 											   autofocus='' style="margin-bottom: 15px;">
 										<input type="text" class="form-control" name="teamName" value="" placeholder="团队名字"
@@ -85,8 +107,10 @@
                                         <input type="color" name="color" id="color" value="#ea746a">
                                         <br />
                                         <h5 style="display: inline-block;">团队人数:</h5>
-                                        <div class="mui-numbox" data-numbox-min="1" style="margin-bottom: 15px;" >
-                                            <input class="mui-input-numbox" type="number" name="targetNum" >
+                                        <div class="mui-numbox" style="margin-bottom: 15px;" data-numbox-min="1">
+                                            <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+                                            <input class="mui-input-numbox" type="number" name="targetNum">
+                                            <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
                                         </div>
                                         <br />
                                         <h5>标签(多个标签用‘;’分开):</h5>
@@ -101,6 +125,33 @@
 				</div>
 			</div>
 		</div>
+        <div class="modal fade" id="join" tabindex="-1" role="dialog" aria-labelledby="joinin" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title" id="joinin">
+                                    加入队伍
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <h2 id="teamname"></h2>
+                                房间编号 : <span id="teamid"></span>
+                                <textarea id="joinContent" class="form-control" placeholder="描述一下你自己吧~" autofocus="" cols="10"
+                                    rows="5" style="margin-bottom: 15px;resize: none;"></textarea>
+                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" id="closeJoin">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="joinRoom()">
+                                提交申请
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
 
         <!--顶部导航栏 start-->
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -128,8 +179,8 @@
                 <a href="my.html" class="box"><i class="fa fa-user"></i><span>我的</span></a>
                 <a href="myclass.html" class="box"><i class="fa fa-users"></i><span>团队</span></a>
                 <a href="main.html" class="box"><i class="fa fa-television"></i><span>组队大厅</span></a>
-                <a href="#" class="box"><i class="fa fa-history"></i><span>历史记录</span></a>
-                <a href="#" class="box"><i class="fa fa-envelope"></i><span>信息</span></a>
+                <a href="history.html" class="box"><i class="fa fa-history"></i><span>历史记录</span></a>
+                <a href="message.html" class="box"><i class="fa fa-envelope"></i><span>信息</span></a>
                 <a href="index.html" class="box"><i class="fa fa-sign-out"></i><span>退出</span></a>
             </div>
         </div>
