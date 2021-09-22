@@ -255,6 +255,42 @@
 </head>
 
 <body>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="create-class" tabindex="-1" role="dialog" aria-labelledby="create-class"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="#" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="create-class-title">
+                            创建班级
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" name="name" value="" placeholder="班级名字" autofocus=''
+                            style="margin-bottom: 15px;">
+                        <textarea name="content" class="form-control" placeholder="班级简述" autofocus="" cols="10" rows="5"
+                            style="margin-bottom: 15px;resize: none;"></textarea>
+
+                        <h5>班级名单(excel)：</h5>
+                        <input type="file" class="form-control" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                            创建
+                        </button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
     <!--背景图片-->
     <div class="body-background"></div>
     <ul class="bg-bubbles" id="bubbles">
@@ -377,6 +413,9 @@
                 </li>
 
             </ol>
+        </div>
+        <div class="create-class-btn" data-toggle="modal" data-target="#create-class">
+            <h5>创建</h5>
         </div>
     </div>
 </body>
