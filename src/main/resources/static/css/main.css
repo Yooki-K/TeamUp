@@ -512,6 +512,23 @@ body {
     font-size: 0.9em;
 }
 
+.navbar .container .user-info {
+    position: absolute;
+    right: 2.5%;
+    top: 7.5px;
+}
+
+.navbar .container .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.navbar .container .user-info label {
+    color: white;
+    padding: 5px;
+}
+
 @media (max-width:1200px) {
     .searchbar {
         height: 100px;
@@ -574,6 +591,23 @@ body {
 @media (max-width:768px) {
     .shell {
         display: none;
+    }
+
+    .navbar .container .user-info {
+        position: absolute;
+        right: 60px;
+        top: 7.5px;
+    }
+
+    .navbar .container .user-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    .navbar .container .user-info label {
+        color: white;
+        padding: 5px;
     }
 
     .searchbar {
