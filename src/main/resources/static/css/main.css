@@ -339,6 +339,15 @@ body {
     white-space: nowrap;
 }
 
+.card .additional .user-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: 75px;
+    left: 25px;
+}
+
 .center {
     position: absolute;
     top: 50%;
@@ -599,6 +608,21 @@ body {
         float: initial;
     }
 
+}
+
+#check .modal-dialog .modal-content .modal-body ul li {
+    display: inline-block;
+    margin: 10px;
+}
+
+#check .modal-dialog .modal-content .modal-body ul li img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+#check .modal-dialog .modal-content .modal-body ul li a {
+    padding: 5px;
 }
 
 .main .my-area {
