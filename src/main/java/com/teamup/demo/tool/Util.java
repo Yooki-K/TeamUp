@@ -22,25 +22,11 @@ public class Util {
         }
         return new String(text);
     }
-    public static String getImgType(byte[] data) {
-        if (data[1] == 'P' && data[2] == 'N' && data[3] == 'G') {
-            return "PNG";
-        }
 
-        if (data[6] == 'J' && data[7] == 'F' && data[8] == 'I'
-                && data[9] == 'F') {
-            return "JPG";
-        }
-        return null;
+    public static String byteToBase64(byte[] headshot,String contentType) {
+        return String.format("data:%s;base64,", contentType)+ Base64.getEncoder().encodeToString(headshot);
     }
 
-    public static String byteToBase64(byte[] headshot) {
-        String imgType = getImgType(headshot);
-        if(imgType!=null)
-            return String.format("data:image/%s;base64,", imgType)+ Base64.getEncoder().encodeToString(headshot);
-        else
-            return null;
-    }
     public static ModelAndView createError(String status,String mes,String url){
         ModelAndView mav = new ModelAndView();
         mav.addObject("mes", String.format("%s<p class=\"page-mk\">%s</p>",status,mes));

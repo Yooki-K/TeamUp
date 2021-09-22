@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -10,12 +10,15 @@
     <meta name="author" content="">
     <meta charset="utf-8" />
     <title></title>
-    <script src="../static/js/vue.min.js"></script>
-    <script src="../static/js/jquery.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/main.css" />
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/myxxx.js"></script>
+    <script src="/js/send.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css" />
     <script type="text/javascript">
         $(document).ready(function () {
             $(".shell").height($(window).height() - 50);
@@ -25,9 +28,67 @@
             $(window).resize(function () {
                 $(".shell").height($(window).height() - 50);
             });
+            $("#headShot").hide();
+            $(".tag-list li").click(function () {
+                $(".active").removeClass("active");
+                $(".tag-sub-list").remove();
+                $(this).addClass("active");
+                val = $(this).text();
+                if (val == "设计") {
+                    $("#line").append("<ul class=\"tag-sub-list\">" +
+                        "<li onclick='addLabel(this)'>数据库设计</li>" +
+                        "<li onclick='addLabel(this)'>页面布局设计</li>" +
+                        "</ul>");
+                } else if (val == "前端") {
+                    $("#line").append("<ul class=\"tag-sub-list\">" +
+                        "<li onclick='addLabel(this)'>jquery</li>" +
+                        "<li onclick='addLabel(this)'>bootstrap</li>" +
+                        "<li onclick='addLabel(this)'>vue</li>" +
+                        "<li onclick='addLabel(this)'>iconfont</li>" +
+                        "<li onclick='addLabel(this)'>mui</li>" +
+                        "<li onclick='addLabel(this)'>html5</li>" +
+                        "<li onclick='addLabel(this)'>font-awsome</li>" +
+                        "<li onclick='addLabel(this)'>gulp</li>" +
+                        "</ul>");
+                } else if (val == "后端") {
+                    $("#line").append("<ul class=\"tag-sub-list\">" +
+                        "<li onclick='addLabel(this)'>java</li>" +
+                        "<li onclick='addLabel(this)'>php</li>" +
+                        "<li onclick='addLabel(this)'>node</li>" +
+                        "<li onclick='addLabel(this)'>python</li>" +
+                        "<li onclick='addLabel(this)'>c++</li>" +
+                        "<li onclick='addLabel(this)'>c语言</li>" +
+                        "<li onclick='addLabel(this)'>net</li>" +
+                        "<li onclick='addLabel(this)'>ruby</li>" +
+                        "<li onclick='addLabel(this)'>spring</li>" +
+                        "</ul>");
+                } else if (val == "数据库") {
+                    $("#line").append("<ul class=\"tag-sub-list\">" +
+                        "<li onclick='addLabel(this)'>数据库架构</li>" +
+                        "<li onclick='addLabel(this)'>dba</li>" +
+                        "<li onclick='addLabel(this)'>opengauss</li>" +
+                        "<li onclick='addLabel(this)'>etl工程师</li>" +
+                        "<li onclick='addLabel(this)'>数据库开发</li>" +
+                        "</ul>");
+                } else if (val == "答辩") {
+                    $("#line").append("<ul class=\"tag-sub-list\">" +
+                        "<li onclick='addLabel(this)'>答辩</li>" +
+                        "</ul>");
+                }
+            });
+            window.onload = function(){
+                var obj = document.getElementById('formEdit');
+                obj.onsubmit
+            }
         });
     </script>
     <style>
+        .hideDom{
+            display: none;
+        }
+        .normalDom{
+            
+        }
         .contain {
             width: 100%;
             background-color: white;
@@ -258,6 +319,13 @@
             padding-top: 40px;
             overflow: hidden;
         }
+
+        .todo-btn ul li img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            padding: 5px;
+        }
     </style>
 </head>
 
@@ -277,67 +345,45 @@
         <li class="bubble"></li>
         <li class="bubble"></li>
     </ul>
+
     <!--顶部导航栏-->
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button class="navbar-toggle collapsed" type="button" data-toggle="collapsed"
-                    data-target=".navbar-collapse">
-                    <span class="nav-trigger glyphicon glyphicon-align-justify" style="color: white;"></span>
-                </button>
-                <span class="navbar-brand">卷起来网</span>
-            </div>
-            <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
-                <ul class="nav navbar-nav">
-                    <li><a>关于我们</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <div th:replace="model::navbar(${user})"></div>
     <!--侧方菜单栏-->
-    <div class="menubar">
-        <div class="shell">
-            <a href="#" class="box"><i class="fa fa-navicon"></i><span></span></a>
-            <a href="index.html" class="box"><i class="fa fa-home"></i><span>首页</span></a>
-            <a href="my.html" class="box"><i class="fa fa-user"></i><span>我的</span></a>
-            <a href="myclass.html" class="box"><i class="fa fa-users"></i><span>团队</span></a>
-            <a href="main.html" class="box"><i class="fa fa-television"></i><span>组队大厅</span></a>
-            <a href="history.html" class="box"><i class="fa fa-history"></i><span>历史记录</span></a>
-            <a href="message.html" class="box"><i class="fa fa-envelope"></i><span>信息</span></a>
-            <a href="index.html" class="box"><i class="fa fa-sign-out"></i><span>退出</span></a>
-        </div>
-    </div>
+    <div th:replace="model::menubar"></div>
     <!--主界面-->
     <div class="main">
         <!--个人资料-->
-        <div class="my-area">
+        <div class="my-area" th:object="${person}">
             <!--“个人资料”-->
             <ul class="zla_m_tab" id="zla_title">
-                <li class="zla_m_item zla_m_cur"><a href="javascript:void(0)" onclick="getMyStudyCourse(0);">个人资料</a>
+                <li class="zla_m_item zla_m_cur"><a th:href="@{'/'+ *{no} +'/index'}">个人资料</a>
                 </li>
-                <li class="zla_m_item "><a href="identify.html">学生认证</a></li>
+                <li class="zla_m_item " th:if="${user!=null and person.user==user.user}"><a href="identify.html">学生认证</a></li>
+<!--                todo-->
             </ul>
             <div class="general-area">
-                <div class="general-info">
-                    <div class="general-info-t">
-                        <div class="general-info-avatar">
-                            <img src="../static/img/student.png">
-                        </div>
-                        <div class="general-info-t-info">
-                            <div class="profile-name-info">
-                                <div class="person-name">
-                                    黄楚珂
+                <form id="formEdit" method="post" enctype="multipart/form-data" action="/update/user">
+                    <div class="general-info">
+                        <div class="general-info-t">
+                            <div class="general-info-avatar">
+                                <img th:src="@{*{headshot}}" alt="上传图片">
+                                <input type="file" name="file" id="headShot">
+                            </div>
+                            <div class="general-info-t-info">
+                                <div class="profile-name-info">
+                                    <div class="person-name" th:text="*{user}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="profile-identify-info no-identify">
-                                您还未通过身份认证
+    <!--                            <div class="profile-identify-info no-identify">-->
+    <!--                                您还未通过身份认证-->
+    <!--                            </div>-->
                             </div>
                         </div>
-                    </div>
-                    <div class="base-info">
-                        <div class="base-info-head">
-                            基本信息
-                        </div>
+                        <div class="base-info">
+                            <div class="base-info-head">
+                                基本信息
+                            </div>
+                            <button class="btn btn-primary" type="button" th:if="${user!=null and person.user==user.user}" onclick="editState(this)">编辑</button>
                         <div class="base-info-content">
                             <div class="base-info-content-show">
                                 <ul>
@@ -345,27 +391,46 @@
                                         <div class="content-show-l">
                                             用户名
                                         </div>
-                                        <div class="content-show-r">
-                                            黄楚珂
-                                        </div>
+                                        <div class="content-show-r" id="userDiv" th:text="*{user}"></div>
+                                        <input name="user" th:value="*{user}" class="hideDom">
                                     </li>
                                     <li id="sexual">
                                         <div class="content-show-l">
                                             性别
                                         </div>
-                                        <div class="content-show-r">
-                                            女
+                                        <div class="content-show-r" th:text="*{sex}?'男':'女'">
                                         </div>
                                     </li>
-                                    <li id="introduction">
+    <!--                                    <li id="introduction">-->
+    <!--                                        <div class="content-show-l">-->
+    <!--                                            个人简介-->
+    <!--                                        </div>-->
+    <!--                                        <div class="content-show-r">-->
+    <!--                                            这个人很懒，没有留下简介哦~-->
+    <!--                                        </div>-->
+    <!--                                    </li>-->
+                                    <li id="school">
                                         <div class="content-show-l">
-                                            个人简介
+                                            学校
                                         </div>
-                                        <div class="content-show-r">
-                                            这个人很懒，没有留下简介哦~
+                                        <div class="content-show-r" th:text="*{school == null}?'未认证':*{school}">
                                         </div>
                                     </li>
-
+    <!--                                    <li id="major">-->
+    <!--                                        <div class="content-show-l">-->
+    <!--                                            专业-->
+    <!--                                        </div>-->
+    <!--                                        <div class="content-show-r">-->
+    <!--                                            未认证-->
+    <!--                                        </div>-->
+    <!--                                    </li>-->
+                                    <li id="studentId">
+                                        <div class="content-show-l">
+                                            学号
+                                        </div>
+                                        <div class="content-show-r"  th:text="*{id == null}?'未认证':*{id}">
+                                        </div>
+                                    </li>
 
                                 </ul>
                             </div>
@@ -382,20 +447,21 @@
                                         <span>擅长</span>
                                     </div>
                                     <div class="tag-content-r">
-                                        <ul class="followed-tag-list">
-                                            <li>python<i class="fa fa-close"></i></li>
-                                            <li class="change-type-btn"
+                                        <ul class="followed-tag-list" th:if="*{label!=null}">
+
+                                            <li th:utext="${x}+'<i class=\'fa fa-close hideDom\' th:if=\'${user!=null and person.user==user.user}\' onclick=\'deleteLabel(this)\'></i>'" th:each="x : *{#strings.listSplit(label, ';')}"></li>
+                                            <li id="selectLabel" class="change-type-btn hideDom"  th:if="${user!=null and person.user==user.user}"
                                                 style="border: 1px solid rgb(204, 204, 216);color: rgb(85, 86, 102);">
                                                 <i class="fa fa-caret-down"></i>选择标签
                                             </li>
                                         </ul>
                                     </div>
-
+                                    <input type="hidden" name="label" th:value="*{label}">
                                 </li>
                                 <li>
                                     <div class="tag-content-l">
                                     </div>
-                                    <div class="tag-content-r tag-content-border">
+                                    <div class="tag-content-r tag-content-border hideDom" id="line"  th:if="${user!=null and person.user==user.user}">
                                         <ul class="tag-list tag-common-watch">
                                             <li>设计</li>
                                             <li>前端</li>
@@ -405,20 +471,19 @@
                                         </ul>
                                         <div style="height: 1px;width: 100%;padding: 0 16px;">
                                             <div
-                                                style="width: 100%; height: 0px; border-top: 1px dashed rgb(232, 232, 237);">
+                                                style="width: 100%; height: 0px; border-top: 1px dashed rgb(74, 89, 155);">
                                             </div>
                                         </div>
-                                        <ul class="tag-sub-list">
-
-                                        </ul>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </body>
+
 </html>

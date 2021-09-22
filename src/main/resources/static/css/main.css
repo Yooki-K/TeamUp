@@ -339,6 +339,15 @@ body {
     white-space: nowrap;
 }
 
+.card .additional .user-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: 75px;
+    left: 25px;
+}
+
 .center {
     position: absolute;
     top: 50%;
@@ -374,6 +383,7 @@ body {
 }
 
 .more-info .base-info {
+    position: relative;
     width: 210px;
     height: 105px;
     background-color: #fff;
@@ -441,13 +451,13 @@ body {
 
 .base-info .captain {
     position: absolute;
-    top: 3px;
+    top: 20px;
     left: -34px;
 }
 
 .base-info .teacher {
     position: absolute;
-    top: 34px;
+    top: 60px;
     left: -34px;
 }
 
@@ -455,6 +465,13 @@ body {
     position: absolute;
     top: 65px;
     left: -34px;
+}
+
+.base-info button {
+    position: absolute;
+    cursor: pointer;
+    right: 5px;
+    top: 5px;
 }
 
 .tags h5 {
@@ -493,6 +510,23 @@ body {
     bottom: 1rem;
     right: 1rem;
     font-size: 0.9em;
+}
+
+.navbar .container .user-info {
+    position: absolute;
+    right: 2.5%;
+    top: 7.5px;
+}
+
+.navbar .container .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.navbar .container .user-info label {
+    color: white;
+    padding: 5px;
 }
 
 @media (max-width:1200px) {
@@ -559,6 +593,23 @@ body {
         display: none;
     }
 
+    .navbar .container .user-info {
+        position: absolute;
+        right: 60px;
+        top: 7.5px;
+    }
+
+    .navbar .container .user-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    .navbar .container .user-info label {
+        color: white;
+        padding: 5px;
+    }
+
     .searchbar {
         left: 100px;
         height: 50px;
@@ -591,6 +642,21 @@ body {
         float: initial;
     }
 
+}
+
+#check .modal-dialog .modal-content .modal-body ul li {
+    display: inline-block;
+    margin: 10px;
+}
+
+#check .modal-dialog .modal-content .modal-body ul li img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+#check .modal-dialog .modal-content .modal-body ul li a {
+    padding: 5px;
 }
 
 .main .my-area {
@@ -753,6 +819,7 @@ body {
 }
 
 .base-info {
+    position: relative;
     width: 90%;
     background: rgba(255, 255, 255, 0.7);
     margin-bottom: 10px;
@@ -897,6 +964,18 @@ body {
     flex-wrap: wrap;
 }
 
+.interest-tag .interest-tag-content>ul>li .tag-content-r .tag-sub-list li {
+    margin-bottom: 16px;
+    padding: 0 7px;
+    margin-left: 16px;
+    cursor: pointer;
+    color: #555666;
+    height: 28px;
+    line-height: 26px;
+    border-radius: 2px;
+    border: 1px solid #ccccd8;
+}
+
 .interest-tag .interest-tag-content>ul>li .tag-common-watch {
     padding: 12px 12px 0;
 }
@@ -914,6 +993,21 @@ body {
     border: 1px solid #5b5b96;
     border-radius: 5px;
     margin-bottom: 16px;
+}
+
+.interest-tag .interest-tag-content>ul>li .tag-content-r .tag-list .active {
+    color: #222226;
+    font-weight: 700;
+}
+
+.interest-tag .interest-tag-content>ul>li .tag-content-r .tag-sub-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    border-radius: 2px;
+    padding: 14px 16px 0 0;
 }
 
 ul,

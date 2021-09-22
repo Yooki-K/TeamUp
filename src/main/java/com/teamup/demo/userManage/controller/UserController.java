@@ -3,6 +3,7 @@ package com.teamup.demo.userManage.controller;
 
 import com.teamup.demo.tool.Custom;
 import com.teamup.demo.tool.Message;
+import com.teamup.demo.tool.Util;
 import com.teamup.demo.userManage.entity.*;
 import com.teamup.demo.userManage.service.CodeService;
 import com.teamup.demo.userManage.service.UserService;
@@ -184,41 +185,46 @@ public class UserController {
         else
             return new Message(false,"审核失败");
     }
-    @PostMapping("/update/label")
-    /*设置个人标签*/
-    public Message updateLabel(@Param("label") String label,HttpSession session){
-        Student user= (Student) session.getAttribute("user");
-        if(userService.updateLabelByUser(user,label) > 0)
-            return new Message(true,"更改个人标签成功");
+    @PostMapping("/update/user")
+    /*修改个人资料*/
+    public Message updateLabel(@Param("label") String label,HttpSession session,
+                               @Param("user")String user,@Param("file") MultipartFile file){
+        Student USER = (Student) session.getAttribute("user");
+        String table =  session.getAttribute("table").toString();
+        Student become = userService.findUserByUser(user,table);
+        if (become!=null && !USER.getUser().equals(user))
+            return new Message(false,"该用户名已使用");
+        Map<String,String>map = new HashMap<String,String>();
+        map.put("label",label);
+        map.put("user",user);
+        if (file!=null){
+
+            String base64;
+            try {
+                base64 = Util.byteToBase64(file.getBytes(),file.getContentType());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new Message(false,"头像上传失败");
+            }
+            map.put("headshot",base64);
+            USER.setHeadshot(base64);
+        }
+        if(userService.updateUser(USER,map) > 0) {
+            USER.setUser(user);
+            USER.setLabel(label);
+            session.setAttribute("user", USER);
+            return new Message(true, "更改个人信息成功");
+        }
         else
-            return new Message(false,"更改个人标签失败");
+            return new Message(false,"更改个人信息失败");
     }
     @RequestMapping(value = "/upload/headshot",method = RequestMethod.POST)
-    //上传头像 <form action="/t" method="post" enctype="multipart/form-data">
-    public Message uploadHeadshot(@RequestParam("file") MultipartFile file, HttpSession session) {
-        Student user = (Student) session.getAttribute("user");
-        String table =  session.getAttribute("table").toString();
-        int num= 0;
-        try {
-            num = userService.updateHeadshotByUser(
-                    userService.findUserByUser(user.getUser(),table),
-                    file.getBytes(),"student"
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new Message(false,"上传文件错误");
-        }
-        if (num>0)
-            return new Message(true,"上传头像成功");
-        else
-            return new Message(false,"服务器出错");
-    }
 
     @GetMapping("/loginOut")
     /*登出*/
     public String loginOut(HttpSession session){
         session.removeAttribute("user");
-        return "redirect:{}";//todo 主页
+        return "redirect:/}";
     }
     @RequestMapping(value = "/data/query/{table}/fuzzy",method = RequestMethod.GET)
     /*按用户名模糊查询*/
@@ -227,16 +233,20 @@ public class UserController {
         return userService.fuzzyMatchUsersByUser(param,table);
     }
     @GetMapping(value = "/{studentNo}/index")
-//    todo 个人页面
-    public ModelAndView index(@PathVariable int studentNo,HttpSession session){
+//    todo 个人页面上传文件样式
+    public ModelAndView index(@PathVariable int studentNo,HttpSession session,HttpServletRequest request){
         Student user = (Student) session.getAttribute("user");
         ModelAndView modelAndView = new ModelAndView();
-
-        if(user==null || user.getNo() != studentNo){
-            modelAndView.addObject("user",null);
-        }else
-            modelAndView.addObject("user",user);
-//            String table =  session.getAttribute("table").toString();
+        Student person = null;
+        if(studentNo>50000)
+            person = userService.findUserByNo(studentNo,"teacher");
+        else
+            person = userService.findUserByNo(studentNo,"student");
+        if(person==null)
+            return Util.createError("404","当前资源不存在",request.getRequestURI());
+        modelAndView.addObject("person",person);
+        modelAndView.addObject("user",user);
+        modelAndView.setViewName("my");
         return modelAndView;
     }
 }

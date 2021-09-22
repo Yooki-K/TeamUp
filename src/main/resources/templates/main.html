@@ -29,6 +29,9 @@
                 $(window).resize(function () {
                     $(".shell").height($(window).height() - 50);
                 });
+                $("#check1").click(function () {
+                    $(this).next().toggle();
+                });
             });
             $(function (){
                 search("public","");
@@ -62,6 +65,29 @@
             }
 
             .dropdown-menu .dropdown-item img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                padding: 5px;
+            }
+            .todo-btn ul {
+                display: none;
+                position: absolute;
+                width: 90px;
+                max-height: 140px;
+                /* top: 60px; */
+                bottom: 40px;
+                left: 40px;
+                background: white;
+                text-align: center;
+                overflow-y: scroll;
+            }
+
+            .todo-btn ul li {
+                padding: 5px;
+            }
+
+            .todo-btn ul li img {
                 width: 50px;
                 height: 50px;
                 border-radius: 50%;
@@ -166,6 +192,10 @@
                     <ul class="nav navbar-nav">
                         <li><a>关于我们</a></li>
                     </ul>
+                </div>
+                <!--用户头像-->
+                <div class="user-info">
+                    <img src="../static/img/student.png" /><label class="username">黄楚珂</label>
                 </div>
             </div>
 		</div>

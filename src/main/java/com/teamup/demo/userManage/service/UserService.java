@@ -61,20 +61,9 @@ public class UserService {
         }
     }
 
-    public int updateLabelByUser(Student stu,String label){
+    public int updateUser(Student stu,Map<String,String> map){
         try {
-            Map<String,String> map = new HashMap<String,String>();
-            map.put("label",label);
-            return userMapper.updateUser(stu.getUser(),map,"student");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return 0;
-        }
-    }
-
-    public int updateHeadshotByUser(Student user,byte[] bytes,String table){
-        try {
-            return userMapper.updateHeadshot(user.getUser(), Util.byteToBase64(bytes),table);
+            return userMapper.updateUser(stu.getUser(),map, stu.getNo()>50000?"teacher":"student");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return 0;

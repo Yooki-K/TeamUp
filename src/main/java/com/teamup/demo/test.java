@@ -32,10 +32,10 @@ public class test {
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public ModelAndView  Test1(HttpSession session) {
 //        return new ModelAndView("test");
-        Student student = userService.findUserByUser("黄子进二号","student");
+        Student student = userService.findUserByNo(10008,"student");
         session.setAttribute("user",student);
         session.setAttribute("table","student");
-        String url =String.format("redirect:/%d/team",student.getNo());
+        String url =String.format("redirect:/%d/index",student.getNo());
         System.out.println(url);
         System.out.println(student.toString());
         return new ModelAndView(url);
@@ -57,17 +57,6 @@ public class test {
     @RequestMapping(value = "/t",method = RequestMethod.POST)
     public String Test3(@RequestParam("file")MultipartFile file,
                         @RequestParam("user")String user) {
-        try {
-            System.out.println(file.getName());
-            System.out.println(file.getSize());
-            int num=userService.updateHeadshotByUser(
-                    userService.findUserByUser(user,"student"),
-                    file.getBytes(),"student"
-            );
-            System.out.println(num);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return "!!!";
     }
 

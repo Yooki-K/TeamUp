@@ -71,7 +71,39 @@ function sendQUERY(type,url,data,func){
         }
     });
 }
+function sendFile(type,url,data,func){
+    $.ajax({
+        type: type,
+        url: url,
+        data: data,
+        cache:false,
+        processData:false,
+        contentType: false,
+        success: function(data){
+            if ('successful' in data){
+                if(data.successful) {
+                    func(data);
+                }
+                else{
+                    formPost("/errorPage",{status:data.successful,mes:data.mes,from:window.location.href});
+                }
+            }else{
+                func(data);
+            }
 
+        },
+        error:function (XMLHttpRequest) {
+            const errorInfo = JSON.parse(XMLHttpRequest.responseText);
+            const data = JSON.stringify({
+                status:errorInfo.status,
+                mes:errorInfo.message,
+                from:window.location.href
+            });
+            // console.log(data);
+            formPost("/errorPage",data);
+        }
+    });
+}
 function formPost(URL, PARAMS) {
     var temp = document.createElement("form");
     temp.action = URL;

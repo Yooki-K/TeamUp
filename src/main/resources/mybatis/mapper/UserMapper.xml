@@ -51,10 +51,10 @@
         <foreach item="item" collection="map" separator="," open="" close="" index="key">
             <choose>
                 <when test="key == 'sex'.toString()">
-                    ${key} = ${item}
+                    "${key}" = ${item}
                 </when>
                 <otherwise>
-                    ${key} = #{item}
+                    "${key}" = #{item}
                 </otherwise>
             </choose>
         </foreach>
