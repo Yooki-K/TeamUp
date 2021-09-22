@@ -28,6 +28,9 @@
             $(window).resize(function () {
                 $(".shell").height($(window).height() - 50);
             });
+            $("#check1").click(function () {
+                $(this).next().toggle();
+            });
         });
     </script>
     <style>
@@ -58,6 +61,30 @@
             border-radius: 50%;
             padding: 5px;
         }
+
+        .todo-btn ul {
+            display: none;
+            position: absolute;
+            width: 90px;
+            max-height: 140px;
+            /* top: 60px; */
+            bottom: 40px;
+            left: 40px;
+            background: white;
+            text-align: center;
+            overflow-y: scroll;
+        }
+
+        .todo-btn ul li {
+            padding: 5px;
+        }
+
+        .todo-btn ul li img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            padding: 5px;
+        }
     </style>
 </head>
 
@@ -78,6 +105,8 @@
         <li class="bubble"></li>
         <li class="bubble"></li>
     </ul>
+
+    <!--模态框-->
     <div class="modal fade create" id="createModal" style="width: 50%;left: 25%;">
         <div class="modal-dialog create animated" style="width: auto;">
             <div class="modal-content">
@@ -125,6 +154,66 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="join" tabindex="-1" role="dialog" aria-labelledby="joinin" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="#" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="joinin">
+                            加入队伍
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>你正在加入"这个队伍不太冷"...</h4>
+                        <textarea name="content" class="form-control" placeholder="描述一下你自己吧~" autofocus="" cols="10"
+                            rows="5" style="margin-bottom: 15px;resize: none;"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                            提交申请
+                        </button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="check" tabindex="-1" role="dialog" aria-labelledby="check" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="#" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="joinin">
+                            查看成员
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>你正在查看"这个队伍不太冷"的队伍成员...</h4>
+                        <textarea name="content" class="form-control" placeholder="描述一下你自己吧~" autofocus="" cols="10"
+                            rows="5" style="margin-bottom: 15px;resize: none;"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                            提交申请
+                        </button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
     </div>
 
     <!--顶部导航栏 start-->
@@ -343,37 +432,12 @@
                                 </div>
                                 <!--查看与申请按钮-->
                                 <div class="todo-btn">
-                                    <div class="dropup" style="display: inline;">
-                                        <button class="btn btn-info check-btn dropdown-toggle" data-toggle="dropdown"
-                                            id="check1">
-                                            <i class="fa fa-user"></i>查看(1/5)
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                            <a class="dropdown-item" href="#"><img
-                                                    src="../static/img/student.png">成员</a>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-info join-btn" id="join1">
+                                    <button class="btn btn-info check-btn dropdown-toggle" data-toggle="modal"
+                                        data-target="#check" id="check1">
+                                        <i class="fa fa-user"></i>查看(1/5)
+                                    </button>
+                                    <button class="btn btn-info join-btn" id="join1" data-toggle="modal"
+                                        data-target="#join">
                                         申请加入
                                     </button>
                                 </div>

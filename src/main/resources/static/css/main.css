@@ -374,6 +374,7 @@ body {
 }
 
 .more-info .base-info {
+    position: relative;
     width: 210px;
     height: 105px;
     background-color: #fff;
@@ -455,6 +456,13 @@ body {
     position: absolute;
     top: 65px;
     left: -34px;
+}
+
+.base-info button {
+    position: absolute;
+    cursor: pointer;
+    right: 5px;
+    top: 5px;
 }
 
 .tags h5 {
@@ -753,6 +761,7 @@ body {
 }
 
 .base-info {
+    position: relative;
     width: 90%;
     background: rgba(255, 255, 255, 0.7);
     margin-bottom: 10px;
@@ -897,6 +906,18 @@ body {
     flex-wrap: wrap;
 }
 
+.interest-tag .interest-tag-content>ul>li .tag-content-r .tag-sub-list li {
+    margin-bottom: 16px;
+    padding: 0 7px;
+    margin-left: 16px;
+    cursor: pointer;
+    color: #555666;
+    height: 28px;
+    line-height: 26px;
+    border-radius: 2px;
+    border: 1px solid #ccccd8;
+}
+
 .interest-tag .interest-tag-content>ul>li .tag-common-watch {
     padding: 12px 12px 0;
 }
@@ -914,6 +935,21 @@ body {
     border: 1px solid #5b5b96;
     border-radius: 5px;
     margin-bottom: 16px;
+}
+
+.interest-tag .interest-tag-content>ul>li .tag-content-r .tag-list .active {
+    color: #222226;
+    font-weight: 700;
+}
+
+.interest-tag .interest-tag-content>ul>li .tag-content-r .tag-sub-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    border-radius: 2px;
+    padding: 14px 16px 0 0;
 }
 
 ul,
