@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.teamup.demo.mapper.StuMapper">
+
+    <sql id="sel">select * from student</sql>
+    <select id="getAllStu" resultType="com.teamup.demo.entity.Student">
+        <include refid="sel"></include>
+    </select>
+
+    <select id="findStuByUser" parameterType="String" resultType="com.teamup.demo.entity.Student">
+        <include refid="sel"></include> where stu_name = #{user}
+    </select>
+
+    <insert id="addStu" parameterType="com.teamup.demo.entity.Student">
+#             selectKey配置主键信息的标签
+#             keyColumn:对应数据库表中的主键列
+#             keyProperty:对应实体类中的属性
+#             after:代表执行下面代码之前，先执行当前里面的代码
+
+<!--        <selectKey keyColumn="user" keyProperty="user" order="AFTER" resultType="String">-->
+<!--            select LAST_INSERT_ID()-->
+<!--        </selectKey>-->
+        insert into student (user,pwd,mail,sex) values (#{user},#{pwd},#{mail},#{sex})
+    </insert>
+</mapper>

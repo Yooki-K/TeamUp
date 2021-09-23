@@ -1,0 +1,382 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="js/vue.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/sign-up.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".nav-trigger").click(function () {
+                $(".navbar-collapse .collapse").addClass("in");
+            });
+            $(window).resize(function () {
+
+            });
+        });
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "microsoft yahei";
+            color: #333;
+            font-size: 16px;
+        }
+
+        .ss_main {
+            position: relative;
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media screen and (max-width: 1200px) {
+            .ss_main {
+                width: 95%;
+            }
+        }
+
+        @media only screen and (max-width: 1199px) {
+            .zcmode {
+                padding: 40px 0 40px;
+            }
+
+            .hylb-1 {
+                width: 100% !important;
+            }
+
+            .zcmode li:nth-of-type(6) .zck1s .a1 {
+                width: 110px !important;
+            }
+
+            .zcmode li:nth-of-type(6) .zck1 .zck1-i1 {
+                width: calc(100% - 240px) !important;
+            }
+        }
+
+        .zcmode {
+            padding: 60px 340px 72px;
+        }
+
+        .zcmode-title {
+            position: relative;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .zcmode-title:before {
+            position: absolute;
+            content: "";
+            height: 2px;
+            background: #353333;
+            top: 50%;
+            margin-top: -1px;
+            width: 100%;
+            left: 0;
+            z-index: -1;
+        }
+
+        .zcmode-title span {
+            font-size: 24px;
+            display: inline-block;
+            padding: 0 10px;
+            background: rgb(209, 213, 219);
+        }
+
+        ul,
+        li,
+        dl,
+        dt,
+        dd {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .zcmode li {
+            margin-top: 36px;
+            position: relative;
+        }
+
+        .zck1 {
+            height: 48px;
+            position: relative;
+        }
+
+        .zck1 .s1 {
+            float: left;
+            width: 119px;
+            border: 1px solid #353333;
+            height: 100%;
+            text-indent: 18px;
+            line-height: 44px;
+            color: #000;
+            border-right: none;
+        }
+
+        @media only screen and (max-width: 1199px) {
+            .hylb-box {
+                width: calc(100% - 120px) !important;
+            }
+
+            .zck1 .zck1-i1 {
+                width: calc(100% - 120px) !important;
+            }
+
+            .zcmode {
+                padding: 100px 0 40px !important;
+            }
+
+            .zcmode li:nth-of-type(6) .zck1 .zck1-i1 {
+                width: calc(100% - 240px) !important;
+            }
+        }
+
+        .h4,
+        .h5,
+        .h6,
+        h4,
+        h5,
+        h6 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .zck1s .zck1-i1 {
+            width: 240px;
+        }
+
+        .hylb-box {
+            float: left;
+            width: 399px;
+            position: relative;
+        }
+
+        .hylb-box h6 {
+            background: white;
+            width: 100%;
+            line-height: 44px;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #353333;
+            height: 48px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        i,
+        em,
+        b {
+            font-weight: normal;
+            font-style: normal;
+            font-size: 100%;
+        }
+
+        .hylb-box h6:before {
+            content: "";
+            position: absolute;
+            width: 11px;
+            height: 7px;
+            background: url(../img/resf5_03.png) no-repeat;
+            right: 14px;
+            top: 20px;
+        }
+
+        .hylb-1 {
+            width: 100%;
+        }
+
+        .hylb-1 {
+            position: absolute;
+            width: 401px;
+            top: 100%;
+            left: -1px;
+            z-index: 9;
+            background: rgb(255, 255, 255);
+            border: 1px solid #353333;
+            border-top: none;
+            border-bottom: none;
+            display: none;
+            box-shadow: 0 0 5px #1c1010;
+            /* background: #f5f5f5; */
+        }
+
+        .hylb-1 span {
+            display: block;
+            line-height: 35px;
+            text-indent: 11px;
+            color: #666;
+            border-bottom: 1px solid #353333;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .hylb-1 span:hover {
+            background: rgb(189, 185, 185);
+        }
+
+        .zck1 .zck1-i1 {
+            float: left;
+            width: 400px;
+            height: 100%;
+            text-indent: 11px;
+            font-size: 16px;
+            /* border: none; */
+            border: 1px solid #353333;
+        }
+
+        .zck1s .a1[disabled] {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .zck1s .a1 {
+            width: 150px;
+            height: 48px;
+            background: #2e5aa6;
+            float: right;
+            text-align: center;
+            color: #fff;
+            line-height: 48px;
+            border: none;
+            cursor: pointer;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            background: white;
+            outline: none;
+            padding-top: 0;
+            padding-bottom: 0;
+            font-family: "microsoft yahei";
+            font-size: 16px;
+        }
+
+        .zcpbtn {
+            height: 48px;
+            background: #2e5aa6;
+            text-align: center;
+            font-size: 24px;
+            color: #fff;
+            line-height: 48px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!--背景图片-->
+    <div class="body-background"></div>
+    <ul class="bg-bubbles" id="bubbles">
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+    </ul>
+    <!--顶部导航栏-->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapsed"
+                    data-target=".navbar-collapse">
+                    <span class="nav-trigger glyphicon glyphicon-align-justify" style="color: white;"></span>
+                </button>
+                <span class="navbar-brand">卷起来网</span>
+            </div>
+            <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
+                <ul class="nav navbar-nav">
+                    <li><a>关于我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ss_main">
+        <div class="zcpage-main">
+            <div class="zcmode zcmode1">
+                <div class="zcmode-title">
+                    <span>老师注册</span>
+                </div>
+                <ul>
+                    <li>
+                        <div class="zck1">
+                            <span class="s1">姓名</span>
+                            <input type="text" class="zck1-i1" id="userName" placeholder="请输入您的姓名">
+                        </div>
+                    </li>
+                    <li class="gjsh3">
+                        <div class="zck1">
+
+
+                            <div class="zck1">
+                                <span class="s1">性别</span>
+                                <div id="xbxzk" class="hylb-box hylb-box4">
+                                    <h6><span value="1">请选择性别</span></h6>
+                                    <div class="hylb-1 hylb-1c4">
+                                        <span value="1">男</span>
+                                        <span value="2">女</span>
+                                    </div>
+                                </div>
+                            </div>
+                    </li>
+                    <li>
+                        <div class="zck1">
+                            <span class="s1">邮箱</span>
+                            <input type="text" class="zck1-i1" id="mailcode"
+                                onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')" placeholder="请输入邮箱号码">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="zck1 zck1s">
+                            <span class="s1">验证码</span>
+                            <input type="text" class="zck1-i1" id="mail_code" placeholder="请输入验证码"
+                                style="width: 240px;">
+                            <input id="btnSendCode1" type="button" class="a1" disabled="disabled" value="获取验证码"
+                                onclick="sendMessage1()">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="zck1">
+                            <span class="s1">登录密码</span>
+                            <input class="txt password passLvl zck1-i1" id="dlpwd" maxlength="16" "="" placeholder="
+                                6-16位字符，由数字、下划线、字母组成" type="text" autocomplete="off">
+                            <em class="eyes"></em>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="zck1">
+                            <span class="s1">确认密码</span>
+                            <input type="password" class="zck1-i1" id="qrpwd" placeholder="请再次输入您的密码">
+                        </div>
+                        <div class="zc-tips" id="qrpwdtip">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="zcpbtn" id="zcbtn">注册</div>
+                        <div class="zc-disable" id="zczbtn" style="display: none">正在注册中...</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
