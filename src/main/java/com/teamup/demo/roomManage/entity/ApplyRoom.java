@@ -50,10 +50,12 @@ public class ApplyRoom {
         this.content = content;
     }
 
-    public String getTime() {
+    public String getTimeString() {
         return Util.getStringDate(this.time);
     }
-
+    public Date getTime() {
+        return this.time;
+    }
     public void setTime() {
         time = new Date();
     }

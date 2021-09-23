@@ -349,7 +349,7 @@
     <!--顶部导航栏-->
     <div th:replace="model::navbar(${user})"></div>
     <!--侧方菜单栏-->
-    <div th:replace="model::menubar"></div>
+    <div th:if="${user!=null}" th:replace="model::menubar(${user})"></div>
     <!--主界面-->
     <div class="main">
         <!--个人资料-->
@@ -358,8 +358,7 @@
             <ul class="zla_m_tab" id="zla_title">
                 <li class="zla_m_item zla_m_cur"><a th:href="@{'/'+ *{no} +'/index'}">个人资料</a>
                 </li>
-                <li class="zla_m_item " th:if="${user!=null and person.user==user.user}"><a href="identify.html">学生认证</a></li>
-<!--                todo-->
+                <li class="zla_m_item " th:if="${user!=null and person.user==user.user}"><a th:href="@{'/'+*{no}+'/identify'}">实名认证</a></li>
             </ul>
             <div class="general-area">
                 <form id="formEdit" method="post" enctype="multipart/form-data" action="/update/user">
@@ -367,6 +366,7 @@
                         <div class="general-info-t">
                             <div class="general-info-avatar">
                                 <img th:src="@{*{headshot}}" alt="上传图片">
+<!--                                todo 修改样式-->
                                 <input type="file" name="file" id="headShot">
                             </div>
                             <div class="general-info-t-info">
@@ -374,9 +374,12 @@
                                     <div class="person-name" th:text="*{user}">
                                     </div>
                                 </div>
-    <!--                            <div class="profile-identify-info no-identify">-->
-    <!--                                您还未通过身份认证-->
-    <!--                            </div>-->
+                                <div class="profile-identify-info no-identify" th:if="*{name==null}">
+                                    未实名认证
+                                </div>
+                                <div class="profile-identify-info no-identify" th:if="*{name!=null}">
+                                    已实名认证
+                                </div>
                             </div>
                         </div>
                         <div class="base-info">

@@ -32,24 +32,49 @@ $('#loginModal .modal-dialog').addClass('shake');
             $('#loginModal .modal-dialog').removeClass('shake'); 
 }, 1000 ); 
 }
-
+$(function (){
+    init();
+    $('#search').bind('keypress',function (event){
+        if(event.keyCode == 13){
+            search("other", $(this).val());
+        }
+    });
+});
+function init() {
+    var url = window.location.href;
+    if(url.indexOf("public")!=-1)
+        search("public","");
+    else{
+        var l = url.split("/");
+        for(let i=0; i<l.length; i++){
+            if(l[i]=="class" && i+1<l.length){
+                const classId = l[i + 1];
+                $(".searchbar").remove();//移除搜索框
+                search("class",classId);
+            }
+        }
+    }
+}
 function queryMember(obj){
     var id = obj.id;
     var roomId = Number(id.substr(6));
-    const ee = $("#member");
+    const ee = $("#members");
+    const text =$(obj).parents("div").eq(2).children("div").eq(0).children("h1").eq(0).html();
+    $("#member_teamName").text("你正在查看\"{0}\"的队伍成员...".format(text));
     const len = ee.children().length;
     if(len>0){
         ee.empty();
-    }else{
-        sendQUERY("post","/data/query/room/member",{roomId:roomId},function(data){
-            var str="";
-            for(var i=0;i<data.length;i++){
-                str += "<a class=\"dropdown-item\" href=\"{0}\"><img src=\"{1}\">{2}</a>".format("#",data[i].headshot,data[i].user);
-                console.log(data[i]);
-            }
-            $("#member").append(str);
-        });
     }
+    sendQUERY("post","/data/query/room/member",{roomId:roomId},function(data){
+        var str="";
+        for(var i=0;i<data.length;i++){
+            str+="<li>" +
+                "  <img src=\"{0}\"/><a href='/{1}/index'>{2}</a>".format(data[i].headshot,data[i].no,data[i].user) +
+                "</li>";
+        }
+        $("#members").append(str);
+    });
+
 }
 function joinRoom(){
     var roomId = Number($("#teamid").text());
@@ -74,6 +99,7 @@ function createRoom(){
         location.reload();//刷新
     });
 }
+
 function changecolor(){
     val = $("#color").val();
     $(".modal-header").css("background", val);
@@ -115,7 +141,7 @@ function search(type,value){
                 "</div>"+
                 "<div class='todo-btn'>"+
                 "<div class=\"dropup\" style=\"display: inline;\">"+
-                "<button class=\"btn btn-info check-btn dropdown-toggle\"  data-toggle=\"dropdown\" id=\"check_{0}\" onclick='queryMember(this)'><i class='fa fa-user'></i>查看({1}/{2})</button>".format(data[i].room.id,data[i].room.curNum,data[i].room.targetNum)+
+                "<button class=\"btn btn-info check-btn dropdown-toggle\" data-target=\"#check\" data-toggle=\"modal\" id=\"check_{0}\" onclick='queryMember(this)'><i class='fa fa-user'></i>查看({1}/{2})</button>".format(data[i].room.id,data[i].room.curNum,data[i].room.targetNum)+
                 "<div class=\"dropdown-menu\" id='member'></div>"+
                 "<button class='btn btn-info join-btn' id='alert_{0}' data-toggle='modal' data-target=\"#join\" onclick='setAlert(this)'>申请加入</button>".format(data[i].room.id)+ "</div></div></div></div>"+
                 "<div class='general'>"+

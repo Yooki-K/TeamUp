@@ -1,5 +1,7 @@
 package com.teamup.demo.classManage.entity;
 
+import com.teamup.demo.tool.Util;
+
 import java.util.Date;
 
 public class Class {
@@ -15,6 +17,7 @@ public class Class {
         this.name = name;
     }
     public Class(){}
+
     @Override
     public String toString() {
         return "Class{" +
@@ -22,6 +25,8 @@ public class Class {
                 ", user='" + user + '\'' +
                 ", invCode='" + invCode + '\'' +
                 ", name='" + name + '\'' +
+                ", announcement='" + announcement + '\'' +
+                ", publishTime=" + publishTime +
                 '}';
     }
 
@@ -35,6 +40,9 @@ public class Class {
 
     public Date getPublishTime() {
         return publishTime;
+    }
+    public String getPublishTimeString() {
+        return Util.getStringDate(publishTime);
     }
 
     public void setPublishTime(Date publishTime) {

@@ -111,11 +111,6 @@ public class TeamController {
             return mav;
         }
     }
-    /*查看班级未组队人数*/
-    @GetMapping("/data/query/num/notTeam")
-    public int queryNotTeam(@Param("classId")int classId){
-        return teamService.getNotTeamNum(classId);
-    }
     /*解散团队*/
     @PostMapping("/delete/team")
     public Message dissolveTeam(@Param("teamId")int teamId,HttpSession session){
@@ -129,15 +124,22 @@ public class TeamController {
             return new Message(true);
         return new Message(false);
     }
-
-//    todo 待定 发送聊天
-//    @PostMapping("/create/chat")
-//    public Message sendChat(@Param("content")String content, @Param("teamId")int teamId,
-//                            HttpSession session){
-//        Student user = (Student) session.getAttribute("user");
-//        ChatLog chatLog = new ChatLog(user.getUser(),content,teamId);
-//
-//    }
-//    查看聊天
+//    设置或修改团队消息
+    @PostMapping("/update/team")
+    public Message updateTeam(@Param("teamId")int teamId,@Param("name")String name,
+                              @Param("brief")String brief,HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        Team team = teamService.getTeamById(teamId);
+        if (team==null)
+            return new Message(false,"团队不存在");
+        if(!user.getUser().equals(team.getLeader()))
+            return new Message(false,"只有团队负责人有权限修改团队信息");
+        Map<String,String>map = new HashMap<>();
+        map.put("name",name);
+        map.put("brief",brief);
+        if(teamService.updateTeam(map, teamId)>0)
+            return new Message(true,"修改团队信息成功");
+        return new Message(false,"修改团队信息失败");
+    }
 
 }

@@ -70,8 +70,11 @@ public class Invitation {
         this.roomId = roomId;
     }
 
-    public String getTime() {
+    public String getTimeString() {
         return Util.getStringDate(this.time);
+    }
+    public Date getTime() {
+        return this.time;
     }
 
     public void setTime( ) {

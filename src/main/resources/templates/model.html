@@ -19,7 +19,7 @@
 
                 <p class="color-text-secondary text-small mb-2">
                     指导老师
-                    <a class="Link--muted" th:href="@{#}" th:text="${obj.teacherName}"></a>
+                    <a class="Link--muted" th:href="@{'/'+${obj.teacherNo}+'/index'}" th:text="${obj.teacherName}"></a>
                 </p>
 
                 <p class="pinned-item-desc color-text-secondary text-small d-block mt-2 mb-3"></p>
@@ -31,27 +31,29 @@
     </li>
 <!--团队卡片-->
     <li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6" th:fragment="team(obj)">
-        <div class="Box pinned-item-list-item d-flex p-3 width-full public fork">
+        <div class="Box pinned-item-list-item d-flex p-3 width-full public fork" >
             <div class="pinned-item-list-item-content">
                 <div class="d-flex width-full flex-items-center position-relative">
-                    <a href="#" class="text-bold flex-auto min-width-0">
+                    <a th:href="@{'/team/'+${obj.team.teamId}}" class="text-bold flex-auto min-width-0">
                         <span class="repo" th:title="${obj.team.name}" th:text="${obj.team.name}"></span>
                     </a>
                     <span class="Label Label--secondary v-align-middle "th:text="${obj.position}"></span>
                 </div>
 
                 <p class="color-text-secondary text-small mb-2">
-                    队长 <a class="Link--muted" th:href="@{#}" th:text="${obj.leaderUser}"></a>
+                    队长 <a class="Link--muted" th:href="@{'/'+${obj.leaderNo}+'/index'}" th:text="${obj.leaderUser}"></a>
                 </p>
                 <p class="pinned-item-desc color-text-secondary text-small d-block mt-2 mb-3"></p>
-                <button class="manage-btn" th:if="${obj.position == '队长'}">解散</button>
-<!--                <button class="drop-out-btn">退出</button>-->
+                <button th:id="'btn_'+${obj.team.teamId}" class="manage-btn" th:if="${obj.position == '队长' and obj.team.dissolveTime==null}" onclick="dissolveTeam(this)">解散</button>
+                <button class="manage-btn" th:if="${obj.team.dissolveTime != null}">已解散</button>
                 <p class="mb-0 f6 color-text-secondary">
                     <span class="d-inline-block mr-3"></span>
                 </p>
             </div>
         </div>
     </li>
+
+
 <!--顶部导航栏 start-->
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="navbar(obj)">
     <div class="container">
@@ -70,23 +72,22 @@
         <div class="user-info">
             <img th:src="@{${obj.headshot}}" th:if="${obj!=null}"/>
             <a class="username" th:if="${obj!=null}" th:text="${obj.user}" th:href="@{'/'+${obj.no}+'/index'}"/>
-            <a th:if="${obj==null}">现在登录</a><a th:if="${obj==null}">现在注册</a>
+            <a th:if="${obj==null}" href="/">现在登录</a>&nbsp;&nbsp;<a th:if="${obj==null}" href="/">现在注册</a>
         </div>
     </div>
 </div>
 <!--顶部导航栏 end-->
-
 <!--侧方导航栏 start-->
-<div class="menubar" th:fragment="menubar">
-    <div class="shell">
+<div class="menubar" th:fragment="menubar(obj)">
+    <div class="shell" th:if="${obj!=null}">
         <a href="#" class="box"><i class="fa fa-navicon"></i><span></span></a>
         <a href="index.html" class="box"><i class="fa fa-home"></i><span>首页</span></a>
-        <a href="my.html" class="box"><i class="fa fa-user"></i><span>我的</span></a>
-        <a href="myclass.html" class="box"><i class="fa fa-users"></i><span>团队</span></a>
-        <a href="main.html" class="box"><i class="fa fa-television"></i><span>组队大厅</span></a>
-        <a href="history.html" class="box"><i class="fa fa-history"></i><span>历史记录</span></a>
-        <a href="message.html" class="box"><i class="fa fa-envelope"></i><span>信息</span></a>
-        <a href="index.html" class="box"><i class="fa fa-sign-out"></i><span>退出</span></a>
+        <a th:href="@{'/'+${obj.no}+'/index'}" class="box"><i class="fa fa-user"></i><span>我的</span></a>
+        <a th:href="@{'/'+${obj.no}+'/class'}" class="box"><i class="fa fa-users"></i><span>团体</span></a>
+        <a th:href="@{/rooms/public}" class="box"><i class="fa fa-television"></i><span>组队大厅</span></a>
+        <a th:href="@{'/'+${obj.no}+'/team'}" class="box"><i class="fa fa-history"></i><span>组队记录</span></a>
+        <a th:href="@{'/'+${obj.no}+'/message'}" class="box"><i class="fa fa-envelope"></i><span>信息</span></a>
+        <a href="/loginOut" class="box"><i class="fa fa-sign-out"></i><span>退出</span></a>
     </div>
 </div>
 <!--侧方导航栏 end-->

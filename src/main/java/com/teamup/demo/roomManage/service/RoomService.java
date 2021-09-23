@@ -99,9 +99,14 @@ public class RoomService {
     public List<ApplyRoom> getApplicationByRoom(int roomId){
         return roomMapper.getApplicationByRoom(roomId);
     }
-    public List<Invitation> getInvitation(String user,String type){
-        return roomMapper.getInvitation(user, type);
+    public List<ApplyRoom> getApplicationByUser(String user,int tt){
+        return roomMapper.getApplyRoomByUser(user,tt);
     }
+
+    public List<Invitation> getInvitation(String user,String type,int tt){
+        return roomMapper.getInvitation(user, type,tt);
+    }
+
     public List<Student> getStuByRoom(int roomId){
         return roomMapper.getStuByRoom(roomId);
     }

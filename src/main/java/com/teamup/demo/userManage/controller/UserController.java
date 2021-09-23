@@ -1,7 +1,6 @@
 package com.teamup.demo.userManage.controller;
 
 
-import com.teamup.demo.tool.Custom;
 import com.teamup.demo.tool.Message;
 import com.teamup.demo.tool.Util;
 import com.teamup.demo.userManage.entity.*;
@@ -91,8 +90,7 @@ public class UserController {
     @PostMapping("/signUp/{table}/")
     /*登录 参数table 1学生 2老师 3管理员*/
     public Message signUp(@Param(value="user") String user, @Param(value="pwd") String pwd, @PathVariable(name="table") String table,
-                          HttpSession session, HttpServletRequest request,HttpServletResponse response,
-                          @CookieValue(value = "isCertificated",defaultValue = "false")String v){
+                          HttpSession session){
         if(table!=null && table.equals("admin")){//管理员登录
             if(user!=null && user.equals(admin.getUser())){
                 if(pwd!=null && pwd.equals(admin.getPwd())){
@@ -111,17 +109,6 @@ public class UserController {
             session.setAttribute("user",USER);
             session.setAttribute("table",table);
             session.setMaxInactiveInterval(60*60);//设置一小时后过期
-            if(v.equals("waiting")){
-                Certification certification = userService.findCertificationByUser(USER.getUser());
-                if(certification!=null && certification.isAgree()){
-                    //清除cookie
-                    Cookie cookie = new Cookie("isCertification",null);
-                    cookie.setMaxAge(0);
-                    cookie.setPath("/");
-                    response.addCookie(cookie);
-
-                }
-            }
             return new Message(true,"登陆成功(sign up success)");
         }
         else
@@ -223,14 +210,27 @@ public class UserController {
     @GetMapping("/loginOut")
     /*登出*/
     public String loginOut(HttpSession session){
+        System.out.println("登出");
         session.removeAttribute("user");
-        return "redirect:/}";
+        return "redirect:/";
     }
     @RequestMapping(value = "/data/query/{table}/fuzzy",method = RequestMethod.GET)
     /*按用户名模糊查询*/
     public List<Student> fuzzyMatchUsersById(@PathVariable String table,
                                              @RequestParam("param")String param){
         return userService.fuzzyMatchUsersByUser(param,table);
+    }
+    @GetMapping(value = "/{studentNo}/identify")
+    //认证页面
+    public ModelAndView identify(HttpSession session, @PathVariable int studentNo,
+                                 HttpServletRequest request){
+        Student user = (Student) session.getAttribute("user");
+        if(user==null)
+            return Util.createError("false","请先登录",request.getRequestURI());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user",user);
+        modelAndView.setViewName("identify");
+        return modelAndView;
     }
     @GetMapping(value = "/{studentNo}/index")
 //    todo 个人页面上传文件样式

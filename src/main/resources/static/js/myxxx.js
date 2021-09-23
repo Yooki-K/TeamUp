@@ -1,25 +1,10 @@
 $(function (){
-    $("#formEdit").ajaxForm({
-        success: function(data){
-            if(data.successful) {
-                alert(data.mes);
-                location.reload();
-            }
-            else{
-                formPost("/errorPage",{status:data.successful,mes:data.mes,from:window.location.href});
-            }
-        },
-        error:function (XMLHttpRequest) {
-            const errorInfo = JSON.parse(XMLHttpRequest.responseText);
-            const data = JSON.stringify({
-                status:errorInfo.status,
-                mes:errorInfo.message,
-                from:window.location.href
-            });
-            formPost("/errorPage",data);
-        }
-    })
+    sendFORM($("#formEdit"),function (data) {
+        alert(data.mes);
+        location.reload();
+    });
 })
+
 function editState(e){
     var e =$(e);
     var name = e.text();
@@ -52,4 +37,11 @@ function deleteLabel(e) {
     l1 = l1.replace(text,"");
     inp.val(l1);
     e.remove();
+}
+function dissolveTeam(e) {
+    var id = e.id;
+    id = id.substr(4);
+    sendQUERY("post","/delete/team",{teamId:id},function (data) {
+       location.reload();
+    });
 }

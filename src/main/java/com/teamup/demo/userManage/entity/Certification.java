@@ -86,8 +86,11 @@ public class Certification {
         this.name = name;
     }
 
-    public String getTime() {
+    public String getTimeString() {
         return Util.getStringDate(time);
+    }
+    public Date getTime() {
+        return time;
     }
 
     public void setTime() {

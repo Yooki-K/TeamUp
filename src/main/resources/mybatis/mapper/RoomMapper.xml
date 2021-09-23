@@ -70,7 +70,7 @@
     <insert id="addInvitation" parameterType="com.teamup.demo.roomManage.entity.Invitation">
         insert into public.invitation values (#{user1},#{user2},#{roomId},#{time},#{isStudent})
     </insert>
-    <select id="getInvitation">
+    <select id="getInvitation" resultType="com.teamup.demo.roomManage.entity.Invitation">
         select * from public.invitation where
         <if test="type=='send'.toString">
             user1 = #{user}
@@ -78,6 +78,14 @@
         <if test="type=='recv'.toString">
             user2 = #{user}
         </if>
+        <choose>
+            <when test="tt==-1">
+                and "isAgree" is null
+            </when>
+            <when test="tt==0">
+                and "isAgree" is not null
+            </when>
+        </choose>
         order by "recvTime" desc,"sendTime" desc
     </select>
     <insert id="addApplication" parameterType="com.teamup.demo.roomManage.entity.ApplyRoom">
@@ -91,9 +99,20 @@
         </foreach>
     </update>
     <select id="getApplicationByRoom" resultType="com.teamup.demo.roomManage.entity.ApplyRoom">
-        select * from public."applyRoom" where "roomId" = #{roomId}
+        select * from public."applyRoom" where "roomId" = #{roomId} and "isAgree" is null
     </select>
     <select id="getApplicationNum" resultType="int">
         select count(*) from public."applyRoom" where "roomId" = #{roomId} group by "isAgree" having "isAgree" is null
+    </select>
+    <select id="getApplyRoomByUser" resultType="com.teamup.demo.roomManage.entity.ApplyRoom">
+        select * from public."applyRoom" where "user" = #{user}
+        <choose>
+            <when test="tt==-1">
+                and "isAgree" is null
+            </when>
+            <when test="tt==0">
+                and "isAgree" is not null
+            </when>
+        </choose>
     </select>
 </mapper>

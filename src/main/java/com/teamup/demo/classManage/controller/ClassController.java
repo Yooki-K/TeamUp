@@ -3,6 +3,8 @@ package com.teamup.demo.classManage.controller;
 import com.teamup.demo.classManage.entity.Class;
 import com.teamup.demo.classManage.entity.ClassInf;
 import com.teamup.demo.classManage.service.ClassService;
+import com.teamup.demo.teamManage.entity.Team;
+import com.teamup.demo.teamManage.service.TeamService;
 import com.teamup.demo.tool.ExcelUtil;
 import com.teamup.demo.tool.Message;
 import com.teamup.demo.tool.Util;
@@ -27,10 +29,14 @@ public class ClassController {
     private ClassService classService;
     @Resource
     private UserService userService;
+    @Resource
+    private TeamService teamService;
 //    创建班级 传递参数为json 只用传 班级名name 参数
     @PostMapping("/create/class")
     public Message createClass(@RequestBody Class c, HttpSession session){
         Teacher teacher = (Teacher)session.getAttribute("user");
+        if (teacher.getName()==null)
+            return new Message(false,"请先完成实名认证");
         c.setUser(teacher.getUser());
         String invCode = Util.generateString(6);
         while (classService.codeIsExist(invCode)!=null){
@@ -50,9 +56,11 @@ public class ClassController {
         return classService.getClassByUser(user,table);
     }
 
-//    查询班级所有成员
+//    查询班级成员
     @PostMapping("/data/query/classMembers")
-    public List<Student> queryClassMembers(int classId){
+    public List<Student> queryClassMembers(@Param("classId") int classId,@Param("isNotTeam") boolean isNotTeam){
+        if (isNotTeam)
+            return teamService.getStuNotTeam(classId);
         return classService.getStuByClassId(classId);
     }
 //    学生查询所在班级
@@ -94,7 +102,8 @@ public class ClassController {
     public Message setAnnouncement(@RequestBody Class c,HttpSession session){
        Student user = (Student) session.getAttribute("user");
        Class cc = classService.getClassById(c.getId());
-       if(cc==null)
+        System.out.println(c.toString());
+        if(cc==null)
            return new Message(false,"班级不存在");
        if(!user.getUser().equals(cc.getUser()))
            return new Message(false,"非当前班级老师");
@@ -150,5 +159,29 @@ public class ClassController {
             return new Message(true,"加入此班级成功");
         else
             return new Message(false,"未在班级名单中");
+    }
+
+    @GetMapping("/class/{classId}")
+    public ModelAndView queryClass(@PathVariable int classId,HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        Class c = classService.getClassById(classId);
+        List<Team> teams = teamService.getTeamByClass(classId);
+        Teacher teacher = classService.getTeaByClassId(classId);
+        teacher.setHeadshot(null);
+        List<Map<String,Object>> list= new ArrayList<>();
+        for(Team team :teams){
+            Map<String,Object>map = new HashMap<>();
+            map.put("team",team);
+            Student leader = userService.findUserByUser(team.getLeader(),"student");
+            map.put("leaderName",leader.getName());
+            map.put("leaderNo",leader.getNo());
+            list.add(map);
+        }
+        ModelAndView modelAndView = new ModelAndView("class-page");
+        modelAndView.addObject("user",user);
+        modelAndView.addObject("class",c);
+        modelAndView.addObject("teams",list);
+        modelAndView.addObject("teacher",teacher);
+        return modelAndView;
     }
 }

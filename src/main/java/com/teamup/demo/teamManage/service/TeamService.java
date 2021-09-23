@@ -12,6 +12,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Service(value = "TeamService")
 public class TeamService {
@@ -36,6 +37,17 @@ public class TeamService {
             return 0;
         }
     }
+    public int updateTeam(Map<String,String> map,int teamId){
+        try {
+            return teamMapper.updateTeamInfById(map,teamId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+    public List<Team> getDissolveTeam(String user){
+        return teamMapper.getDissolveTeam(user);
+    }
     public int addEvaluation(Evaluation evaluation){
         try {
             return teamMapper.addEvaluation(evaluation);
@@ -58,7 +70,7 @@ public class TeamService {
     public Team getTeamById(int id){
         return teamMapper.getTeamById(id);
     }
-    public int getNotTeamNum(int classId){
-        return teamMapper.getNotTeamNum(classId);
+    public List<Student> getStuNotTeam(int classId){
+        return teamMapper.getStuNotTeam(classId);
     }
 }

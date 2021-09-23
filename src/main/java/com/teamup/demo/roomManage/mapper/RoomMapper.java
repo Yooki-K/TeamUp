@@ -21,7 +21,7 @@ public interface RoomMapper {
     List<Room> getRoomByTag(String tag);//返回所有tag标签可以匹配(like)到参数tag的房间
     List<Room> getRoomByName(String name);//返回所有name房间名可以匹配(like)到参数name的房间
     List<Student> getStuByRoom(int roomId);//查找一个房间的所有已加入成员
-    List<Invitation> getInvitation(@Param("user")String user,@Param("type")String type);
+    List<Invitation> getInvitation(@Param("user")String user,@Param("type")String type,@Param("tt")int tt);
     int addStuById(@Param("user")String user,@Param("roomId")int roomId)throws SQLException;//根据房间编号添加成员
     int removeStuById(@Param("user") String user,@Param("roomId")int roomId)throws SQLException;//根据房间编号移除成员
     int updateRoomById(@Param("map") Map<String,String> map,@Param("id")int id)throws SQLException;//修改房间信息
@@ -32,5 +32,6 @@ public interface RoomMapper {
     int addApplication(ApplyRoom applyRoom)throws SQLException;
     int operateApplication(@Param("isAgree")boolean isAgree,@Param("idList")int[] idList)throws SQLException;
     List<ApplyRoom> getApplicationByRoom(int roomId);
+    List<ApplyRoom> getApplyRoomByUser(@Param("user")String user,@Param("tt")int tt);
     int getApplicationNum(int roomId);
 }

@@ -57,7 +57,6 @@ body {
     flex-direction: column;
     background-color: rgb(17, 24, 39);
     border-radius: 5px;
-    transition: .3s;
     overflow: hidden;
     opacity: 0.9;
 }
@@ -258,6 +257,28 @@ body {
     height: 100%;
     width: 100% !important;
     margin-top: 50px;
+}
+
+.main .create-class-btn {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    right: 50px;
+    bottom: 50px;
+    border-radius: 50%;
+    background: #e5e566ab;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 1px 2px 6px 0px black;
+}
+
+.main .create-class-btn:hover {
+    background: #ffff00c4;
+}
+
+.main .create-class-btn h5 {
+    margin-top: 43px;
+    text-align: center;
 }
 
 .my-area .contain {
@@ -663,7 +684,7 @@ body {
     display: block;
     width: 100%;
     min-height: 763px;
-    margin-left: 208px;
+    margin-left: 200px;
     border-radius: 5px;
     opacity: .7;
 }
@@ -1210,4 +1231,123 @@ input[type=submit] {
 
 .mui-input-numbox::-webkit-outer-spin-button {
     -webkit-appearance: none;
+}
+
+.p40 {
+    padding: 40px;
+}
+
+.bg34 {
+    background-color: #3B3F4B;
+}
+
+.p40 {
+    padding: 40px;
+}
+
+.wh {
+    color: white;
+}
+
+.f30 {
+    font-size: 30px;
+}
+
+.wh {
+    color: white;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.f18 {
+    font-size: 18px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.b {
+    font-weight: bold;
+}
+
+.g9 {
+    color: #999;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.fr {
+    float: right;
+}
+
+.mt30 {
+    margin-top: 30px;
+}
+
+.fix {
+    *zoom: 1;
+}
+
+.pct60 {
+    width: 59.8%;
+}
+
+.l {
+    float: left;
+}
+
+.bdrad18 {
+    -moz-border-radius: 18px;
+    -webkit-border-radius: 18px;
+    -o-border-radius: 18px;
+    border-radius: 18px;
+}
+
+.btn_s {
+    padding: 2px 12px 4px;
+    font-size: 14px;
+}
+
+.greenbtn {
+    background-color: #23A840;
+    color: #FFF;
+}
+
+.orgbtn {
+    background-color: #FF6600;
+    color: #fff;
+}
+
+.whbtn,
+.orgbtn,
+.bluebtn,
+.graybtn,
+.bkbtn {
+    /* display: inline-block; */
+    font-weight: bold;
+    text-align: center;
+}
+
+.mr10 {
+    margin-right: 1px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.lh18 {
+    line-height: 18px;
+}
+
+table {
+    width: 100%;
+    border: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }

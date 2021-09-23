@@ -6,16 +6,25 @@ import com.teamup.demo.roomManage.entity.ApplyRoom;
 import com.teamup.demo.roomManage.entity.Invitation;
 import com.teamup.demo.roomManage.entity.Room;
 import com.teamup.demo.roomManage.service.RoomService;
+import com.teamup.demo.teamManage.entity.Team;
+import com.teamup.demo.teamManage.entity.TeamInf;
+import com.teamup.demo.teamManage.service.TeamService;
 import com.teamup.demo.tool.Custom;
 import com.teamup.demo.tool.Message;
 import com.teamup.demo.tool.Util;
+import com.teamup.demo.userManage.entity.Certification;
 import com.teamup.demo.userManage.entity.Student;
 import com.teamup.demo.userManage.entity.Teacher;
 import com.teamup.demo.userManage.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -27,6 +36,9 @@ public class RoomController {
     Custom custom;
     @Resource
     private UserService userService;
+    @Resource
+    private TeamService teamService;
+
     @PostMapping("/data/matchTeammate")
     /*匹配 参数type {intel智能匹配  key 关键字匹配}*/
     public Map<String,List<Student>> intelMatch(@Param("type") String type, @Param("aim") String aim,HttpSession session){
@@ -166,7 +178,7 @@ public class RoomController {
     @PostMapping("/data/query/invitation/{type}")
     public List<Invitation> queryInvitation(@PathVariable String type,HttpSession session){
         Student user = (Student) session.getAttribute("user");
-        return roomService.getInvitation(user.getUser(), type);
+        return roomService.getInvitation(user.getUser(), type,-1);
     }
     /*对邀请进行操作 json 数组
     * type参数 agree disagree*/
@@ -259,5 +271,72 @@ public class RoomController {
             return new Message(true);
         else
             return new Message(false);
+    }
+//    组队大厅
+    @GetMapping("/rooms/public")
+    public ModelAndView roomPublic(HttpSession session, HttpServletRequest request){
+        Student user = (Student) session.getAttribute("user");
+        if(user==null)
+            return Util.createError("false","请先登录",request.getRequestURI());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user",user);
+        modelAndView.setViewName("main");
+        return modelAndView;
+    }
+//   班级组队情况
+    @GetMapping("/rooms/class/{classId}")
+    public ModelAndView roomClass(HttpSession session, @PathVariable int classId,
+                                  HttpServletRequest request){
+        Student user = (Student) session.getAttribute("user");
+        if(user==null)
+            return Util.createError("false","请先登录",request.getRequestURI());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user",user);
+        modelAndView.setViewName("main");
+        return modelAndView;
+    }
+    @GetMapping("/{studentNo}/message")
+    public ModelAndView message(@PathVariable int studentNo, HttpSession session, HttpServletResponse response,
+                                HttpServletRequest request, @CookieValue(value = "mesNum",defaultValue = "0")String mesNum){
+        //认证、申请、邀请、解散
+        Student user = (Student) session.getAttribute("user");
+        if (user==null)
+            return Util.createError("false","请先登录",request.getRequestURI());
+        Map<Date,String>map = new TreeMap<Date, String>(new Comparator<Date>(){ //从大到小排序
+            @Override
+            public int compare(Date o1, Date o2) {
+                return o2.compareTo(o1);
+            }
+        });
+        Certification certification  = userService.findCertificationByUser(user.getUser());
+        if (certification!=null && certification.getTime()!=null)
+            map.put(certification.getTime(),"管理员已"+(certification.isAgree()?"通过":"拒绝")+"您的认证申请");
+        List<ApplyRoom> applyRooms = roomService.getApplicationByUser(user.getUser(),0);
+        for(ApplyRoom applyRoom:applyRooms){
+            map.put(applyRoom.getTime(),String.format("房间 %s 已"+(applyRoom.isAgree()?"通过":"拒绝")+"您的加入申请", roomService.findRoomById(applyRoom.getRoomId()).getName()));
+        }
+        List<Invitation> invitations = roomService.getInvitation(user.getUser(),"send",0);
+        for(Invitation invitation:invitations){
+            map.put(invitation.getTime(),String.format("用户 %s 已"+(invitation.isAgree()?"通过":"拒绝")+"您邀请加入房间 %s", invitation.getUser2(),roomService.findRoomById(invitation.getRoomId()).getName()));
+        }
+        List<Team> teams = teamService.getDissolveTeam(user.getUser());
+        for(Team team:teams){
+            map.put(team.getDissolveTime(),String.format("用户 %s 已解散团队 %s", team.getLeader(),team.getName()));
+        }
+        for(Date x:map.keySet()){
+            System.out.println(x);
+            System.out.println(map.get(x));
+        }//todo 测试 打印map
+        int cha = map.size();
+        //设置cookie
+        Cookie cookie = new Cookie("mesNum",String.valueOf(cha));
+        cookie.setMaxAge(Integer.MAX_VALUE);
+        response.addCookie(cookie);
+        cha = cha-Integer.parseInt(mesNum);
+        ModelAndView modelAndView = new ModelAndView("message");
+        modelAndView.addObject("data",map);
+        modelAndView.addObject("num",cha);
+        modelAndView.addObject("user",user);
+        return modelAndView;
     }
 }

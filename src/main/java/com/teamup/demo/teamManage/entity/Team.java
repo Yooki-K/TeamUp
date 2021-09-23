@@ -12,6 +12,7 @@ public class Team {
     int number;
     int teacherId;
     Date dissolveTime;
+    String brief;
     public Team(){}
     public Team(int teamId, String name, int classId, String leader, int number, int teacherId) {
         this.teamId = teamId;
@@ -22,8 +23,19 @@ public class Team {
         this.teacherId = teacherId;
     }
 
-    public String getDissolveTime() {
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
+    }
+
+    public String getDissolveTimeString() {
         return Util.getStringDate(dissolveTime);
+    }
+    public Date getDissolveTime() {
+        return dissolveTime;
     }
 
     public void setDissolveTime() {

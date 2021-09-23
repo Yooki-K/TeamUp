@@ -35,7 +35,8 @@ public class test {
         Student student = userService.findUserByNo(10008,"student");
         session.setAttribute("user",student);
         session.setAttribute("table","student");
-        String url =String.format("redirect:/%d/index",student.getNo());
+//        String url =String.format("redirect:/%d/main",student.getNo());
+        String url="redirect:/rooms/public";
         System.out.println(url);
         System.out.println(student.toString());
         return new ModelAndView(url);

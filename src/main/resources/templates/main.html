@@ -11,9 +11,9 @@
 		<title>主页</title>
 		<script src="/js/vue.min.js"></script>
         <script src="/js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/send.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/send.js"></script>
         <script src="/js/mui.js"></script>
 		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="/css/font-awesome.min.css">
@@ -31,14 +31,6 @@
                 });
                 $("#check1").click(function () {
                     $(this).next().toggle();
-                });
-            });
-            $(function (){
-                search("public","");
-                $('#search').bind('keypress',function (event){
-                    if(event.keyCode == 13){
-                        search("other", $(this).val());
-                    }
                 });
             });
         </script>
@@ -178,43 +170,37 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
             </div>
-
-        <!--顶部导航栏 start-->
-        <div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-                <div class="navbar-header">
-                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapsed" data-target=".navbar-collapse">
-                        <span class="nav-trigger glyphicon glyphicon-align-justify" style="color: white;"></span>
-                    </button>
-                    <span class="navbar-brand">JAVA课设</span>
-                </div>
-				<div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
-                    <ul class="nav navbar-nav">
-                        <li><a>关于我们</a></li>
-                    </ul>
-                </div>
-                <!--用户头像-->
-                <div class="user-info">
-                    <img src="../static/img/student.png" /><label class="username">黄楚珂</label>
-                </div>
-            </div>
-		</div>
-        <!--顶部导航栏 end-->
-
-        <!--侧方导航栏 start-->
-        <div class="menubar">
-            <div class="shell">
-                <a href="#" class="box"><i class="fa fa-navicon"></i><span></span></a>
-                <a href="index.html" class="box"><i class="fa fa-home"></i><span>首页</span></a>
-                <a href="my.html" class="box"><i class="fa fa-user"></i><span>我的</span></a>
-                <a href="myclass.html" class="box"><i class="fa fa-users"></i><span>团队</span></a>
-                <a href="main.html" class="box"><i class="fa fa-television"></i><span>组队大厅</span></a>
-                <a href="history.html" class="box"><i class="fa fa-history"></i><span>历史记录</span></a>
-                <a href="message.html" class="box"><i class="fa fa-envelope"></i><span>信息</span></a>
-                <a href="index.html" class="box"><i class="fa fa-sign-out"></i><span>退出</span></a>
-            </div>
+        <!-- 模态框（Modal）查看成员 -->
+        <div class="modal fade" id="check" tabindex="-1" role="dialog" aria-labelledby="check" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="#" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">
+                                查看成员
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4 id="member_teamName">你正在查看"这个队伍不太冷"的队伍成员...</h4>
+                            <ul id="members">
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
         </div>
-        <!--侧方导航栏 end-->
+
+        <!--顶部导航栏-->
+        <div th:replace="model::navbar(${user})"></div>
+        <!--侧方菜单栏-->
+        <div th:if="${user!=null}" th:replace="model::menubar(${user})"></div>
         
         <!--主界面 start-->
         <div class="main">
