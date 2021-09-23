@@ -10,7 +10,7 @@ public class ClassInf {
         this.user = user;
         this.userId = userId;
     }
-
+    public ClassInf(){}
     @Override
     public String toString() {
         return "ClassInf{" +

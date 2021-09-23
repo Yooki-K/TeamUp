@@ -21,6 +21,6 @@ public interface ClassMapper {
     Teacher getTeaByClass(int classId);//根据班级编号查找老师
     int updateClassInf(ClassInf classInf)throws SQLException;//更改当前班级信息记录，userId由null改为xx
     int joinClass(@Param("list")List<ClassInf>list)throws SQLException;//多人加入班级
-    String codeIsExist(String invCode);//查询某一邀请码是否存在 返回班级编号
+    int codeIsExist(String invCode);//查询某一邀请码是否存在 返回班级编号
     int setAnnouncement(@Param("text") String text,@Param("classId")int classId)throws SQLException;//设置班级公告
 }

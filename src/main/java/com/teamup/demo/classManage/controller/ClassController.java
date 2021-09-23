@@ -39,7 +39,7 @@ public class ClassController {
             return new Message(false,"请先完成实名认证");
         c.setUser(teacher.getUser());
         String invCode = Util.generateString(6);
-        while (classService.codeIsExist(invCode)!=null){
+        while (classService.codeIsExist(invCode)!=0){
             invCode = Util.generateString(6);
         }
         c.setInvCode(invCode);
@@ -152,10 +152,10 @@ public class ClassController {
         Student user = (Student) session.getAttribute("user");
         if(user.getId()==null)
             return new Message(false,"请先十几名认证");
-        String classId = classService.codeIsExist(invCode);
-        if (classId==null)
+        int classId = classService.codeIsExist(invCode);
+        if (classId==0)
             return new Message(false,"当前邀请码不存在");
-        if(classService.joinClass(new ClassInf(Integer.parseInt(classId),user.getUser(),user.getId()))>0)
+        if(classService.joinClass(new ClassInf(classId,user.getUser(),user.getId()))>0)
             return new Message(true,"加入此班级成功");
         else
             return new Message(false,"未在班级名单中");

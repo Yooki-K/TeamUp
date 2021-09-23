@@ -11,9 +11,11 @@ public class Certification {
     private String school;
     private String name;
     private Date time;
+
+    private Date operateTime;
+
     private boolean isAgree;
     private int type;
-
     public Certification(String user,  boolean sex,String id, String school, String name) {
         this.user = user;
         this.id = id;
@@ -24,6 +26,14 @@ public class Certification {
         setSex(false);
     }
 
+    public Date getOperateTime() {
+        return operateTime;
+    }
+
+    public void setOperateTime(Date operateTime) {
+        this.operateTime = operateTime;
+    }
+    public Certification(){}
     @Override
     public String toString() {
         return "Certification{" +

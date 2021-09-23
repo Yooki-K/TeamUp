@@ -28,7 +28,6 @@
             $(window).resize(function () {
                 $(".shell").height($(window).height() - 50);
             });
-            $("#headShot").hide();
             $(".tag-list li").click(function () {
                 $(".active").removeClass("active");
                 $(".tag-sub-list").remove();
@@ -44,10 +43,10 @@
                         "<li onclick='addLabel(this)'>jquery</li>" +
                         "<li onclick='addLabel(this)'>bootstrap</li>" +
                         "<li onclick='addLabel(this)'>vue</li>" +
-                        "<li onclick='addLabel(this)'>iconfont</li>" +
-                        "<li onclick='addLabel(this)'>mui</li>" +
+                        "<li onclick='addLabel(this)'>javascript</li>" +
+                        "<li onclick='addLabel(this)'>element-ui</li>" +
                         "<li onclick='addLabel(this)'>html5</li>" +
-                        "<li onclick='addLabel(this)'>font-awsome</li>" +
+                        "<li onclick='addLabel(this)'>layUi</li>" +
                         "<li onclick='addLabel(this)'>gulp</li>" +
                         "</ul>");
                 } else if (val == "后端") {
@@ -64,23 +63,25 @@
                         "</ul>");
                 } else if (val == "数据库") {
                     $("#line").append("<ul class=\"tag-sub-list\">" +
-                        "<li onclick='addLabel(this)'>数据库架构</li>" +
-                        "<li onclick='addLabel(this)'>dba</li>" +
+                        "<li onclick='addLabel(this)'>mongleDB</li>" +
                         "<li onclick='addLabel(this)'>opengauss</li>" +
-                        "<li onclick='addLabel(this)'>etl工程师</li>" +
-                        "<li onclick='addLabel(this)'>数据库开发</li>" +
+                        "<li onclick='addLabel(this)'>mysql</li>" +
+                        "<li onclick='addLabel(this)'>sql service</li>" +
+
                         "</ul>");
-                } else if (val == "答辩") {
+                } else if (val == "其他") {
                     $("#line").append("<ul class=\"tag-sub-list\">" +
                         "<li onclick='addLabel(this)'>答辩</li>" +
+                        "<li onclick='addLabel(this)'>报告</li>" +
+                        "<li onclick='addLabel(this)'>调研</li>" +
                         "</ul>");
                 }
             });
-            window.onload = function(){
-                var obj = document.getElementById('formEdit');
-                obj.onsubmit
-            }
+
         });
+        function uploadimg() {
+            $("#uploadimg-file-btn").click();
+        }
     </script>
     <style>
         .hideDom{
@@ -346,6 +347,42 @@
         <li class="bubble"></li>
     </ul>
 
+    <div class="modal fade" id="identify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">学生认证</h4>
+                </div>
+                <form id="formRz" method="post" action="/certificate">
+                    <div class="modal-body">
+                        <div class="form">
+                            <input type="text" class="form-control" name="name" value="" placeholder="真实姓名" autofocus=''
+                                style="margin-bottom: 15px;">
+                            <p>性别：</p>
+                            <select class="form-control" name="sex" value="true">
+                                <option value="true">男</option>
+                                <option value="false">女</option>
+                            </select>
+                            <p>学校：</p>
+                            <select type="text" class="form-control" name="school" value="南京理工大学" placeholder="学校名称"
+                                autofocus='' style="margin-bottom: 15px;">
+                                <option th:value="${x}" th:each="x: ${schools}" th:text="${x}"></option>
+                            </select>
+                            <input type="text" class="form-control" name="id" value="" placeholder="学号"
+                                autofocus='' style="margin-bottom: 15px;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" id="closeRz">关闭</button>
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
     <!--顶部导航栏-->
     <div th:replace="model::navbar(${user})"></div>
     <!--侧方菜单栏-->
@@ -358,16 +395,18 @@
             <ul class="zla_m_tab" id="zla_title">
                 <li class="zla_m_item zla_m_cur"><a th:href="@{'/'+ *{no} +'/index'}">个人资料</a>
                 </li>
-                <li class="zla_m_item " th:if="${user!=null and person.user==user.user}"><a th:href="@{'/'+*{no}+'/identify'}">实名认证</a></li>
             </ul>
             <div class="general-area">
-                <form id="formEdit" method="post" enctype="multipart/form-data" action="/update/user">
+
+                <form id="formUpload" method="post" enctype="multipart/form-data" action="/upload/headshot">
+                    <input type="file" style="display: none;" id="uploadimg-file-btn" name="file" />
+                </form>
+                <form id="formEdit" method="post" action="/update/user">
                     <div class="general-info">
                         <div class="general-info-t">
                             <div class="general-info-avatar">
                                 <img th:src="@{*{headshot}}" alt="上传图片">
-<!--                                todo 修改样式-->
-                                <input type="file" name="file" id="headShot">
+                                <div class="avatar-hover" onclick="uploadimg();"><img src="/img/uploadimg.png" alt=""></div>
                             </div>
                             <div class="general-info-t-info">
                                 <div class="profile-name-info">
@@ -377,7 +416,8 @@
                                 <div class="profile-identify-info no-identify" th:if="*{name==null}">
                                     未实名认证
                                 </div>
-                                <div class="profile-identify-info no-identify" th:if="*{name!=null}">
+                                <button type="button" class="identify-btn" data-toggle="modal" data-target="#identify" th:if="*{name==null}">去认证</button>
+                                <div class="profile-identify-info identified" th:if="*{name!=null}">
                                     已实名认证
                                 </div>
                             </div>
@@ -397,21 +437,27 @@
                                         <div class="content-show-r" id="userDiv" th:text="*{user}"></div>
                                         <input name="user" th:value="*{user}" class="hideDom">
                                     </li>
+                                    <li id="mail">
+                                        <div class="content-show-l">
+                                            邮箱
+                                        </div>
+                                        <div class="content-show-r" th:text="*{mail}">
+                                        </div>
+                                    </li>
+                                    <li id="realName">
+                                        <div class="content-show-l">
+                                            姓名
+                                        </div>
+                                        <div class="content-show-r" th:text="*{name == null}?'未认证':*{name}">
+                                        </div>
+                                    </li>
                                     <li id="sexual">
                                         <div class="content-show-l">
                                             性别
                                         </div>
-                                        <div class="content-show-r" th:text="*{sex}?'男':'女'">
+                                        <div class="content-show-r" th:text="*{name == null}?'未认证':(*{sex}?'男':'女')">
                                         </div>
                                     </li>
-    <!--                                    <li id="introduction">-->
-    <!--                                        <div class="content-show-l">-->
-    <!--                                            个人简介-->
-    <!--                                        </div>-->
-    <!--                                        <div class="content-show-r">-->
-    <!--                                            这个人很懒，没有留下简介哦~-->
-    <!--                                        </div>-->
-    <!--                                    </li>-->
                                     <li id="school">
                                         <div class="content-show-l">
                                             学校
@@ -419,14 +465,6 @@
                                         <div class="content-show-r" th:text="*{school == null}?'未认证':*{school}">
                                         </div>
                                     </li>
-    <!--                                    <li id="major">-->
-    <!--                                        <div class="content-show-l">-->
-    <!--                                            专业-->
-    <!--                                        </div>-->
-    <!--                                        <div class="content-show-r">-->
-    <!--                                            未认证-->
-    <!--                                        </div>-->
-    <!--                                    </li>-->
                                     <li id="studentId">
                                         <div class="content-show-l">
                                             学号

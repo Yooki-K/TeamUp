@@ -1,6 +1,7 @@
 package com.teamup.demo.userManage.controller;
 
 
+import com.teamup.demo.tool.Custom;
 import com.teamup.demo.tool.Message;
 import com.teamup.demo.tool.Util;
 import com.teamup.demo.userManage.entity.*;
@@ -31,6 +32,8 @@ public class UserController {
     private CodeService codeService;
     @Resource
     Admin admin;
+    @Resource
+    Custom custom;
 
     @PostMapping(value = "/signIn")
     //注册 传参type 1学生 2老师 ，只需输入参数 {user,pwd,mail}
@@ -138,19 +141,14 @@ public class UserController {
     }
     @PostMapping("/certificate")
     /*实名认证 可用form表单提交 参数 学号、学校、姓名、性别*/
-    public Message addCertification(Certification certification, HttpSession session,
-                                    HttpServletResponse response){
+    public Message addCertification(Certification certification, HttpSession session){
         Student user = (Student) session.getAttribute("user");
         String table = session.getAttribute("table").toString();
         certification.setUser(user.getUser());
         certification.setType(table.equals("student")?1:2);
         if(userService.addCertification(certification)>0){
-            Cookie cookie = new Cookie("isCertificated","waiting");
-            cookie.setMaxAge(Integer.MAX_VALUE);
-            response.addCookie(cookie);
             return new Message(true,"实名认证已提交，请等待审核");
         }
-
         else
             return new Message(false,"实名认证提交失败，请重新提交");
     }
@@ -175,27 +173,15 @@ public class UserController {
     @PostMapping("/update/user")
     /*修改个人资料*/
     public Message updateLabel(@Param("label") String label,HttpSession session,
-                               @Param("user")String user,@Param("file") MultipartFile file){
+                               @Param("user")String user){
         Student USER = (Student) session.getAttribute("user");
         String table =  session.getAttribute("table").toString();
         Student become = userService.findUserByUser(user,table);
         if (become!=null && !USER.getUser().equals(user))
             return new Message(false,"该用户名已使用");
-        Map<String,String>map = new HashMap<String,String>();
+        Map<String,String>map = new HashMap<>();
         map.put("label",label);
         map.put("user",user);
-        if (file!=null){
-
-            String base64;
-            try {
-                base64 = Util.byteToBase64(file.getBytes(),file.getContentType());
-            } catch (IOException e) {
-                e.printStackTrace();
-                return new Message(false,"头像上传失败");
-            }
-            map.put("headshot",base64);
-            USER.setHeadshot(base64);
-        }
         if(userService.updateUser(USER,map) > 0) {
             USER.setUser(user);
             USER.setLabel(label);
@@ -206,7 +192,29 @@ public class UserController {
             return new Message(false,"更改个人信息失败");
     }
     @RequestMapping(value = "/upload/headshot",method = RequestMethod.POST)
-
+    public Message uploadHeadshot(HttpSession session,
+                                @Param("file") MultipartFile file){
+        Student USER = (Student) session.getAttribute("user");
+        Map<String,String>map = new HashMap<>();
+        if (file!=null){
+            String base64;
+            try {
+                base64 = Util.byteToBase64(file.getBytes(),file.getContentType());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new Message(false,"头像文件上传失败");
+            }
+            map.put("headshot",base64);
+            USER.setHeadshot(base64);
+        }
+        if(map.size()!= 0 && userService.updateUser(USER,map) > 0) {
+            session.setAttribute("user", USER);
+            System.out.println("修改成功");
+            return new Message(true);
+        }
+        else
+            return new Message(false,"更换头像失败");
+    }
     @GetMapping("/loginOut")
     /*登出*/
     public String loginOut(HttpSession session){
@@ -233,7 +241,6 @@ public class UserController {
         return modelAndView;
     }
     @GetMapping(value = "/{studentNo}/index")
-//    todo 个人页面上传文件样式
     public ModelAndView index(@PathVariable int studentNo,HttpSession session,HttpServletRequest request){
         Student user = (Student) session.getAttribute("user");
         ModelAndView modelAndView = new ModelAndView();
@@ -246,6 +253,8 @@ public class UserController {
             return Util.createError("404","当前资源不存在",request.getRequestURI());
         modelAndView.addObject("person",person);
         modelAndView.addObject("user",user);
+
+        modelAndView.addObject("schools",custom.getSchools());
         modelAndView.setViewName("my");
         return modelAndView;
     }

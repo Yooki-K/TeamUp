@@ -309,24 +309,20 @@ public class RoomController {
             }
         });
         Certification certification  = userService.findCertificationByUser(user.getUser());
-        if (certification!=null && certification.getTime()!=null)
-            map.put(certification.getTime(),"管理员已"+(certification.isAgree()?"通过":"拒绝")+"您的认证申请");
+        if (certification!=null && certification.getOperateTime()!=null)
+            map.put(certification.getOperateTime(),"管理员已"+(certification.isAgree()?"通过":"拒绝")+"您的认证申请");
         List<ApplyRoom> applyRooms = roomService.getApplicationByUser(user.getUser(),0);
         for(ApplyRoom applyRoom:applyRooms){
             map.put(applyRoom.getTime(),String.format("房间 %s 已"+(applyRoom.isAgree()?"通过":"拒绝")+"您的加入申请", roomService.findRoomById(applyRoom.getRoomId()).getName()));
         }
         List<Invitation> invitations = roomService.getInvitation(user.getUser(),"send",0);
         for(Invitation invitation:invitations){
-            map.put(invitation.getTime(),String.format("用户 %s 已"+(invitation.isAgree()?"通过":"拒绝")+"您邀请加入房间 %s", invitation.getUser2(),roomService.findRoomById(invitation.getRoomId()).getName()));
+            map.put(invitation.getRecvTime(),String.format("用户 %s 已"+(invitation.isAgree()?"通过":"拒绝")+"您邀请加入房间 %s", invitation.getUser2(),roomService.findRoomById(invitation.getRoomId()).getName()));
         }
         List<Team> teams = teamService.getDissolveTeam(user.getUser());
         for(Team team:teams){
             map.put(team.getDissolveTime(),String.format("用户 %s 已解散团队 %s", team.getLeader(),team.getName()));
         }
-        for(Date x:map.keySet()){
-            System.out.println(x);
-            System.out.println(map.get(x));
-        }//todo 测试 打印map
         int cha = map.size();
         //设置cookie
         Cookie cookie = new Cookie("mesNum",String.valueOf(cha));

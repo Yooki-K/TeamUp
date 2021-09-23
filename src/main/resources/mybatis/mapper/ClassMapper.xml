@@ -41,7 +41,7 @@
             (#{item.id}, #{item.user}, #{item.userId})
         </foreach>
     </insert>
-    <select id="codeIsExist">
+    <select id="codeIsExist" resultType="int">
         select "id" from public.class where "invCode"=#{invCode}
     </select>
     <update id="setAnnouncement">

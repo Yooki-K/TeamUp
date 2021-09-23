@@ -115,7 +115,7 @@ function search(type,value){
                 "<div class='points center'>" +
                 "<a href=\"{0}\" >{1}</a>".format("#", data[i].user.user) +
                 "</div>" +
-                "<img src=\"{0}\" style=\"border-radius: 50%;margin-top: 40px;margin-left: 7px;width: 135px;height: 135px;\"></img>".format(data[i].user.headshot) +
+                "<img src=\"{0}\" class='captain-img'></img>".format(data[i].user.headshot) +
                 "</div>" +
                 "<div class='more-info'>" +
                 "<div class='group-name'>" +

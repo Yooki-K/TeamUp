@@ -55,5 +55,5 @@ public class MailCode {
         this.code = code;
         setSendTime();
     }
-
+    public MailCode(){}
 }

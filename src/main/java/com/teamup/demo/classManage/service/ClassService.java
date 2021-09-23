@@ -25,7 +25,7 @@ public class ClassService {
             return 0;
         }
     }
-    public String codeIsExist(String code){
+    public int codeIsExist(String code){
         return classMapper.codeIsExist(code);
     }
     public List<Class> getClassByUser(Teacher user,String table){

@@ -9,20 +9,31 @@ public class Invitation {
     private String user1;
     private String user2;
     private int roomId;
-    private java.util.Date time;
+    private Date sendTime;
     private boolean isAgree;
     private boolean isStudent;
+    private Date recvTime;
 
 
 
-    public Invitation(int id, String user1, String user2, int roomId, Date time, boolean isAgree) {
+    public Invitation(int id, String user1, String user2, int roomId, Date sendTime, boolean isAgree) {
         this.id = id;
         this.user1 = user1;
         this.user2 = user2;
         this.roomId = roomId;
-        this.time = time;
+        this.sendTime = sendTime;
         this.isAgree = isAgree;
     }
+    public Invitation(){}
+
+    public Date getRecvTime() {
+        return recvTime;
+    }
+
+    public void setRecvTime(Date recvTime) {
+        this.recvTime = recvTime;
+    }
+
     public boolean isStudent() {
         return isStudent;
     }
@@ -34,7 +45,7 @@ public class Invitation {
         this.user1 = user1;
         this.user2 = user2;
         this.roomId = roomId;
-        setTime();
+        setSendTime();
         this.isStudent = isStudent;
     }
 
@@ -70,15 +81,15 @@ public class Invitation {
         this.roomId = roomId;
     }
 
-    public String getTimeString() {
-        return Util.getStringDate(this.time);
+    public String getSendTimeString() {
+        return Util.getStringDate(this.sendTime);
     }
-    public Date getTime() {
-        return this.time;
+    public Date getSendTime() {
+        return this.sendTime;
     }
 
-    public void setTime( ) {
-        this.time = new Date();
+    public void setSendTime( ) {
+        this.sendTime = new Date();
     }
 
     public boolean isAgree() {

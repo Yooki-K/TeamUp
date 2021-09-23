@@ -5,7 +5,7 @@
     <select id="matchStuByLabel" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.student where "user" != #{user} and label like concat('%',#{aim},'%')
     </select>
-    <select id="findRoomById">
+    <select id="findRoomById" resultType="com.teamup.demo.roomManage.entity.Room">
         select * from public.room where "id" = #{id};
     </select>
     <insert id="addRoom" parameterType="com.teamup.demo.roomManage.entity.Room" useGeneratedKeys="true" keyProperty="id" keyColumn="id">

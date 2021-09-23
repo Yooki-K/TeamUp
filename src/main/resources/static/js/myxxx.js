@@ -3,6 +3,19 @@ $(function (){
         alert(data.mes);
         location.reload();
     });
+
+    sendFORM($("#formUpload"),function (data) {
+        location.reload();
+    });
+    sendFORM($("#formRz"),function (data) {
+        alert(data.mes);
+        document.getElementById("formRz").reset();
+        $("#closeRz").click();
+    });
+    $("#uploadimg-file-btn").change(function () {
+        $(this).parent().submit();
+    });
+
 })
 
 function editState(e){

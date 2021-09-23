@@ -23,8 +23,8 @@
     </insert>
 
     <insert id="addCertification" parameterType="com.teamup.demo.userManage.entity.Certification">
-        insert into public.certification ("user", sex, id, school, name, "isAgree" ,type,time) values
-           (#{user}, #{sex}, #{id}, #{school}, #{name}, #{isAgree},#{type},#{time})
+        insert into public.certification ("user", sex, id, school, name ,type,time) values
+           (#{user}, #{sex}, #{id}, #{school}, #{name},#{type},#{time})
     </insert>
 
     <select id="getCertificationByType" parameterType="int"

@@ -794,6 +794,38 @@ body {
     cursor: pointer;
 }
 
+.general-info .general-info-t .general-info-avatar:hover .avatar-hover {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.general-info .general-info-t .general-info-t-info .identified {
+    background: linear-gradient(90deg, #9ceea7, #7cee7c) !important;
+}
+
+.general-info .general-info-t .general-info-avatar .avatar-hover {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.general-info .general-info-t .general-info-avatar .avatar-hover img {
+    width: 32px;
+    height: 32px;
+}
+
 .general-info .general-info-t .general-info-avatar>img {
     width: 100%;
     height: 100%;
@@ -825,9 +857,7 @@ body {
 }
 
 .general-info .general-info-t .general-info-t-info .profile-identify-info {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+    display: inline-flex;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;

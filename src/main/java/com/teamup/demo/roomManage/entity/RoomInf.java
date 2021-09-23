@@ -10,7 +10,7 @@ public class RoomInf {
         this.roomId = roomId;
         this.user = user;
     }
-
+    public RoomInf(){}
     public int getId() {
         return id;
     }

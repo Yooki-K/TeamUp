@@ -32,7 +32,7 @@ public class test {
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public ModelAndView  Test1(HttpSession session) {
 //        return new ModelAndView("test");
-        Student student = userService.findUserByNo(10008,"student");
+        Student student = userService.findUserByNo(10002,"student");
         session.setAttribute("user",student);
         session.setAttribute("table","student");
 //        String url =String.format("redirect:/%d/main",student.getNo());
