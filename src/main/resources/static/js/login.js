@@ -1,3 +1,13 @@
+$(function () {
+   sendFORM($("#formLogin"),function (data) {
+       alert(data.mes);
+       document.getElementById("formLogin").reset();
+        $("#closeLogin").click();
+   })
+});
+
+
+
 function showRegisterForm(){
     $('.registerBox').fadeIn('fast');
     $('.register-footer').fadeIn('fast');

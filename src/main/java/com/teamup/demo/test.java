@@ -31,16 +31,16 @@ public class test {
     private TeamService teamService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public ModelAndView  Test1(HttpSession session) {
-//        return new ModelAndView("test");
-        Student student = userService.findUserByNo(10002,"student");
-        session.setAttribute("user",student);
-        session.setAttribute("table","student");
+////        return new ModelAndView("test");
+//        Student student = userService.findUserByNo(10002,"student");
+//        session.setAttribute("user",student);
+//        session.setAttribute("table","student");
 //        String url =String.format("redirect:/%d/main",student.getNo());
-        String url="redirect:/rooms/public";
-        System.out.println(url);
-        System.out.println(student.toString());
-        return new ModelAndView(url);
-//        return new ModelAndView("index");
+//        String url="redirect:/rooms/public";
+//        System.out.println(url);
+//        System.out.println(student.toString());
+//        return new ModelAndView(url);
+        return new ModelAndView("index");
     }
 
     @PostMapping("/fuzzyMatchUsers")

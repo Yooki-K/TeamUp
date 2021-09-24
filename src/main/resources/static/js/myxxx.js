@@ -17,7 +17,13 @@ $(function (){
     });
 
 })
-
+function joinClass(){
+    //input id=code
+    var code = $("#code").val();
+    sendQUERY("post","/join/class",{invCode:code},function (data){
+        alert(data.mes);
+    })
+}
 function editState(e){
     var e =$(e);
     var name = e.text();

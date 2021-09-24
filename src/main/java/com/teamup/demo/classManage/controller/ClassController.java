@@ -151,7 +151,7 @@ public class ClassController {
     public Message joinClass(@Param("invCode")String invCode,HttpSession session){
         Student user = (Student) session.getAttribute("user");
         if(user.getId()==null)
-            return new Message(false,"请先十几名认证");
+            return new Message(false,"请先实名认证");
         int classId = classService.codeIsExist(invCode);
         if (classId==0)
             return new Message(false,"当前邀请码不存在");

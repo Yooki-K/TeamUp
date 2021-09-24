@@ -44,21 +44,21 @@ public class UserController {
             return new Message(false,"注册失败(sign in fail)");
         }
     }
-    @GetMapping("/judge/user/{table}")
+    @GetMapping("/judge/user")
     /*注册时判断用户名是否已使用，焦点离开user input时使用*/
-    public Message userIsExist(@RequestParam("user") String user, @PathVariable String table){
+    public Message userIsExist(@RequestParam("user") String user, @RequestParam("table") String table){
         Student USER=userService.findUserByUser(user,table);
         if(USER==null)
             return new Message(false);
         else
             return new Message(true);
     }
-    @PostMapping(value = "/getCaptcha/{table}")
+    @PostMapping(value = "/getCaptcha")
     //发送邮件验证码 接受数据json 1注册 2忘记密码
     public Message sendCaptcha(@Param(value = "mail") String mail,
                                @Param(value = "user") String user,
                                @Param(value = "type") String type,
-                               @PathVariable String table) {
+                               @Param(value = "table") String table) {
         int t = Integer.parseInt(type);
         int num=0;
         if(t==1){
@@ -90,32 +90,38 @@ public class UserController {
         else
             return new Message(false,"验证码失效(captcha invalid)");
     }
-    @PostMapping("/signUp/{table}/")
+    @PostMapping("/signUp")
     /*登录 参数table 1学生 2老师 3管理员*/
-    public Message signUp(@Param(value="user") String user, @Param(value="pwd") String pwd, @PathVariable(name="table") String table,
-                          HttpSession session){
+    public ModelAndView signUp(@Param(value="user") String user, @Param(value="pwd") String pwd, @Param(value="table") String table,
+                          HttpSession session,HttpServletRequest request){
+        String url = request.getRequestURI();
         if(table!=null && table.equals("admin")){//管理员登录
             if(user!=null && user.equals(admin.getUser())){
                 if(pwd!=null && pwd.equals(admin.getPwd())){
                     session.setAttribute("table",table);
                     session.setMaxInactiveInterval(60*60);//设置一小时后过期
-                    return new Message(true,"登陆成功(sign up success)");
+                    ModelAndView modelAndView = new ModelAndView("");//todo 管理员页面
+                    modelAndView.addObject("user",admin);
+                    return modelAndView;
                 }
-                return new Message(false,"密码错误(password error)");
+                return Util.createError("false","密码错误(password error)",url);
             }
-            return new Message(false,"管理员用户名错误(admin username error)");
+            return Util.createError("false","管理员用户名错误(admin username error)",url);
         }
         Student USER = userService.findUserByUser(user,table);
         if (USER == null)
-            return new Message(false,"用户不存在(user does not exist)");
+            return Util.createError("false","用户不存在(user does not exist)",url);
         if (pwd != null && pwd.equals(USER.getPwd())) {
             session.setAttribute("user",USER);
             session.setAttribute("table",table);
             session.setMaxInactiveInterval(60*60);//设置一小时后过期
-            return new Message(true,"登陆成功(sign up success)");
+            ModelAndView modelAndView = new ModelAndView("main");//组队大厅
+            modelAndView.addObject("user",USER);
+            return modelAndView;
         }
-        else
-            return new Message(false,"密码错误(password error)");
+        else {
+            return Util.createError("true","密码错误(password error)",url);
+        }
     }
 
     @PostMapping("/update/pwd")
