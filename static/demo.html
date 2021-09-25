@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/login.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <style>
+        .textbracket {
+            position: absolute;
+            top: -80px;
+            left: 50px;
+            width: 200px;
+            height: 200px;
+            background: url('img/textbracket.png');
+            background-size: 200px 200px;
+        }
+
+        .textbracket h4 {
+            display: block;
+            position: absolute;
+            margin: 120px 24px;
+            color: black;
+        }
+
+        .people {
+            width: 50px;
+            height: 90px;
+        }
+
+        .dot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 10px;
+            background: url(img/dot.png);
+            background-size: 10px 10px;
+        }
+
+        .dot1 {
+            animation: passlight1 5s infinite;
+        }
+
+        .dot2 {
+            animation: passlight2 5s infinite;
+        }
+
+        .dot3 {
+            animation: passlight3 5s infinite;
+        }
+
+        .dot4 {
+            animation: passlight4 5s infinite;
+        }
+
+        .dot5 {
+            animation: passlight5 5s infinite;
+        }
+
+        .row-content {
+            overflow: visible;
+            height: 100px;
+            width: 80%;
+            margin: 60px auto;
+        }
+
+        .test {
+            background: palegreen;
+            box-shadow: palegreen;
+            border: 10;
+            color: rgb(33, 29, 223);
+        }
+
+        .navbar-brand {
+            float: left;
+            height: 50px;
+            padding: 15px;
+            font-size: 18px;
+            line-height: 20px;
+        }
+
+        .btn-lg.btn-shadow {
+            padding: 13px 35px 17px;
+        }
+
+        .btn-primary.btn-shadow {
+            box-shadow: inset 0 -4px 0 #502248;
+            border: 0;
+            color: white;
+        }
+
+        .masthead {
+            padding: 100px 0 80px;
+            margin-bottom: 0;
+            color: white;
+        }
+
+        @keyframes passlight1 {
+            0% {
+                background: url('img/Ndot.png');
+            }
+
+            25% {
+                background: url('img/Ydot.png');
+            }
+
+            50% {
+                background: url('img/Ndot.png');
+            }
+
+            75% {
+                background: url('img/Ndot.png');
+            }
+
+            100% {
+                background: url('img/Ndot.png');
+            }
+        }
+
+        @media screen and (min-width:768px) {
+            .masthead {
+                padding: 140px 0 80px;
+            }
+
+            .people {
+                width: 100px;
+                height: 180px;
+            }
+
+            .row-content {
+                overflow: visible;
+                height: 100px;
+                width: 80%;
+                margin: 60px 60px 140px;
+            }
+
+            .textbracket {
+                position: absolute;
+                top: -50px;
+                width: 300px;
+                height: 300px;
+                margin: auto auto;
+                background: url('img/textbracket.png');
+                background-size: 300px 300px;
+            }
+
+            .textbracket h4 {
+                display: block;
+                position: absolute;
+                margin: 200px 48px;
+                color: black;
+            }
+        }
+
+        @media screen and (min-width:900px) {
+            .masthead {
+                padding: 160px 0 80px;
+            }
+
+            .people {
+                width: 100px;
+                height: 180px;
+            }
+        }
+
+        .jumbotron {
+            position: relative;
+            background-image: url('./img/img1.jpg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, .4), 0 0 30px rgba(0, 0, 0, .075);
+        }
+
+        .jumbotron .container {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .jumbotron::after {
+            content: "";
+            display: block;
+            position: relative;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            opacity: 0.4;
+        }
+
+        .jumbotron a {
+            transition: all .2s ease-in-out;
+        }
+
+        .masthead h1 {
+            font-size: 40px;
+            line-height: 1;
+            font-weight: 700;
+        }
+
+        .masthead h2 {
+            font-size: 18px;
+            line-height: 1.25;
+            font-weight: 200;
+        }
+
+        .masthead .masthead-button-links {
+            margin-top: 30px;
+        }
+
+        .masthead-links {
+            color: white;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .masthead-links a {
+            color: rgba(255, 255, 255, 0.541);
+        }
+    </style>
+</head>
+
+<body>
+    <!--登录-->
+    <div class="modal fade login" id="loginModal">
+        <div class="modal-dialog login animated">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">登录</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="content registerBox" style="">
+                            <div class="form">
+                                <form method="post" action="/sign-up" enctype="multipart/form-data">
+                                    <h5 style="display: inline-block;">身份：</h5>
+                                    <select name="type">
+                                        <option value="student">学生</option>
+                                        <option value="teacher">老师</option>
+                                    </select>
+                                    <input type="text" class="form-control" name="username" value=""
+                                        placeholder="用户名(邮箱)" autofocus=''>
+                                    <input type="password" class="form-control" name="pwd" value="" placeholder="密码"
+                                        autofocus="">
+
+                                    <input class="btn btn-register" type="submit" value="登录" name="commit">
+                                    <a href="main.html">管理员通道</a>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <span class="navbar-brand">卷起来网</span>
+        </div>
+    </div>
+    <div class="jumbotron masthead">
+        <div class="container">
+            <h1>大学生组队平台</h1>
+            <h2>专为大学生课设组队、竞赛组队等而设计，让组队更简单</h2>
+            <p class="masthead-button-links">
+                <a class="btn btn-lg btn-primary btn-shadow" type="submit" role="button" onclick="openRegisterModal();">
+                    现在登录
+                </a>
+                <ul class="masthead-links">
+                    <li>
+                        <a href="sign-up.html" role="button">
+                            还没注册？现在注册
+                        </a>
+                    </li>
+                </ul>
+            </p>
+        </div>
+    </div>
+    <div class="row-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-xs-6" style="height: 100px;overflow: visible;">
+                    <img src="img/people.png" class="people">
+                    <div class="dot"></div>
+                    <span class="dot dot1"></span>
+                    <span class="dot dot1"></span>
+                    <span class="dot dot1"></span>
+                    <span class="dot dot1"></span>
+                    <img src="img/people.png" class="people">
+                </div>
+                <div class="col-md-8 col-xs-6" style="height: 100px;overflow: visible;">
+                    <div class="textbracket">
+                        <h4>&nbsp快速组队，智能匹配队友</h4>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
