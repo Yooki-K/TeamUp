@@ -286,7 +286,8 @@
                 <div class="msg-all">
                     <div class="msg-info clearfix">
                         <div class="msg-info-title">
-                            <p class="msg-info-title-msg">通知</p><span class="msg-info-title-msg" style="color: red" th:text="${num}+'条未读消息'"></span>
+                            <p class="msg-info-title-msg">通知</p><span class="msg-info-title-msg" style="color: red"
+                                th:text="${num}+'条未读消息'"></span>
 
                         </div>
                     </div>
@@ -297,6 +298,15 @@
                                     <span class="title" th:text="${#dates.format(x.key, 'yyyy-MM-dd HH:mm:ss')}"></span>
                                 </span>
                                 <span class="drop-content" th:text="${x.value}"></span>
+                            </li>
+                            <li class="msg-unread">
+                                <span class="msg-title msg-info">
+                                    <span class="title">邀请</span>
+                                </span>
+                                <span class="drop-content">况宇邀请您加入房间“这个组队不太冷”
+                                    <button class="btn btn-danger" style="float: right;margin: 5px;">拒绝</button>
+                                    <button class="btn btn-success" style="float: right;margin: 5px;">接收</button>
+                                </span>  
                             </li>
                         </ul>
                     </div>

@@ -4,6 +4,7 @@ package com.teamup.demo.roomManage.controller;
 import com.sun.istack.internal.NotNull;
 import com.sun.mail.imap.protocol.MODSEQ;
 import com.teamup.demo.classManage.entity.Class;
+import com.teamup.demo.classManage.service.ClassService;
 import com.teamup.demo.roomManage.entity.ApplyRoom;
 import com.teamup.demo.roomManage.entity.Invitation;
 import com.teamup.demo.roomManage.entity.Room;
@@ -40,7 +41,8 @@ public class RoomController {
     private UserService userService;
     @Resource
     private TeamService teamService;
-
+    @Resource
+    private ClassService classService;
     @PostMapping("/data/matchTeammate")
     /*匹配 参数type {intel智能匹配  key 关键字匹配}*/
     public Map<String,List<Student>> intelMatch(@Param("type") String type, @Param("aim") String aim,HttpSession session){
@@ -292,8 +294,13 @@ public class RoomController {
         Student user = (Student) session.getAttribute("user");
         if(user==null)
             return Util.createError("false","请先登录",request.getRequestURI());
+        Class c = classService.getClassById(classId);
+        if(c==null) {
+            return Util.createError("404","当前资源不存在",request.getRequestURI());
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user",user);
+        modelAndView.addObject("class",c);
         modelAndView.setViewName("main");
         return modelAndView;
     }

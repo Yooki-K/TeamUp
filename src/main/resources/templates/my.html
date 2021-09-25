@@ -406,7 +406,7 @@
                         <div class="general-info-t">
                             <div class="general-info-avatar">
                                 <img th:src="@{*{headshot}}" alt="上传图片">
-                                <div class="avatar-hover" onclick="uploadimg();"><img src="/img/uploadimg.png" alt=""></div>
+                                <div th:if="${user!=null and person.user==user.user}" class="avatar-hover" onclick="uploadimg();"><img src="/img/uploadimg.png" alt=""></div>
                             </div>
                             <div class="general-info-t-info">
                                 <div class="profile-name-info">

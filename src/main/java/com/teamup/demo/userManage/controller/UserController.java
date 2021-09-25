@@ -44,22 +44,6 @@ public class UserController {
             return new Message(false,"注册失败(sign in fail)");
         }
     }
-    @GetMapping(value = "/sign-up-page")
-    //注册页面
-    public ModelAndView signup() {
-        return new ModelAndView("sign-up");
-    }
-    @GetMapping(value = "/sign-up-page/1")
-    //学生注册页面
-    public ModelAndView signupteacher() {
-        return new ModelAndView("sign-up-student");
-    }
-    @GetMapping(value = "/sign-up-page/2")
-    //老师注册页面
-    public ModelAndView signupstudent() {
-        return new ModelAndView("sign-up-teacher");
-    }
-
     @GetMapping("/judge/user")
     /*注册时判断用户名是否已使用，焦点离开user input时使用*/
     public Message userIsExist(@RequestParam("user") String user, @RequestParam("table") String table){
@@ -116,7 +100,7 @@ public class UserController {
                 if(pwd!=null && pwd.equals(admin.getPwd())){
                     session.setAttribute("table",table);
                     session.setMaxInactiveInterval(60*60);//设置一小时后过期
-                    ModelAndView modelAndView = new ModelAndView("");//todo 管理员页面
+                    ModelAndView modelAndView = new ModelAndView("manager");
                     modelAndView.addObject("user",admin);
                     return modelAndView;
                 }
@@ -136,7 +120,7 @@ public class UserController {
             return modelAndView;
         }
         else {
-            return Util.createError("true","密码错误(password error)",url);
+            return Util.createError("false","密码错误(password error)",url);
         }
     }
 

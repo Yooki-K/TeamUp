@@ -425,66 +425,53 @@
                     </ul>
                     <div class="member-footer">
                         <form action="/upload/member" method="post" enctype="multipart/form-data">
-                            <input type="file" name="file" value="上传文件" id="file" accept=".xls" style="display: none;"
-                                onchange="autoUpload(this);" />
+                            <input type="file" name="file" value="上传文件" id="file" accept=".xls" style="display: none;" onchange="autoUpload(this);"/>
                             <input type="hidden" name="classId" th:value="${class.id}" />
                         </form>
-                        <button th:if="${user!=null and user.user==teacher.user}" type="button" class="btn btn-info"
-                            onclick="GetFile(this);">通过excel导入成员</button>
+                        <button th:if="${user!=null and user.user==teacher.user}" type="button" class="btn btn-info" onclick="GetFile(this);">通过excel导入成员</button>
                     </div>
                 </div>
-                <!--                todo 班级公告-->
-                <div class="class-content">
-                    <label class="class-main-title">班级公告</label>
-                    <p class="banjigonggaoshijian" th:if="${class.publishTime!=null}"
-                        th:text="${class.getPublishTimeString()}"></p>
-                    <textarea class="banjigonggao" rows="5" cols="150" readonly="readonly"
-                        style="display: block;resize: none;"
-                        th:if="${class.publishTime!=null and (user==null or user.user!=teacher.user)}"
-                        th:text="${class.announcement}"></textarea>
-                    <textarea class="banjigonggao" rows="5" cols="150" style="display: block;resize: none;"
-                        th:if="${class.publishTime!=null and user!=null and user.user==teacher.user}"
-                        th:text="${class.announcement}" onblur="updateAnoun(this)"></textarea>
-                    <div class="class-main-team">
-                        <label class="class-main-title">已组队伍</label>
-                        <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4">
-                            <div class="no-team" th:if="${teams.size()==0}">暂无已组队队伍</div>
-                            <!--单个班级卡片-->
-                            <li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6" th:each="y: ${teams}">
-                                <div class="Box pinned-item-list-item d-flex p-3 width-full public fork"
-                                    th:object="${y.team}">
-                                    <div class="pinned-item-list-item-content">
-                                        <div class="d-flex width-full flex-items-center position-relative">
-                                            <a href="#" class="text-bold flex-auto min-width-0">
-                                                <span class="repo" th:title="*{name}" th:text="*{name}"></span>
-                                                </ a>
-                                                <span class="Label Label--secondary v-align-middle " th:utext="<i
+<!--                todo 班级公告-->
+                <label class="class-main-title">班级公告</label>
+                <p class="banjigonggaoshijian" th:if="${class.publishTime!=null}" th:text="${class.getPublishTimeString()}"></p>
+                <textarea class="banjigonggao" rows="5" cols="150" readonly="readonly" style="display: block;resize: none;" th:if="${class.publishTime!=null and (user==null or user.user!=teacher.user)}" th:text="${class.announcement}"></textarea>
+                <textarea class="banjigonggao" rows="5" cols="150" style="display: block;resize: none;" th:if="${class.publishTime!=null and user!=null and user.user==teacher.user}" th:text="${class.announcement}" onblur="updateAnoun(this)"></textarea>
+                <div class="class-main-team">
+                    <label class="class-main-title">已组队伍</label>
+                    <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4">
+                        <div class="no-team" th:if="${teams.size()==0}">暂无已组队队伍</div>
+                    <!--单个班级卡片-->
+                    <li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6" th:each="y: ${teams}">
+                        <div class="Box pinned-item-list-item d-flex p-3 width-full public fork" th:object="${y.team}">
+                            <div class="pinned-item-list-item-content">
+                                <div class="d-flex width-full flex-items-center position-relative">
+                                    <a href="#" class="text-bold flex-auto min-width-0">
+                                        <span class="repo" th:title="*{name}" th:text="*{name}"></span>
+                                    </ a>
+                                <span class="Label Label--secondary v-align-middle " th:utext="<i
                                         class=\" fa="" fa-user\"="">"+*{number}+"人"&gt;</span>
-                                        </div>
+                            </div>
 
-                                        <p class="color-text-secondary text-small mb-2">
-                                            队长 <a class="Link--muted" th:href="@{'/'+${y.leaderNo}+'/index'}"
-                                                th:text="${y.leaderName}"></ a>
-                                        </p>
-                                        <p class="pinned-item-desc color-text-secondary text-small d-block mt-2 mb-3">
+                    <p class="color-text-secondary text-small mb-2">
+                        队长 <a class="Link--muted" th:href="@{'/'+${y.leaderNo}+'/index'}" th:text="${y.leaderName}"></ a>
+                    </p >
+                    <p class="pinned-item-desc color-text-secondary text-small d-block mt-2 mb-3">
 
-                                        </p>
-                                        <button class="manage-btn" th:if="*{dissolveTime != null}">已解散</button>
-                                        <p class="mb-0 f6 color-text-secondary">
-                                            <span class="d-inline-block mr-3">
-                                            </span>
+                    </p >
+                    <button class="manage-btn" th:if="*{dissolveTime != null}">已解散</button>
+                    <p class="mb-0 f6 color-text-secondary">
+                        <span class="d-inline-block mr-3">
+                        </span>
 
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-
-                        </ol>
-                    </div>
+                    </p >
                 </div>
-
             </div>
+        </li>
+
+                    </ol>
+                </div>
         </div>
+    </div>
 </body>
 
 </html>

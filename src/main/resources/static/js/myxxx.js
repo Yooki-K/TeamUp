@@ -21,6 +21,14 @@ function joinClass(){
     var code = $("#code").val();
     sendQUERY("post","/join/class",{invCode:code},function (data){
         alert(data.mes);
+        location.reload();
+    })
+}
+function createClass() {
+    var name = $("#className").val();
+    sendJSON("post","/create/class",{name:name},function (data){
+        alert(data.mes);
+        location.reload();
     })
 }
 function editState(e){

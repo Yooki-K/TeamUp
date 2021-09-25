@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8" />
+    <title>我的团队</title>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/send.js"></script>
+    <script src="/js/team.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".shell").height($(window).height() - 50);
+            $(".nav-trigger").click(function () {
+                $(".navbar-collapse .collapse").addClass("in");
+            });
+            $(window).resize(function () {
+                $(".shell").height($(window).height() - 50);
+            });
+            $("#single-add").click(function () {
+                $(".single-input").toggle();
+            });
+        });
+
+        function GetFile() {
+            $("#file").click();
+        }
+    </script>
+    <link rel="stylesheet" href="/css/team-m.css" />
+</head>
+
+<body>
+<!--    <div class="modal fade" id="addmember">-->
+<!--        <div class="modal-dialog">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+<!--                    <h4 class="modal-title">添加成员</h4>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <form method="post" action="/sign-up" enctype="multipart/form-data">-->
+<!--                        <input type="text" name="studentname" value="" placeholder="姓名">-->
+<!--                        <input type="text" name="studentId" value="" placeholder="学号">-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭-->
+<!--                    </button>-->
+<!--                    <button type="button" class="btn btn-primary">-->
+<!--                        提交申请-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <!--背景图片-->
+    <div class="body-background"></div>
+    <ul class="bg-bubbles" id="bubbles">
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+    </ul>
+<!--顶部导航栏-->
+<div th:replace="model::navbar(${user})"></div>
+<!--侧方菜单栏-->
+<div th:if="${user!=null}" th:replace="model::menubar(${user})"></div>
+    <!--主界面-->
+    <div class="main">
+        <!--班级区域-->
+        <div class="my-area">
+            <div class="bg34 p40 wh">
+                <div class="f30 mb10 wh">
+                    <span th:text="${team.name}"></span>
+                </div>
+                <div class="teacherDiv fr" style=" margin-top: 20px;  ">
+                    <a class="zhuTacher" style=" color:#fff ;margin-left: 0;" th:href="@{${teacher==null?'#':'/'+teacher.no+'/index'}}" th:text="'指导老师：'+${teacher==null?'无':teacher.user}"></a>
+                </div>
+                <div class="fix mt30">
+                    <div class="l pct60" id="clazzTag" data="false" flag="true">
+                        <a class="mr10 orgbtn greenbtn  btn_s bdrad18" href="#">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="class-main">
+                <div class="class-member">
+                    <div class="class-member-title">
+                        <label>成员</label>
+                    </div>
+                    <ul style="max-height: 365px;">
+                        <li th:each="x : ${members}">
+                            <img th:src="@{${x.headshot}}" />
+                            <h5 th:text="${x.user}"></h5>
+                        </li>
+                    </ul>
+                </div>
+                <!--                todo 团队简介-->、
+                <label class="class-main-title">团队简介</label>
+                <input type="hidden" name="teamId" th:value="${team.teamId}" />
+                <textarea class="banjigonggao" rows="10" cols="150" readonly="readonly" style="display: block;resize: none;" th:if="${user==null or user.user!=leader.user}" th:text="${team.brief}"></textarea>
+                <textarea class="banjigonggao" rows="10" cols="150" style="display: block;resize: none;" th:if="${user!=null and user.user==leader.user}" th:text="${team.brief}" onblur="updateBrief(this)"></textarea>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
