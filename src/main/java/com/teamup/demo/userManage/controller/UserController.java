@@ -38,11 +38,30 @@ public class UserController {
     @PostMapping(value = "/signIn")
     //注册 传参type 1学生 2老师 ，只需输入参数 {user,pwd,mail}
     public Message signIn(@Param(value = "type") String type, Student user){
+        System.out.println(user);
         if(userService.addUser(user, Integer.parseInt(type)) == 1){
             return new Message(true,"注册成功(sign in success)");
         }else{
             return new Message(false,"注册失败(sign in fail)");
         }
+    }
+    @GetMapping(value = "/sign-up-page/1")
+    public ModelAndView sign_up_teacher(HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("sign-up-student");
+        return modelAndView;
+    }
+    @GetMapping(value = "/sign-up-page/2")
+    public ModelAndView sign_up_student(HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("sign-up-teacher");
+        return modelAndView;
+    }
+    @GetMapping(value = "/sign-up-page")
+    public ModelAndView sign_up_func(HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("sign-up");
+        return modelAndView;
     }
     @GetMapping("/judge/user")
     /*注册时判断用户名是否已使用，焦点离开user input时使用*/
@@ -59,6 +78,7 @@ public class UserController {
                                @Param(value = "user") String user,
                                @Param(value = "type") String type,
                                @Param(value = "table") String table) {
+        System.out.println(mail+" "+user+" "+type + " " + table);
         int t = Integer.parseInt(type);
         int num=0;
         if(t==1){
@@ -79,9 +99,11 @@ public class UserController {
     public Message verifyCode(@Param(value = "user") String user,
                               @Param(value = "captcha") String captcha,
                               @Param(value = "type") String type){
+        System.out.println(user+" " + captcha + " " + type);
         long time = new Date().getTime();
         codeService.deleteInvalid(time);
         String code = codeService.findCodeByUser(user,time,Integer.parseInt(type));
+        System.out.println(code);
         if(code!=null)
             if(code.equals(captcha))
                 return new Message(true,"注册成功(sign in success)");

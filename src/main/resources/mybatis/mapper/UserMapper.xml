@@ -12,13 +12,14 @@
         select * from public.${table} where "user" like concat(#{param},'%')
     </select>
 
+
     <select id="findUserByUser" parameterType="String" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.${table} where "user" = #{user}
     </select>
     <select id="findUserByNo" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.${table} where "no" = #{no}
     </select>
-    <insert id="addUser">
+    <insert id="addUser" >
         insert into public.${table} ("user",pwd,mail) values (#{user.user},#{user.pwd},#{user.mail})
     </insert>
 

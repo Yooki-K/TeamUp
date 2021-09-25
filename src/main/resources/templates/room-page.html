@@ -119,7 +119,7 @@
         .room-main .room-request .card .room-request-r .request-btn {
             position: absolute;
             bottom: 5px;
-            right:65px;
+            right: 65px;
         }
     </style>
 </head>
@@ -127,7 +127,7 @@
 <body>
 
     <!--todo 邀请 模态框（Modal） -->
-    <div class="modal fade" id=" invitemember">
+    <div class="modal fade" id="invitemember">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -141,7 +141,7 @@
                             <option value="teacher">老师</option>
                         </select>
                         <input type="text" name="toUser" value="" placeholder="用户名">
-                        <input type="hidden" name="roomId" value="${room.id}" >
+                        <input type="hidden" name="roomId" value="${room.id}">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -186,19 +186,21 @@
             <div class="bg34 p40 wh">
                 <div class="f30 mb10 wh">
                     <span th:text="${room.teamName}"></span>
-                    <span class="f18 g9 b ml10" th:text="${room.name}" ></span>
+                    <span class="f18 g9 b ml10" th:text="${room.name}"></span>
                 </div>
-                <a class="zhuTacher" style=" color:#fff ;margin-left: 0;" th:text="'队长:'+${leader.user}" th:href="@{'/'+${leader.no}+'/index/'}"></a>
+                <a class="zhuTacher" style=" color:#fff ;margin-left: 0;" th:text="'队长:'+${leader.user}"
+                    th:href="@{'/'+${leader.no}+'/index/'}"></a>
                 <div class="teacherDiv fr" style=" margin-top: 20px;  ">
                     <p class="zhuTacher" style=" color:#fff ;margin-left: 0;"></p>
                 </div>
                 <div class="fix mt30">
                     <div class="l pct60" id="clazzTag" data="false" flag="true">
-                        <a class="mr10 orgbtn greenbtn  btn_s bdrad18" href="javascript:void(0)" th:onclick="deleteRoom(${user.no})">
+                        <a class="mr10 orgbtn greenbtn  btn_s bdrad18" href="javascript:void(0)"
+                            th:onclick="deleteRoom(${user.no})">
                             解散
                         </a>
-                        <a class="mr10 orgbtn greenbtn  btn_s bdrad18"data-toggle="modal" data-target="#invitemember">
-                           邀请
+                        <a class="mr10 orgbtn greenbtn  btn_s bdrad18" data-toggle="modal" data-target="#invitemember">
+                            邀请
                         </a>
                     </div>
                 </div>
@@ -210,7 +212,8 @@
                     </div>
                     <div class="room-member-content">
                         <ul>
-                            <li th:each="x :${members}"><img th:src="@{${x.headshot}}"/><span th:text="${x.user}"></span></li>
+                            <li th:each="x :${members}"><img th:src="@{${x.headshot}}" /><span
+                                    th:text="${x.user}"></span></li>
                         </ul>
                     </div>
                 </div>
@@ -220,8 +223,10 @@
                             <label class="room-request-title" th:text="${y.user}"></label>
                             <label th:text="${y.content}"></label>
                             <div class="request-btn">
-                                <button th:id="'agree_'+${y.id}" class="btn btn-success" onclick="agree(this)">允许</button>
-                                <button th:id="'disagree_'+${y.id}" class="btn btn-success" onclick="disagree(this)">拒绝</button>
+                                <button th:id="'agree_'+${y.id}" class="btn btn-success"
+                                    onclick="agree(this)">允许</button>
+                                <button th:id="'disagree_'+${y.id}" class="btn btn-success"
+                                    onclick="disagree(this)">拒绝</button>
                             </div>
 
                         </div>
