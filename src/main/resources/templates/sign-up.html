@@ -1,4 +1,5 @@
-<head xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -122,7 +123,7 @@
                     data-target=".navbar-collapse">
                     <span class="nav-trigger glyphicon glyphicon-align-justify" style="color: white;"></span>
                 </button>
-                <span class="navbar-brand">卷起来网</span>
+                <span class="navbar-brand">JAVA课设</span>
             </div>
             <div class="navbar-collapse collapse" role="navigation" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav">
@@ -134,15 +135,20 @@
     <div class="ss_main">
         <div class="zcpage-main">
             <div class="zctype1">
-                <h2>选择注册账号类型</h2>
-                <h6>请选择以下任一种类型完成网站注册</h6>
+                <h2>选择账号类型</h2>
+                <h6>请选择以下任一种类型完成操作</h6>
                 <ul>
-                    <li id="naturalRegisterBtn" onclick="window.location='/sign-up-page/2'"><img
-                            src="img/teacher.png"><span>老师注册</span></li>
-                    <li id="legalRegisterBtn" onclick="window.location='/sign-up-page/1'"><img
-                            src="img/student.png"><span>学生注册</span></li>
+                    <li th:if="${#request.getRequestURI().contains('sign')}" id="naturalRegisterBtn" onclick="window.location='/sign-up-page/2'"><img
+                            src="img/teacher.png"><span>老师</span></li>
+                    <li th:if="${#request.getRequestURI().contains('sign')}" id="legalRegisterBtn" onclick="window.location='/sign-up-page/1'"><img
+                            src="img/student.png"><span>学生</span></li>
+                    <li th:if="${#request.getRequestURI().contains('pwd')}" id="naturalRegisterBtn" onclick="window.location='/forget-pwd-page/2'"><img
+                            src="img/teacher.png"><span>老师</span></li>
+                    <li th:if="${#request.getRequestURI().contains('pwd')}" id="legalRegisterBtn" onclick="window.location='/forget-pwd-page/1'"><img
+                            src="img/student.png"><span>学生</span></li>
                 </ul>
             </div>
         </div>
     </div>
 </body>
+</html>

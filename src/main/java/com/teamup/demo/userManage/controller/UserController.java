@@ -45,19 +45,37 @@ public class UserController {
         }
     }
     @GetMapping(value = "/sign-up-page/1")
-    public ModelAndView sign_up_teacher(HttpSession session,HttpServletRequest request){
+    public ModelAndView sign_up_student(HttpSession session,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("sign-up-student");
         return modelAndView;
     }
     @GetMapping(value = "/sign-up-page/2")
-    public ModelAndView sign_up_student(HttpSession session,HttpServletRequest request){
+    public ModelAndView sign_up_teacher(HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("sign-up-teacher");
+        return modelAndView;
+    }
+    @GetMapping(value = "/forget-pwd-page/1")
+    public ModelAndView forget_pwd_student(HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("sign-up-student");
+        return modelAndView;
+    }
+    @GetMapping(value = "/forget-pwd-page/2")
+    public ModelAndView forget_pwd_teacher(HttpSession session,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("sign-up-teacher");
         return modelAndView;
     }
     @GetMapping(value = "/sign-up-page")
     public ModelAndView sign_up_func(HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("sign-up");
+        return modelAndView;
+    }
+    @GetMapping(value = "/forget-pwd-page")
+    public ModelAndView forget_pwd_func(HttpSession session,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("sign-up");
         return modelAndView;
@@ -88,7 +106,7 @@ public class UserController {
             num = codeService.addCode(new MailCode(user,code,t));
         }
             if(num >= 1)
-                return new Message(true);
+                return new Message(true,"成功发送验证码");
             else
                 return new Message(false,"验证码失效(captcha invalid)");
     }
@@ -102,7 +120,7 @@ public class UserController {
         String code = codeService.findCodeByUser(user,time,Integer.parseInt(type));
         if(code!=null)
             if(code.equals(captcha))
-                return new Message(true,"注册成功(sign in success)");
+                return new Message(true);
             else
                 return new Message(false,"验证码错误(captcha error)");
         else
@@ -141,26 +159,25 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update/pwd")
+    @PostMapping("/update/pwd/{table}")
     /*修改密码 参数 原密码*/
-    public Message updatePwd(@Param(value = "pwd1")String pwd1,
-                             @Param(value = "pwd2")String pwd2,
-                             HttpSession session){
-        Student user= (Student) session.getAttribute("user");
-        String table = session.getAttribute("table").toString();
-        if(table.equals("admin")){
-            return new Message(false,"管理员不能通过此方式更改密码");
+    public Message updatePwd(@Param(value = "pwd") String pwd,
+                             @Param(value = "user") String user,
+                             @Param(value = "mail") String mail,
+                             HttpSession session, @PathVariable String table){
+        Student user1= userService.findUserByUser(user,table);
+        if (!user1.getMail().equals(mail))
+            return new Message(false,"邮箱错误");
+        if(user1.getPwd().equals(pwd)) {
+            return new Message(false, "新密码与原密码相同");
         }
-        if(user.getPwd().equals(pwd1)){
-            if (user.getPwd().equals(pwd2))
-                return new Message(false,"新密码与原密码相同");
-            int num = userService.updatePwdByUser(user.getUser(),pwd2,table);
-            if(num>=1)
-                return new Message(true,"修改密码成功(update password success)");
-            else
-                return new Message(false,"修改密码失败");
-        }else
-            return new Message(false,"原密码输入错误");
+        Map<String,String>map = new HashMap<>();
+        map.put("pwd",pwd);
+        int num = userService.updateUser(user1,map);
+        if(num>=1)
+            return new Message(true,"修改密码成功(update password success)");
+        else
+            return new Message(false,"修改密码失败");
     }
     @PostMapping("/certificate")
     /*实名认证 可用form表单提交 参数 学号、学校、姓名、性别*/
