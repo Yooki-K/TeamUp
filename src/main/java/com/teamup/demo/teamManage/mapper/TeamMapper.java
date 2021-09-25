@@ -15,6 +15,7 @@ import java.util.Map;
 @Repository
 public interface TeamMapper {
     int updateTeamInfById(@Param("map") Map<String, String> map, @Param("id")int id)throws SQLException;
+    int updateTeamById(@Param("map") Map<String, String> map, @Param("id")int id)throws SQLException;
     int addEvaluation(Evaluation evaluation)throws SQLException;
     int getNumNeedTeam(String user);//查看个人需要组队任务数量
     int addTeamInf(@Param("classId")int classId,@Param("teacherId")int teacherId)throws SQLException;
@@ -23,6 +24,7 @@ public interface TeamMapper {
     List<Evaluation> getEvaluationByUser(String user2);
     List<Team> getTeamByClass(int classId);
     List<Team> getDissolveTeam(String user);
+    List<Team> getTeamByTeacherNo(int teacherNo);
     List<TeamInf> getTeamInfByUser(String user);
     int dissolveTeam(int teamId)throws SQLException;
     Team getTeamById(int teamId);

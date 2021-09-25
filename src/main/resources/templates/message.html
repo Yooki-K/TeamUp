@@ -13,6 +13,9 @@
     <script src="/js/vue.min.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/send.js"></script>
+    <script src="/js/message.js"></script>
+    <script src="/js/jquery.form.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/main.css" />
@@ -297,6 +300,17 @@
                                     <span class="title" th:text="${#dates.format(x.key, 'yyyy-MM-dd HH:mm:ss')}"></span>
                                 </span>
                                 <span class="drop-content" th:text="${x.value}"></span>
+                            </li>
+                            <li class="msg-unread" th:each="y :${data2}">
+                                <span class="msg-title msg-info">
+                                    <span class="title">邀请</span>
+                                </span>
+                                <span class="drop-content">
+                                    <span th:type="${y.invitation.user1}+'邀请您加入房间'"></span>
+                                    <a th:text="${y.room.teamName}" th:href="@{'/room/'+${y.room.id}}"></a>
+                                    <button th:id="'agree_'+${y.invitation.id}" class="btn btn-success" style="float: right;margin: 5px;" onclick="agree(this)">接收</button>
+                                    <button th:id="'disagree_'+${y.invitation.id}" class="btn btn-danger" style="float: right;margin: 5px;" onclick="disagree(this)">拒绝</button>
+                                </span>
                             </li>
                         </ul>
                     </div>

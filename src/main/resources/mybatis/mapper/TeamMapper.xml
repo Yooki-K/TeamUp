@@ -16,6 +16,20 @@
         </foreach>
         where "id" = #{id}
     </update>
+    <update id="updateTeamById">
+        update public."team" set
+        <foreach item="item" collection="map" separator="," open="" close="" index="key">
+            <choose>
+                <when test="key.indexOf('Id'.toString()) != -1">
+                    "${key}" = ${item}
+                </when>
+                <otherwise>
+                    "${key}" = #{item}
+                </otherwise>
+            </choose>
+        </foreach>
+        where "teamId" = #{id}
+    </update>
     <insert id="addEvaluation" parameterType="com.teamup.demo.teamManage.entity.Evaluation">
         insert into public."evaluation" values (#{user1},#{user2},#{content})
     </insert>
@@ -24,6 +38,9 @@
     </select>
     <select id="getTeamByClass" resultType="com.teamup.demo.teamManage.entity.Team">
         select * from public.team where "classId" = #{classId}
+    </select>
+    <select id="getTeamByTeacherNo" resultType="com.teamup.demo.teamManage.entity.Team">
+        select * from public.team where "teacherId" = #{teacherId}
     </select>
     <select id="getTeamInfByUser" resultType="com.teamup.demo.teamManage.entity.TeamInf">
         select * from public."teamInf" where "user" = #{user} order by "teamId" asc

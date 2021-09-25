@@ -431,11 +431,10 @@
                         <button th:if="${user!=null and user.user==teacher.user}" type="button" class="btn btn-info" onclick="GetFile(this);">通过excel导入成员</button>
                     </div>
                 </div>
-<!--                todo 班级公告-->
                 <label class="class-main-title">班级公告</label>
                 <p class="banjigonggaoshijian" th:if="${class.publishTime!=null}" th:text="${class.getPublishTimeString()}"></p>
-                <textarea class="banjigonggao" rows="5" cols="150" readonly="readonly" style="display: block;resize: none;" th:if="${class.publishTime!=null and (user==null or user.user!=teacher.user)}" th:text="${class.announcement}"></textarea>
-                <textarea class="banjigonggao" rows="5" cols="150" style="display: block;resize: none;" th:if="${class.publishTime!=null and user!=null and user.user==teacher.user}" th:text="${class.announcement}" onblur="updateAnoun(this)"></textarea>
+                <textarea class="banjigonggao" rows="5" cols="150" readonly="readonly" style="display: block;resize: none;" th:if="${user==null or user.user!=teacher.user}" th:text="${class.announcement}"></textarea>
+                <textarea class="banjigonggao" rows="5" cols="150" style="display: block;resize: none;" th:if="${user!=null and user.user==teacher.user}" th:text="${class.announcement}" onblur="updateAnoun(this)"></textarea>
                 <div class="class-main-team">
                     <label class="class-main-title">已组队伍</label>
                     <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4">

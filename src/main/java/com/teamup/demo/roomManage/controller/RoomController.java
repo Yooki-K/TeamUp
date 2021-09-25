@@ -1,8 +1,6 @@
 package com.teamup.demo.roomManage.controller;
 
 
-import com.sun.istack.internal.NotNull;
-import com.sun.mail.imap.protocol.MODSEQ;
 import com.teamup.demo.classManage.entity.Class;
 import com.teamup.demo.classManage.service.ClassService;
 import com.teamup.demo.roomManage.entity.ApplyRoom;
@@ -10,7 +8,6 @@ import com.teamup.demo.roomManage.entity.Invitation;
 import com.teamup.demo.roomManage.entity.Room;
 import com.teamup.demo.roomManage.service.RoomService;
 import com.teamup.demo.teamManage.entity.Team;
-import com.teamup.demo.teamManage.entity.TeamInf;
 import com.teamup.demo.teamManage.service.TeamService;
 import com.teamup.demo.tool.Custom;
 import com.teamup.demo.tool.Message;
@@ -24,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.jws.WebParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -123,7 +119,7 @@ public class RoomController {
             return new Message(false,String.format("%s操作参数未知",type));
     }
     @PostMapping("/data/query/room")
-    public List<Map<String,Object>> queryRoom( @Param("type")@NotNull String type, @Param("param")String param,
+    public List<Map<String,Object>> queryRoom( @Param("type") String type, @Param("param")String param,
             /*根据参数查询房间*/
                                  @Param("sort")String sort, @Param("isAsc")String isAsc){
         List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
@@ -172,6 +168,8 @@ public class RoomController {
     public Message inviteMember(@Param("table") String table,@Param("toUser")String toUser,
                                 @Param("roomId")int roomId, HttpSession session){
         Student user = (Student) session.getAttribute("user");
+        if(userService.findUserByUser(toUser,table)==null)
+            return new Message(false,"当前用户不存在");
         Invitation invitation = new Invitation(user.getUser(),toUser,roomId, "student".equals(table));
         if(roomService.addInvitation(invitation)>0)
             return new Message(true,"邀请成功");
@@ -187,15 +185,15 @@ public class RoomController {
     /*对邀请进行操作 json 数组
     * type参数 agree disagree*/
     @RequestMapping(value = "/operate/invitation/{type}",method = RequestMethod.POST)
-    public Message operateInvitation(@RequestBody int[] idList, @PathVariable String type,HttpSession session){
+    public Message operateInvitation(@RequestBody int id, @PathVariable String type,HttpSession session){
         Student user = (Student) session.getAttribute("user");
         if ("agree".equals(type)){
-            if(roomService.operateInvitation(true,idList,user.getUser())>0)
+            if(roomService.operateInvitation(true,id,user.getUser())>0)
                 return new Message(true);
             else
                 return new Message(false);
         }else if("disagree".equals(type)){
-            if(roomService.operateInvitation(false,idList, user.getUser())>0)
+            if(roomService.operateInvitation(false,id, user.getUser())>0)
                 return new Message(true);
             else
                 return new Message(false);
@@ -281,7 +279,7 @@ public class RoomController {
     public ModelAndView roomPublic(HttpSession session, HttpServletRequest request){
         Student user = (Student) session.getAttribute("user");
         if(user==null)
-            return Util.createError("false","请先登录",request.getRequestURI());
+            return Util.createError("false","请先登录","/");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user",user);
         modelAndView.setViewName("main");
@@ -293,7 +291,7 @@ public class RoomController {
                                   HttpServletRequest request){
         Student user = (Student) session.getAttribute("user");
         if(user==null)
-            return Util.createError("false","请先登录",request.getRequestURI());
+            return Util.createError("false","请先登录","/");
         Class c = classService.getClassById(classId);
         if(c==null) {
             return Util.createError("404","当前资源不存在",request.getRequestURI());
@@ -310,7 +308,7 @@ public class RoomController {
         //认证、申请、邀请、解散
         Student user = (Student) session.getAttribute("user");
         if (user==null)
-            return Util.createError("false","请先登录",request.getRequestURI());
+            return Util.createError("false","请先登录","/");
         Map<Date,String>map = new TreeMap<Date, String>(new Comparator<Date>(){ //从大到小排序
             @Override
             public int compare(Date o1, Date o2) {
@@ -340,6 +338,15 @@ public class RoomController {
         cha = cha-Integer.parseInt(mesNum);
         ModelAndView modelAndView = new ModelAndView("message");
         modelAndView.addObject("data",map);
+        List<Invitation> invitationList = roomService.getInvitation(user.getUser(),"recv",-1);
+        List<Map<String,Object>> list = new ArrayList<>();
+        for(Invitation invitation:invitationList){
+            Map<String,Object> map1 = new HashMap<>();
+            map1.put("invitation",invitation);
+            map1.put("room",roomService.getRoomById(invitation.getRoomId()));
+            list.add(map1);
+        }
+        modelAndView.addObject("data2",list);
         modelAndView.addObject("num",cha);
         modelAndView.addObject("user",user);
         return modelAndView;
@@ -347,9 +354,10 @@ public class RoomController {
     //我的房间
     @GetMapping("/{studentNo}/room")
     public ModelAndView queryRoom(HttpSession session, @PathVariable int studentNo,HttpServletRequest request){
-        Student user = (Student)session.getAttribute("user");
+        Student user = (Student) session.getAttribute("user");
+        String table =  session.getAttribute("table").toString();
         if (user==null) {
-            return Util.createError("false","请先登录","index");
+            return Util.createError("false","请先登录","/");
         }
         if (studentNo!=user.getNo()){
             return Util.createError("404","访问错误页面",request.getRequestURI());
@@ -357,7 +365,11 @@ public class RoomController {
         {
             ModelAndView mav = new ModelAndView();
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-            List<Room> roomList = roomService.getRoomByUser(user.getUser());
+            List<Room> roomList=null;
+            if ("student".equals(table))
+                roomList = roomService.getRoomByUser(user.getUser());
+            if ("teacher".equals(table))
+                roomList = roomService.getRoomByTeacherNo(user.getNo());
             for (Room room : roomList
             ) {
                 Map<String, Object> map = new HashMap<>();
@@ -375,10 +387,13 @@ public class RoomController {
     }
     //房间详细信息
     @GetMapping("/room/{roomId}")
-    public ModelAndView room(HttpSession session, @PathVariable int roomId){
+    public ModelAndView room(HttpSession session, @PathVariable int roomId,
+                             HttpServletRequest request){
         Student user = (Student) session.getAttribute("user");
         ModelAndView modelAndView = new ModelAndView("room-page");
         Room room = roomService.getRoomById(roomId);
+        if (room==null)
+            return Util.createError("404","当前房间不存在",request.getRequestURI());
         Student leader = userService.findUserByUser(room.getUser(), "student");
         modelAndView.addObject("leader",leader);
         modelAndView.addObject("user",user);

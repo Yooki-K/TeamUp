@@ -39,7 +39,7 @@ public class ClassController {
             return new Message(false,"请先完成实名认证");
         c.setUser(teacher.getUser());
         String invCode = Util.generateString(6);
-        while (classService.codeIsExist(invCode)!=0){
+        while (classService.codeIsExist(invCode)!=null){
             invCode = Util.generateString(6);
         }
         c.setInvCode(invCode);
@@ -68,7 +68,7 @@ public class ClassController {
     public ModelAndView queryClass2(HttpSession session, @PathVariable int studentNo,HttpServletRequest request){
         Student user = (Student)session.getAttribute("user");
         if (user==null) {
-            return Util.createError("false","请先登录","index");
+            return Util.createError("false","请先登录","/");
         }
         if (studentNo!=user.getNo()){
             return Util.createError("404","访问错误页面",request.getRequestURI());
@@ -84,7 +84,7 @@ public class ClassController {
                 Teacher teacher = classService.getTeaByClassId(c.getId());
                 map.put("class", c);
                 map.put("teacherNo", teacher.getNo());
-                if (teacher.getName()==null)
+                if (teacher.getName()!=null)
                     map.put("teacherName", teacher.getName());
                 else
                     map.put("teacherName", "未实名认证");
@@ -107,7 +107,7 @@ public class ClassController {
            return new Message(false,"班级不存在");
        if(!user.getUser().equals(cc.getUser()))
            return new Message(false,"非当前班级老师");
-       if (classService.setAnnouncement(cc.getAnnouncement(),cc.getId())>0)
+       if (classService.setAnnouncement(c.getAnnouncement(),cc.getId())>0)
            return new Message(true);
        return new Message(false);
     }
@@ -152,10 +152,13 @@ public class ClassController {
         Student user = (Student) session.getAttribute("user");
         if(user.getId()==null)
             return new Message(false,"请先实名认证");
-        int classId = classService.codeIsExist(invCode);
-        if (classId==0)
+        Class c = classService.codeIsExist(invCode);
+        if (c==null)
             return new Message(false,"当前邀请码不存在");
-        if(classService.joinClass(new ClassInf(classId,user.getUser(),user.getId()))>0)
+        ClassInf classInf = classService.getClassInf(user.getUser(), c.getId());
+        if(classInf==null)
+            return new Message(false,"未在当前班级名单中");
+        if(classService.joinClass(classInf)>0)
             return new Message(true,"加入此班级成功");
         else
             return new Message(false,"未在班级名单中");

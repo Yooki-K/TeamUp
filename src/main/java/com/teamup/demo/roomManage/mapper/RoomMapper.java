@@ -20,7 +20,8 @@ public interface RoomMapper {
     List<Room> getRoomPublic(@Param("sort")String sort,@Param("isAsc") boolean isAsc);//返回所有classId为null的房间，即公共大厅的房间
     List<Room> getRoomByTag(String tag);//返回所有tag标签可以匹配(like)到参数tag的房间
     List<Room> getRoomByName(String name);//返回所有name房间名可以匹配(like)到参数name的房间
-    List<Room> getRoomByUser(String user);//返回所有name房间名可以匹配(like)到参数name的房间
+    List<Room> getRoomByUser(String user);
+    List<Room> getRoomByTeacherNo(int teacherNo);
     Room getRoomById(int roomId);
     List<Student> getStuByRoom(int roomId);//查找一个房间的所有已加入成员
     List<Invitation> getInvitation(@Param("user")String user,@Param("type")String type,@Param("tt")int tt);
@@ -30,7 +31,7 @@ public interface RoomMapper {
     int deleteRoom(@Param("user")String user,@Param("id")int id)throws SQLException;//房主删除所建房间
     Room findRoomById(@Param("id")int id);
     int addInvitation(Invitation invitation)throws SQLException;
-    int operateInvitation(@Param("isAgree")boolean isAgree,@Param("idList")int[] idList,@Param("user")String user)throws SQLException;
+    int operateInvitation(@Param("isAgree")boolean isAgree,@Param("id")int id,@Param("user")String user)throws SQLException;
     int addApplication(ApplyRoom applyRoom)throws SQLException;
     int operateApplication(@Param("isAgree")boolean isAgree,@Param("idList")int[] idList)throws SQLException;
     List<ApplyRoom> getApplicationByRoom(int roomId);

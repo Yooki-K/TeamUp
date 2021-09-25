@@ -127,7 +127,7 @@
 <body>
 
     <!--todo 邀请 模态框（Modal） -->
-    <div class="modal fade" id=" invitemember">
+    <div class="modal fade" id="invitemember">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -141,13 +141,14 @@
                             <option value="teacher">老师</option>
                         </select>
                         <input type="text" name="toUser" value="" placeholder="用户名">
-                        <input type="hidden" name="roomId" value="${room.id}" >
+                        <input type="hidden" name="roomId" th:value="${room.id}" >
+
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="closeApply">关闭
                     </button>
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" onclick="apply()">
                         提交申请
                     </button>
                 </div>
@@ -179,9 +180,9 @@
         <div class="my-area">
             <!--“我的班级”-->
             <ul class="zla_m_tab" id="zla_title" style="margin-bottom: 0;">
-                <li class="zla_m_item "><a href="myclass.html">我的班级</a></li>
-                <li class="zla_m_item "><a href="myteam.html">我的团队</a></li>
-                <li class="zla_m_item zla_m_cur"><a href="myroom.html">我的房间</a></li>
+                <li class="zla_m_item"><a th:href="@{'/'+${user.no}+'/class'}">我的班级</a></li>
+                <li class="zla_m_item "><a th:href="@{'/'+${user.no}+'/team'}">我的团队</a></li>
+                <li class="zla_m_item zla_m_cur"><a th:href="@{'/'+${user.no}+'/room'}">我的房间</a></li>
             </ul>
             <div class="bg34 p40 wh">
                 <div class="f30 mb10 wh">
@@ -190,11 +191,11 @@
                 </div>
                 <a class="zhuTacher" style=" color:#fff ;margin-left: 0;" th:text="'队长:'+${leader.user}" th:href="@{'/'+${leader.no}+'/index/'}"></a>
                 <div class="teacherDiv fr" style=" margin-top: 20px;  ">
-                    <p class="zhuTacher" style=" color:#fff ;margin-left: 0;"></p>
+                    <a class="zhuTacher" style=" color:#fff ;margin-left: 0;" th:href="@{${teacher!=null?'/'+teacher.no+'/index':'#'}}" th:text="'指导老师:'+${teacher!=null?teacher.name:'无'}"></a>
                 </div>
                 <div class="fix mt30">
                     <div class="l pct60" id="clazzTag" data="false" flag="true">
-                        <a class="mr10 orgbtn greenbtn  btn_s bdrad18" href="javascript:void(0)" th:onclick="deleteRoom(${user.no})">
+                        <a class="mr10 orgbtn greenbtn  btn_s bdrad18" href="javascript:void(0)" th:if="${user.user==leader.user}" onclick="deleteRoom()">
                             解散
                         </a>
                         <a class="mr10 orgbtn greenbtn  btn_s bdrad18"data-toggle="modal" data-target="#invitemember">

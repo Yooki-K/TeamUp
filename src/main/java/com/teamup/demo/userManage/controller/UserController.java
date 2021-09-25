@@ -44,6 +44,24 @@ public class UserController {
             return new Message(false,"注册失败(sign in fail)");
         }
     }
+    @GetMapping(value = "/sign-up-page/1")
+    public ModelAndView sign_up_teacher(HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("sign-up-student");
+        return modelAndView;
+    }
+    @GetMapping(value = "/sign-up-page/2")
+    public ModelAndView sign_up_student(HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("sign-up-teacher");
+        return modelAndView;
+    }
+    @GetMapping(value = "/sign-up-page")
+    public ModelAndView sign_up_func(HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("sign-up");
+        return modelAndView;
+    }
     @GetMapping("/judge/user")
     /*注册时判断用户名是否已使用，焦点离开user input时使用*/
     public Message userIsExist(@RequestParam("user") String user, @RequestParam("table") String table){
@@ -100,7 +118,7 @@ public class UserController {
                 if(pwd!=null && pwd.equals(admin.getPwd())){
                     session.setAttribute("table",table);
                     session.setMaxInactiveInterval(60*60);//设置一小时后过期
-                    ModelAndView modelAndView = new ModelAndView("manager");
+                    ModelAndView modelAndView = new ModelAndView("redirect:/root/identify-manage");
                     modelAndView.addObject("user",admin);
                     return modelAndView;
                 }
@@ -115,8 +133,7 @@ public class UserController {
             session.setAttribute("user",USER);
             session.setAttribute("table",table);
             session.setMaxInactiveInterval(60*60);//设置一小时后过期
-            ModelAndView modelAndView = new ModelAndView("main");//组队大厅
-            modelAndView.addObject("user",USER);
+            ModelAndView modelAndView = new ModelAndView("redirect:/rooms/public");//组队大厅
             return modelAndView;
         }
         else {
@@ -167,8 +184,14 @@ public class UserController {
         cList.put("teacher",userService.getCertificationByType(2));
         return cList;
     }
-    @GetMapping(value = "/{managerId}/identify-manage")
-    public ModelAndView identify(@PathVariable int managerId,HttpSession session,HttpServletRequest request){
+    @GetMapping(value = "/root/identify-manage")
+    public ModelAndView identify(HttpSession session,HttpServletRequest request){
+        Student user = (Student) session.getAttribute("user");
+        if (user==null)
+            return Util.createError("false","请先登录","/");
+        if(user.getUser()!= admin.getUser()){
+            return Util.createError("false","只有管理员有权限访问",request.getRequestURI());
+        }
         ModelAndView modelAndView = new ModelAndView();
         Map<String, List<Certification>> clist = this.queryCertification();
         modelAndView.addObject("students",clist.get("student"));
@@ -249,7 +272,7 @@ public class UserController {
                                  HttpServletRequest request){
         Student user = (Student) session.getAttribute("user");
         if(user==null)
-            return Util.createError("false","请先登录",request.getRequestURI());
+            return Util.createError("false","请先登录","/");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user",user);
         modelAndView.setViewName("identify");

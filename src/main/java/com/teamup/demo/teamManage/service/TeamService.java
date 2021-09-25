@@ -25,6 +25,9 @@ public class TeamService {
     public List<Team> getTeamByClass(int classId){
         return teamMapper.getTeamByClass(classId);
     }
+    public List<Team> getTeamByTeacherNo(int teacherNo){
+        return teamMapper.getTeamByTeacherNo(teacherNo);
+    }
     public List<Evaluation> getEvaluation(String user){
         return teamMapper.getEvaluationByUser(user);
     }
@@ -39,7 +42,7 @@ public class TeamService {
     }
     public int updateTeam(Map<String,String> map,int teamId){
         try {
-            return teamMapper.updateTeamInfById(map,teamId);
+            return teamMapper.updateTeamById(map,teamId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return 0;

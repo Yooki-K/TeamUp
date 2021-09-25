@@ -170,9 +170,9 @@
                 <li class="zla_m_item "><a th:href="@{'/'+${user.no}+'/team'}">我的团队</a></li>
                 <li class="zla_m_item zla_m_cur"><a th:href="@{'/'+${user.no}+'/room'}">我的房间</a></li>
             </ul>
-            <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4" th:if="${data.size()>0}">
+            <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4" th:if="${data.size()>0}" th:each="x :${data}">
                 <!--单个房间卡片-->
-                <li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6"  th:replace="model::room(${x},${user})" th:each="x :${data}">
+                <li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6"  th:replace="model::room(${x},${user})">
                 </li>
             </ol>
         </div>

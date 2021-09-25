@@ -1,8 +1,3 @@
-$(function () {
-
-});
-
-
 
 function showRegisterForm(){
     $('.registerBox').fadeIn('fast');

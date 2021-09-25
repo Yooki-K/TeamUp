@@ -16,7 +16,7 @@
         <if test="classId!=0">
             insert into public.room ( "user", "name", content, tag, teamname, "targetNum", "createTime", "classId", color )
             values (#{user}, #{name}, #{content}, #{tag}, #{teamName}, #{targetNum}, #{createTime}, #{classId}, #{color} )
-        </if>
+         </if>
     </insert>
     <select id="getRoomByClass" resultType="com.teamup.demo.roomManage.entity.Room">
         select * from public.room where "classId" = #{classId} order by "id" asc
@@ -36,7 +36,10 @@
         select * from public.room where name like concat('%',#{name},'%') and "classId" is null order by "id" asc
     </select>
     <select id="getRoomByUser" resultType="com.teamup.demo.roomManage.entity.Room">
-        select * from public.room where "id" in (select "roomId" from public."roomInf" where user = #{user})
+        select * from public.room where "id" in (select "roomId" from public."roomInf" where "user" = #{user})
+    </select>
+    <select id="getRoomByTeacherNo" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.room where "teacherId" = #{teacherNo}
     </select>
     <select id="getStuByRoom" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.student
@@ -67,14 +70,10 @@
         where "id" = #{id}
     </update>
     <update id="operateInvitation">
-        update public.invitation set "isAgree" = #{isAgree} where "id" in
-        <foreach collection="idList" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
-        and "user2" = #{user}
+        update public.invitation set "isAgree" = #{isAgree} where "user2" = #{user} and "id" = #{id}
     </update>
     <insert id="addInvitation" parameterType="com.teamup.demo.roomManage.entity.Invitation">
-        insert into public.invitation values (#{user1},#{user2},#{roomId},#{time},#{isStudent})
+        insert into public.invitation ("user1","user2","roomId","sendTime","isStudent")values (#{user1},#{user2},#{roomId},#{sendTime},#{isStudent})
     </insert>
     <select id="getInvitation" resultType="com.teamup.demo.roomManage.entity.Invitation">
         select * from public.invitation where

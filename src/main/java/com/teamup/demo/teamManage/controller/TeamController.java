@@ -74,36 +74,58 @@ public class TeamController {
     /*查看个人组队信息*/
     @GetMapping("/{studentNo}/team")
     public ModelAndView queryMyTeamInf(HttpSession session, @PathVariable int studentNo, HttpServletRequest request){
-        Student user = (Student)session.getAttribute("user");
+        Student user = (Student) session.getAttribute("user");
+        String table =  session.getAttribute("table").toString();
         if (user==null) {
-            return Util.createError("false","请先登录","index");
+            return Util.createError("false","请先登录","/");
         }
         if (studentNo!=user.getNo()){
             return Util.createError("404","访问错误页面",request.getRequestURI());
         }else
         {
             ModelAndView mav = new ModelAndView();
-            String table = session.getAttribute("table").toString();
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-            List<TeamInf> TeamInfs = teamService.getTeamInfByUser(user);
-            for (TeamInf teamInf : TeamInfs
-            ) {
-                Map<String, Object> map = new HashMap<String, Object>();
-                Team team = teamService.getTeamById(teamInf.getTeamId());
-                map.put("team", team);
-                if (team.getLeader().equals(user.getUser())) {
-                    map.put("position", "队长");
-                    map.put("leaderUser", user.getUser());
-                    map.put("leaderNo", user.getNo());
+            if ("student".equals(table)){
+                List<TeamInf> TeamInfs = teamService.getTeamInfByUser(user);
+                for (TeamInf teamInf : TeamInfs
+                ) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    Team team = teamService.getTeamById(teamInf.getTeamId());
+                    map.put("team", team);
+                    if (team.getLeader().equals(user.getUser())) {
+                        map.put("position", "队长");
+                        map.put("leaderUser", user.getUser());
+                        map.put("leaderNo", user.getNo());
+                    }
+                    else{
+                        map.put("position", "队员");
+                        Student leader = userService.findUserByUser(team.getLeader(),"student");
+                        map.put("leaderUser",leader.getUser());
+                        map.put("leaderNo",leader.getNo());
+                    }
+                    list.add(map);
                 }
-                else{
-                    map.put("position", "队员");
-                    Student leader = userService.findUserByUser(team.getLeader(),"student");
-                    map.put("leaderUser",leader.getUser());
-                    map.put("leaderNo",leader.getNo());
+            }else{
+                List<Team> teams = teamService.getTeamByTeacherNo(user.getNo());
+                for (Team team : teams
+                ) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("team", team);
+                    if (team.getLeader().equals(user.getUser())) {
+                        map.put("position", "队长");
+                        map.put("leaderUser", user.getUser());
+                        map.put("leaderNo", user.getNo());
+                    }
+                    else{
+                        map.put("position", "队员");
+                        Student leader = userService.findUserByUser(team.getLeader(),"student");
+                        map.put("leaderUser",leader.getUser());
+                        map.put("leaderNo",leader.getNo());
+                    }
+                    list.add(map);
                 }
-                list.add(map);
             }
+
             System.out.println(list);
             mav.addObject("data", list);
             mav.addObject("user", user);

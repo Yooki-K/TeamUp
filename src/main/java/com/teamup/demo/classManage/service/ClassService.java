@@ -25,7 +25,7 @@ public class ClassService {
             return 0;
         }
     }
-    public int codeIsExist(String code){
+    public Class codeIsExist(String code){
         return classMapper.codeIsExist(code);
     }
     public List<Class> getClassByUser(Teacher user,String table){
@@ -69,6 +69,9 @@ public class ClassService {
             throwables.printStackTrace();
             return 0;
         }
+    }
+    public ClassInf getClassInf(String user,int id){
+        return classMapper.getClassInf(user, id);
     }
     public int setAnnouncement(String text,int classId){
         try {

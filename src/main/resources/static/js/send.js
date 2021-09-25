@@ -29,11 +29,11 @@ function sendJSON(type,url,data,func){
         },
         error:function (XMLHttpRequest) {
             const errorInfo = JSON.parse(XMLHttpRequest.responseText);
-            const data = JSON.stringify({
+            const data = {
                 status:errorInfo.status,
                 mes:errorInfo.message,
                 from:window.location.href
-            });
+            };
 
             formPost("/errorPage",data);
         }
@@ -61,16 +61,17 @@ function sendQUERY(type,url,data,func){
         },
         error:function (XMLHttpRequest) {
             const errorInfo = JSON.parse(XMLHttpRequest.responseText);
-            const data = JSON.stringify({
+            const data = {
                 status:errorInfo.status,
                 mes:errorInfo.message,
                 from:window.location.href
-            });
+            };
             // console.log(data);
             formPost("/errorPage",data);
         }
     });
 }
+//form提交回调
 function sendFORM(e,func){
     e.ajaxForm({
         success:function (data){
@@ -83,11 +84,11 @@ function sendFORM(e,func){
         },
         error:function (XMLHttpRequest) {
             const errorInfo = JSON.parse(XMLHttpRequest.responseText);
-            const data = JSON.stringify({
+            const data = {
                 status:errorInfo.status,
                 mes:errorInfo.message,
                 from:window.location.href
-            });
+            };
             formPost("/errorPage",data);
         }
     })

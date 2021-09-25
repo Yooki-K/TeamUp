@@ -18,7 +18,7 @@
     <select id="findUserByNo" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.${table} where "no" = #{no}
     </select>
-    <insert id="addUser">
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="no" keyColumn="no">
         insert into public.${table} ("user",pwd,mail) values (#{user.user},#{user.pwd},#{user.mail})
     </insert>
 

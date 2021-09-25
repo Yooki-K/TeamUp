@@ -67,7 +67,7 @@ public class RoomService {
             return 0;
         }
     }
-    public int operateInvitation(boolean isAgree,int[] id,String user){
+    public int operateInvitation(boolean isAgree,int id,String user){
         try {
             return roomMapper.operateInvitation(isAgree, id, user);
         } catch (SQLException throwables) {
@@ -130,6 +130,9 @@ public class RoomService {
     }
     public List<Room> getRoomByUser(String user){
         return roomMapper.getRoomByUser(user);
+    }
+    public List<Room> getRoomByTeacherNo(int teacherId){
+        return roomMapper.getRoomByTeacherNo(teacherId);
     }
     public Room findRoomById(int roomId){
         return roomMapper.findRoomById(roomId);

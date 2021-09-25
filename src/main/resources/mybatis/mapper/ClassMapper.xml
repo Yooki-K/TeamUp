@@ -41,8 +41,11 @@
             (#{item.id}, #{item.user}, #{item.userId})
         </foreach>
     </insert>
-    <select id="codeIsExist" resultType="int">
-        select "id" from public.class where "invCode"=#{invCode}
+    <select id="codeIsExist" resultType="com.teamup.demo.classManage.entity.Class">
+        select * from public.class where "invCode"=#{invCode}
+    </select>
+    <select id="getClassInf" resultType="com.teamup.demo.classManage.entity.ClassInf">
+        select * from public."classInfo" where "user" = #{user} and "id" = #{id}
     </select>
     <update id="setAnnouncement">
         update public.class set announcement = #{text} where "id" = #{classId}

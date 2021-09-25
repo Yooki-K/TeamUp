@@ -308,7 +308,7 @@
             <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4" th:if="${data.size()>0}" th:each="x : ${data}">
 
                 <!--单个班级卡片-->
-                <li th:replace="model::team(${x})">
+                <li th:replace="model::team(${x})" >
                 </li>
             </ol>
         </div>
