@@ -11,7 +11,7 @@
         <div class="Box pinned-item-list-item d-flex p-3 width-full public fork">
             <div class="pinned-item-list-item-content">
                 <div class="d-flex width-full flex-items-center position-relative">
-                    <a href="#" class="text-bold flex-auto min-width-0">
+                    <a th:href="@{'/class/'+${obj.class.id}}" class="text-bold flex-auto min-width-0">
                         <span class="repo" th:title="${obj.class.name}" th:text="${obj.class.name}"/>
                     </a>
                     <span class="Label Label--secondary v-align-middle ">校内班</span>
@@ -57,7 +57,7 @@
     <div class="Box pinned-item-list-item d-flex p-3 width-full public fork">
         <div class="pinned-item-list-item-content">
             <div class="d-flex width-full flex-items-center position-relative">
-                <a th:href="'/room/${obj.id}'+" class="text-bold flex-auto min-width-0">
+                <a th:href="'/room/'+${obj.room.id}" class="text-bold flex-auto min-width-0">
                     <span class="repo" th:text="${obj.room.teamname}"></span>
                 </a>
                 <span class="Label Label--secondary v-align-middle " th:text="${obj.room.user==user.user?'队长':'队员'}"></span>

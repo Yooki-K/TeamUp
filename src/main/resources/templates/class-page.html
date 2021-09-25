@@ -34,7 +34,6 @@
         });
     </script>
     <style>
-
         .contain {
             width: 100%;
             background-color: white;
@@ -271,6 +270,7 @@
         }
 
         .class-main {
+            position: relative;
             min-height: 600px;
             background: #ffffffbf;
         }
@@ -283,12 +283,13 @@
         .class-main .class-member {
             height: 450px;
             width: 150px;
-            float: right;
             border-radius: 0 0 0 6px;
             background: #e7e7e5ab;
             border: 1px solid;
             overflow-y: auto;
-            position: relative;
+            position: absolute;
+            right: 0;
+            top: 0;
         }
 
         .class-main .class-member i {
@@ -347,6 +348,22 @@
         .class-main .class-member ul li h5 {
             display: inline-block;
         }
+
+        .class-content {
+            position: relative;
+        }
+
+        .banjigonggao {
+            display: inline;
+            width: 400px;
+            resize: none;
+            margin-left: calc(50% - 200px);
+        }
+
+        .banjigonggaoshijian {
+            margin-left: 0 !important;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -404,7 +421,7 @@
                         <option value="true">未组队成员</option>
                     </select>
                     <ul id="memberList">
-<!--                        班级成员列表-->
+                        <!--                        班级成员列表-->
                     </ul>
                     <div class="member-footer">
                         <form action="/upload/member" method="post" enctype="multipart/form-data">
@@ -416,9 +433,9 @@
                 </div>
 <!--                todo 班级公告-->
                 <label class="class-main-title">班级公告</label>
-                <p th:if="${class.publishTime!=null}" th:text="${class.getPublishTimeString()}"></p>
-                <textarea rows="5" cols="150" readonly="readonly" style="display: block;resize: none;" th:if="${class.publishTime!=null and (user==null or user.user!=teacher.user)}" th:text="${class.announcement}"></textarea>
-                <textarea rows="5" cols="150" style="display: block;resize: none;" th:if="${class.publishTime!=null and user!=null and user.user==teacher.user}" th:text="${class.announcement}" onblur="updateAnoun(this)"></textarea>
+                <p class="banjigonggaoshijian" th:if="${class.publishTime!=null}" th:text="${class.getPublishTimeString()}"></p>
+                <textarea class="banjigonggao" rows="5" cols="150" readonly="readonly" style="display: block;resize: none;" th:if="${class.publishTime!=null and (user==null or user.user!=teacher.user)}" th:text="${class.announcement}"></textarea>
+                <textarea class="banjigonggao" rows="5" cols="150" style="display: block;resize: none;" th:if="${class.publishTime!=null and user!=null and user.user==teacher.user}" th:text="${class.announcement}" onblur="updateAnoun(this)"></textarea>
                 <div class="class-main-team">
                     <label class="class-main-title">已组队伍</label>
                     <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4">

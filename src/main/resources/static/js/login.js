@@ -1,9 +1,5 @@
 $(function () {
-   sendFORM($("#formLogin"),function (data) {
-       alert(data.mes);
-       document.getElementById("formLogin").reset();
-        $("#closeLogin").click();
-   })
+
 });
 
 

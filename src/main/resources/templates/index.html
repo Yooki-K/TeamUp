@@ -67,7 +67,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="modal-dialog login animated">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" id="closeLogin" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" id="closeLogin" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
 					<h4 class="modal-title">登录</h4>
 				</div>
 				<div class="modal-body">
@@ -75,17 +76,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="content registerBox">
 							<div class="form">
 								<form id="formLogin" method="post" action="/signUp" enctype="multipart/form-data">
-									<h5 style="display: inline-block;">身份：</h5>
-									<select name="table" value="student">
-										<option value="student">学生</option>
-										<option value="teacher">老师</option>
-										<option value="admin">管理员</option>
-									</select>
-									<input type="text" class="form-control" name="user" value=""
-										placeholder="用户名" autofocus=''>
+									<div style="margin: 5px;">
+										<h5 style="display: inline-block;">身份：</h5>
+										<select name="table" value="student">
+											<option value="student">学生</option>
+											<option value="teacher">老师</option>
+											<option value="admin">管理员</option>
+										</select>
+									</div>
+
+									<input type="text" class="form-control" name="user" value="" placeholder="用户名"
+										autofocus=''>
 									<input type="password" class="form-control" name="pwd" value="" placeholder="密码"
 										autofocus="">
-
+									<a href="/sign-up-page" class="sign-up-a">还没注册?现在注册-></a>
 									<input class="btn btn-register" type="submit" value="登录" name="commit">
 								</form>
 							</div>

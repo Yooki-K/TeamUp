@@ -13,7 +13,12 @@
 .contain .course {
     border-width: 1px;
 }
-
+.banjigonggao {
+    display: inline;
+    width: 400px;
+    resize: none;
+    margin-left: calc(50% - 200px);
+}
 .wrap {
     display: flex;
     height: 100%;

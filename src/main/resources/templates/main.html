@@ -120,6 +120,7 @@
 											   autofocus='' style="margin-bottom: 15px;">
 										<input type="text" class="form-control" name="teamName" value="" placeholder="团队名字"
 											   autofocus='' style="margin-bottom: 15px;">
+                                        <input type="hidden" name="classId" th:if="${class!=null}" th:value="${class.id}"/>
                                         <textarea name="content" class="form-control" placeholder="团队描述" autofocus="" cols="10" rows="5" style="margin-bottom: 15px;resize: none;"></textarea>
                                         <h5 style="display: inline-block;">卡片颜色：</h5>
                                         <input type="color" name="color" id="color" value="#ea746a">

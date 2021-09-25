@@ -100,7 +100,7 @@ public class UserController {
                 if(pwd!=null && pwd.equals(admin.getPwd())){
                     session.setAttribute("table",table);
                     session.setMaxInactiveInterval(60*60);//设置一小时后过期
-                    ModelAndView modelAndView = new ModelAndView("");//todo 管理员页面
+                    ModelAndView modelAndView = new ModelAndView("manager");
                     modelAndView.addObject("user",admin);
                     return modelAndView;
                 }
@@ -120,7 +120,7 @@ public class UserController {
             return modelAndView;
         }
         else {
-            return Util.createError("true","密码错误(password error)",url);
+            return Util.createError("false","密码错误(password error)",url);
         }
     }
 
@@ -232,10 +232,10 @@ public class UserController {
     }
     @GetMapping("/loginOut")
     /*登出*/
-    public String loginOut(HttpSession session){
+    public ModelAndView loginOut(HttpSession session){
         System.out.println("登出");
         session.removeAttribute("user");
-        return "redirect:/";
+        return new ModelAndView("index");
     }
     @RequestMapping(value = "/data/query/{table}/fuzzy",method = RequestMethod.GET)
     /*按用户名模糊查询*/
