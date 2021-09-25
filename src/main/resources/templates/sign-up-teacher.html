@@ -32,12 +32,15 @@
                     type: "POST",
                     async: false,
                     success: function (data) {
-                        alert(data);
-                        flat = true;
+                        if(data.successful){
+                            alert("发送验证码成功");
+                        }else{
+                            alert(data.mes);
+                            flat = true;
+                        }
                     }
                 });
                 if (!flat) {
-                    alert("验证码错误");
                     return;
                 }
                 var user = {
@@ -50,7 +53,8 @@
                     data: user,
                     type: "POST",
                     success: function (data) {
-
+                        alert("注册成功！");
+                        location.reload();
                     }
                 });
             });
