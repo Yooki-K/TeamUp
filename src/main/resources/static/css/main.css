@@ -799,7 +799,15 @@ body {
     display: -ms-flexbox;
     display: flex;
 }
-
+.class-main-team{
+    position:relative;
+}
+.class-main-team ol .no-team{
+    font-size: 50px;
+    position: absolute;
+    left: calc(50% - 150px);
+    top: 50%;
+}
 .general-info .general-info-t .general-info-t-info .identified {
     background: linear-gradient(90deg, #9ceea7, #7cee7c) !important;
 }

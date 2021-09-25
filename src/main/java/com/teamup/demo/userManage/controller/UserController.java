@@ -167,6 +167,15 @@ public class UserController {
         cList.put("teacher",userService.getCertificationByType(2));
         return cList;
     }
+    @GetMapping(value = "/{managerId}/identify-manage")
+    public ModelAndView identify(@PathVariable int managerId,HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        Map<String, List<Certification>> clist = this.queryCertification();
+        modelAndView.addObject("students",clist.get("student"));
+        modelAndView.addObject("teachers",clist.get("teacher"));
+        modelAndView.setViewName("manager");
+        return modelAndView;
+    }
     @PostMapping("/operateCertification/{operate}")
     /*管理员审核实名认证，可当作json使用  operate{agree,disagree}*/
     public Message operateCertification(@RequestBody List<String> users, @PathVariable String operate){

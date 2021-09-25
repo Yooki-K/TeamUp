@@ -45,6 +45,9 @@
     <select id="getStuNotTeam" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.student where "user" in (select "user" from public."teamInf" where "classId" = #{classId} and "teamId" is null)
     </select>
+    <select id="getStuByTeamId" resultType="com.teamup.demo.userManage.entity.Student">
+        select * from public.student where "user" in (select "user" from public."teamInf" where "teamId" = #{teamId})
+    </select>
     <select id="getDissolveTeam" resultType="com.teamup.demo.teamManage.entity.Team">
         select * from public.team where "teamId" in (select "teamId" from public."teamInf" where "user" = #{user}) and "dissolveTime" is not null
     </select>

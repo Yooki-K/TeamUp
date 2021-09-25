@@ -2,6 +2,8 @@ package com.teamup.demo.roomManage.controller;
 
 
 import com.sun.istack.internal.NotNull;
+import com.sun.mail.imap.protocol.MODSEQ;
+import com.teamup.demo.classManage.entity.Class;
 import com.teamup.demo.roomManage.entity.ApplyRoom;
 import com.teamup.demo.roomManage.entity.Invitation;
 import com.teamup.demo.roomManage.entity.Room;
@@ -164,8 +166,8 @@ public class RoomController {
         return list;
     }
     /*邀请加入房间 table参数 student teacher*/
-    @PostMapping("/invite/{table}")
-    public Message inviteMember(@PathVariable String table,@Param("toUser")String toUser,
+    @PostMapping("/invite")
+    public Message inviteMember(@Param("table") String table,@Param("toUser")String toUser,
                                 @Param("roomId")int roomId, HttpSession session){
         Student user = (Student) session.getAttribute("user");
         Invitation invitation = new Invitation(user.getUser(),toUser,roomId, "student".equals(table));
@@ -333,6 +335,50 @@ public class RoomController {
         modelAndView.addObject("data",map);
         modelAndView.addObject("num",cha);
         modelAndView.addObject("user",user);
+        return modelAndView;
+    }
+    //我的房间
+    @GetMapping("/{studentNo}/room")
+    public ModelAndView queryRoom(HttpSession session, @PathVariable int studentNo,HttpServletRequest request){
+        Student user = (Student)session.getAttribute("user");
+        if (user==null) {
+            return Util.createError("false","请先登录","index");
+        }
+        if (studentNo!=user.getNo()){
+            return Util.createError("404","访问错误页面",request.getRequestURI());
+        }else
+        {
+            ModelAndView mav = new ModelAndView();
+            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+            List<Room> roomList = roomService.getRoomByUser(user.getUser());
+            for (Room room : roomList
+            ) {
+                Map<String, Object> map = new HashMap<>();
+                Teacher teacher = userService.findUserByNo(room.getTeacherId(),"teacher");
+                map.put("room", room);
+                map.put("teacher", teacher);
+                list.add(map);
+            }
+            System.out.println(list);
+            mav.addObject("data", list);
+            mav.addObject("user", user);
+            mav.setViewName("myroom");
+            return mav;
+        }
+    }
+    //房间详细信息
+    @GetMapping("/room/{roomId}")
+    public ModelAndView room(HttpSession session, @PathVariable int roomId){
+        Student user = (Student) session.getAttribute("user");
+        ModelAndView modelAndView = new ModelAndView("room-page");
+        Room room = roomService.getRoomById(roomId);
+        Student leader = userService.findUserByUser(room.getUser(), "student");
+        modelAndView.addObject("leader",leader);
+        modelAndView.addObject("user",user);
+        modelAndView.addObject("members",roomService.getStuByRoom(roomId));
+        modelAndView.addObject("room",room);
+        modelAndView.addObject("apply",roomService.getApplicationByRoom(roomId));
+        modelAndView.addObject("teacher",userService.findUserByNo(room.getTeacherId(),"teacher"));
         return modelAndView;
     }
 }

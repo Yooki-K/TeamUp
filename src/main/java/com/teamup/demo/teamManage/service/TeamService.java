@@ -73,4 +73,7 @@ public class TeamService {
     public List<Student> getStuNotTeam(int classId){
         return teamMapper.getStuNotTeam(classId);
     }
+    public List<Student> getStuByTeamId(int teamId){
+        return teamMapper.getStuByTeamId(teamId);
+    }
 }

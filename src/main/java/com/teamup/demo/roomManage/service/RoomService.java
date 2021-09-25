@@ -122,8 +122,14 @@ public class RoomService {
     public List<Room> getRoomByTag(String tag){
         return roomMapper.getRoomByTag(tag);
     }
+    public Room getRoomById(int roomId){
+        return roomMapper.getRoomById(roomId);
+    }
     public List<Room> getRoomByName(String name){
         return roomMapper.getRoomByName(name);
+    }
+    public List<Room> getRoomByUser(String user){
+        return roomMapper.getRoomByUser(user);
     }
     public Room findRoomById(int roomId){
         return roomMapper.findRoomById(roomId);

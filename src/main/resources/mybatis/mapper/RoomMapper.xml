@@ -29,8 +29,14 @@
     <select id="getRoomByTag" resultType="com.teamup.demo.roomManage.entity.Room">
         select * from public.room where tag like concat('%',#{tag},'%') and "classId" is null order by "id" asc
     </select>
+    <select id="getRoomById" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.room where "id" = #{roomId}
+    </select>
     <select id="getRoomByName" resultType="com.teamup.demo.roomManage.entity.Room">
         select * from public.room where name like concat('%',#{name},'%') and "classId" is null order by "id" asc
+    </select>
+    <select id="getRoomByUser" resultType="com.teamup.demo.roomManage.entity.Room">
+        select * from public.room where "id" in (select "roomId" from public."roomInf" where user = #{user})
     </select>
     <select id="getStuByRoom" resultType="com.teamup.demo.userManage.entity.Student">
         select * from public.student
