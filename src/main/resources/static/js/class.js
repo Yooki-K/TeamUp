@@ -4,12 +4,15 @@ $(function (){
         alert(data.mes);
         location.reload();
     });
+
 })
 function updateAnoun(e) {
     sendJSON("post","/update/class/announcement",{announcement:$(e).val(),id:$("input[name='classId']").val()},function (data) {
         location.reload();
     })
 }
+
+
 function autoUpload(e) {
     $(e).parent().submit();
 }

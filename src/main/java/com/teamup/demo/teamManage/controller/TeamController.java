@@ -124,22 +124,33 @@ public class TeamController {
             return new Message(true);
         return new Message(false);
     }
-//    设置或修改团队消息
+//    设置或修改团队简介
     @PostMapping("/update/team")
-    public Message updateTeam(@Param("teamId")int teamId,@Param("name")String name,
-                              @Param("brief")String brief,HttpSession session){
+    public Message updateTeam(@RequestBody Team team1,HttpSession session){
         Student user = (Student) session.getAttribute("user");
-        Team team = teamService.getTeamById(teamId);
+        Team team = teamService.getTeamById(team1.getTeamId());
         if (team==null)
             return new Message(false,"团队不存在");
         if(!user.getUser().equals(team.getLeader()))
             return new Message(false,"只有团队负责人有权限修改团队信息");
         Map<String,String>map = new HashMap<>();
-        map.put("name",name);
-        map.put("brief",brief);
-        if(teamService.updateTeam(map, teamId)>0)
+        map.put("brief", team1.getBrief());
+        if(teamService.updateTeam(map, team.getTeamId())>0)
             return new Message(true,"修改团队信息成功");
         return new Message(false,"修改团队信息失败");
     }
-
+    @GetMapping("/team/{teamId}")
+    public ModelAndView Team(@PathVariable int teamId,HttpServletRequest request,
+                             HttpSession session){
+        Student user = (Student) session.getAttribute("user");
+        ModelAndView modelAndView = new ModelAndView("team-page");
+        Team team = teamService.getTeamById(teamId);
+        Student leader = userService.findUserByUser(team.getLeader(), "student");
+        modelAndView.addObject("leader",leader);
+        modelAndView.addObject("user",user);
+        modelAndView.addObject("members",teamService.getStuByTeamId(teamId));
+        modelAndView.addObject("team",team);
+        modelAndView.addObject("teacher",userService.findUserByNo(team.getTeacherId(),"teacher"));
+        return modelAndView;
+    }
 }

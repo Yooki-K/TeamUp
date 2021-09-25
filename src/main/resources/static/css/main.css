@@ -259,6 +259,11 @@ body {
     margin-top: 50px;
 }
 
+.sign-up-a {
+    float: right;
+    padding: 10px;
+}
+
 .main .create-class-btn {
     position: fixed;
     width: 100px;
@@ -798,6 +803,17 @@ body {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+}
+
+.class-main-team {
+    position: relative;
+}
+
+.class-main-team ol .no-team {
+    font-size: 50px;
+    position: absolute;
+    left: calc(50% - 150px);
+    top: 50%;
 }
 
 .general-info .general-info-t .general-info-t-info .identified {

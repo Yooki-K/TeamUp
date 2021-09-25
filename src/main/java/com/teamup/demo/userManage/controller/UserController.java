@@ -44,6 +44,22 @@ public class UserController {
             return new Message(false,"注册失败(sign in fail)");
         }
     }
+    @GetMapping(value = "/sign-up-page")
+    //注册页面
+    public ModelAndView signup() {
+        return new ModelAndView("sign-up");
+    }
+    @GetMapping(value = "/sign-up-page/1")
+    //学生注册页面
+    public ModelAndView signupteacher() {
+        return new ModelAndView("sign-up-student");
+    }
+    @GetMapping(value = "/sign-up-page/2")
+    //老师注册页面
+    public ModelAndView signupstudent() {
+        return new ModelAndView("sign-up-teacher");
+    }
+
     @GetMapping("/judge/user")
     /*注册时判断用户名是否已使用，焦点离开user input时使用*/
     public Message userIsExist(@RequestParam("user") String user, @RequestParam("table") String table){
@@ -167,6 +183,15 @@ public class UserController {
         cList.put("teacher",userService.getCertificationByType(2));
         return cList;
     }
+    @GetMapping(value = "/{managerId}/identify-manage")
+    public ModelAndView identify(@PathVariable int managerId,HttpSession session,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        Map<String, List<Certification>> clist = this.queryCertification();
+        modelAndView.addObject("students",clist.get("student"));
+        modelAndView.addObject("teachers",clist.get("teacher"));
+        modelAndView.setViewName("manager");
+        return modelAndView;
+    }
     @PostMapping("/operateCertification/{operate}")
     /*管理员审核实名认证，可当作json使用  operate{agree,disagree}*/
     public Message operateCertification(@RequestBody List<String> users, @PathVariable String operate){
@@ -223,10 +248,10 @@ public class UserController {
     }
     @GetMapping("/loginOut")
     /*登出*/
-    public String loginOut(HttpSession session){
+    public ModelAndView loginOut(HttpSession session){
         System.out.println("登出");
         session.removeAttribute("user");
-        return "redirect:/";
+        return new ModelAndView("index");
     }
     @RequestMapping(value = "/data/query/{table}/fuzzy",method = RequestMethod.GET)
     /*按用户名模糊查询*/

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
-<!--todo # 补充-->
+<!--todo # 补充 邀请码加入-->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -252,10 +253,74 @@
             font-size: 20px;
             color: #777;
         }
+
+        .add-btn {
+            position: relative;
+            width: 104.8px;
+            /* height: 88px; */
+            margin-bottom: 16px;
+            border: 4px dashed;
+            border-radius: 6px;
+        }
+
+        .add-btn::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 70px;
+            margin-left: -35px;
+            margin-top: -5px;
+            border-top: 10px solid;
+        }
+
+
+        .add-btn::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 70px;
+            margin-left: -5px;
+            margin-top: -35px;
+            border-left: 10px solid;
+        }
+
+        .add-btn:hover {
+            color: blue;
+        }
     </style>
 </head>
 
 <body>
+    <div class="modal fade" id="create-class" tabindex="-1" role="dialog" aria-labelledby="create-class"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="joinin">
+                        创建班级
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" placeholder="班级名称">
+                    <textarea id="joinContent" class="form-control" placeholder="班级简述" autofocus="" cols="10" rows="5"
+                        style="margin-bottom: 15px;resize: none;"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="closeJoin">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="joinRoom()">
+                        提交申请
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
     <!--背景图片-->
     <div class="body-background"></div>
     <ul class="bg-bubbles" id="bubbles">
@@ -284,12 +349,16 @@
                 <li class="zla_m_item zla_m_cur"><a th:href="@{'/'+${user.no}+'/class'}">我的班级</a>
                 </li>
                 <li class="zla_m_item "><a th:href="@{'/'+${user.no}+'/team'}">我的团队</a></li>
+                <li class="zla_m_item "><a th:href="@{'/'+${user.no}+'/room'}">我的房间</a></li>
             </ul>
             <br />
             <!--班级-->
-            <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4" th:if="${data.size()} gt 0" th:each="x : ${data}">
-                    <!--单个班级卡片-->
-                    <li th:replace="model::class(${x})"></li>
+            <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4" th:if="${data.size()} gt 0"
+                th:each="x : ${data}">
+                <!--单个班级卡片-->
+                <li th:replace="model::class(${x})"></li>
+
+                <li class="add-btn" data-toggle="modal" data-target="#create-class"></li>
             </ol>
         </div>
     </div>

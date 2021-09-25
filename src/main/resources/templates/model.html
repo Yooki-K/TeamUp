@@ -52,7 +52,28 @@
             </div>
         </div>
     </li>
+<!--单个房间卡片-->
+<li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6" th:fragment="room(obj,user)">
+    <div class="Box pinned-item-list-item d-flex p-3 width-full public fork">
+        <div class="pinned-item-list-item-content">
+            <div class="d-flex width-full flex-items-center position-relative">
+                <a th:href="'/room/'+${obj.id}" class="text-bold flex-auto min-width-0">
+                    <span class="repo" th:text="${obj.room.teamname}"></span>
+                </a>
+                <span class="Label Label--secondary v-align-middle " th:text="${obj.room.user==user.user?'队长':'队员'}"></span>
+            </div>
 
+            <p class="color-text-secondary text-small mb-2">
+                队长 <a class="Link--muted" th:text="${obj.room.user}"></a>
+            </p>
+            <p class="pinned-item-desc color-text-secondary text-small d-block mt-2 mb-3">
+            </p>
+            <p class="mb-0 f6 color-text-secondary">
+                <span class="d-inline-block mr-3"></span>
+            </p>
+        </div>
+    </div>
+</li>
 
 <!--顶部导航栏 start-->
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="navbar(obj)">

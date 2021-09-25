@@ -1,4 +1,4 @@
-<head>
+<head xmlns:th="http://www.thymeleaf.org">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -6,13 +6,13 @@
     <meta name="author" content="">
     <meta charset="utf-8" />
     <title></title>
-    <script src="../static/js/vue.min.js"></script>
-    <script src="../static/js/jquery.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/sign-up.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/main.css" />
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/sign-up.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css" />
     <script type="text/javascript">
         $(document).ready(function () {
             $(".nav-trigger").click(function () {
@@ -53,11 +53,11 @@
                 width: 100% !important;
             }
 
-            .zcmode li:nth-of-type(6) .zck1s .a1 {
+            .zcmode li:nth-of-type(3) .zck1s .a1 {
                 width: 110px !important;
             }
 
-            .zcmode li:nth-of-type(6) .zck1 .zck1-i1 {
+            .zcmode li:nth-of-type(3) .zck1 .zck1-i1 {
                 width: calc(100% - 240px) !important;
             }
         }
@@ -324,21 +324,6 @@
                             <input type="text" class="zck1-i1" id="userName" placeholder="请输入您的姓名">
                         </div>
                     </li>
-                    <li class="gjsh3">
-                        <div class="zck1">
-
-
-                            <div class="zck1">
-                                <span class="s1">性别</span>
-                                <div id="xbxzk" class="hylb-box hylb-box4">
-                                    <h6><span value="1">请选择性别</span></h6>
-                                    <div class="hylb-1 hylb-1c4">
-                                        <span value="1">男</span>
-                                        <span value="2">女</span>
-                                    </div>
-                                </div>
-                            </div>
-                    </li>
                     <li>
                         <div class="zck1">
                             <span class="s1">邮箱</span>
@@ -358,5 +343,25 @@
                     <li>
                         <div class="zck1">
                             <span class="s1">登录密码</span>
-                            <input class="txt password passLvl zck1-i1" id="dlpwd" maxlength="16" "="" placeholder="
-   
+                            <input class="txt password passLvl zck1-i1" id="dlpwd" maxlength="16" placeholder="
+                                6-16位字符，由数字、下划线、字母组成" type="text" autocomplete="off">
+                            <em class="eyes"></em>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="zck1">
+                            <span class="s1">确认密码</span>
+                            <input type="password" class="zck1-i1" id="qrpwd" placeholder="请再次输入您的密码">
+                        </div>
+                        <div class="zc-tips" id="qrpwdtip">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="zcpbtn" id="zcbtn">注册</div>
+                        <div class="zc-disable" id="zczbtn" style="display: none">正在注册中...</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>

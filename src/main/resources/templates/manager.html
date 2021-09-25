@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".shell").height($(window).height() - 50);
+            $(".nav-trigger").click(function () {
+                $(".navbar-collapse .collapse").addClass("in");
+            });
+            $(window).resize(function () {
+                $(".shell").height($(window).height() - 50);
+            });
+            $(".admit-btn").click(function () {
+                //var paramdata = $("#bck_qry_criteria_form").serializeJson();//serializeJson()是自定义的form 格式化为json函数
+                var paramdata = [$(this).prev().val()];
+                alert(paramdata);
+                paramdata = JSON.stringify(paramdata);
+                $.ajax({
+                    type: "post",
+                    data: paramdata,
+                    url: "/operateCertification/agree",
+                    cache: false,
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8"
+                    },
+                    success: function (data) {
+
+                        //$("#input_phone").val("");//清空输入框
+                    }
+                });
+                $(this).parent().parent().hide();
+            });
+            $(".deny-btn").click(function () {
+                //var paramdata = $("#bck_qry_criteria_form").serializeJson();//serializeJson()是自定义的form 格式化为json函数
+                var paramdata = [$(this).prev().prev().val()];
+                alert(paramdata);
+                paramdata = JSON.stringify(paramdata);
+                $.ajax({
+                    type: "post",
+                    data: paramdata,
+                    url: "/operateCertification/disagree",
+                    cache: false,
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8"
+                    },
+                    success: function (data) {
+
+                        //$("#input_phone").val("");//清空输入框
+                    }
+                });
+                $(this).parent().parent().hide();
+            });
+        });
+    </script>
+    <style>
+        ul,
+        li {
+            list-style: none;
+        }
+
+        .contain {
+            width: 100%;
+            background-color: white;
+            opacity: .9;
+        }
+
+        .contain .class-box {
+            margin: 0 auto 15px;
+        }
+
+        .class-box h4 {}
+
+        .contain .course {
+            border-width: 1px;
+        }
+
+        .wrap {
+            display: flex;
+            height: 100%;
+            padding: 8px;
+        }
+
+        .card_wrap {
+            display: flex;
+            flex-wrap: wrap;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .d-flex {
+            display: flex !important;
+        }
+
+        .list-style-none {
+            list-style: none !important;
+        }
+
+        .mb-4 {
+            margin-bottom: 24px !important;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap !important;
+        }
+
+        .gutter-condensed>[class*=col-] {
+            padding-right: 8px !important;
+            padding-left: 8px !important;
+        }
+
+        .mb-3 {
+            margin-bottom: 16px !important;
+        }
+
+        .flex-content-stretch {
+            align-content: stretch !important;
+        }
+
+        .col-12 {
+            width: 100%;
+        }
+
+        .p-3 {
+            padding: 16px !important;
+        }
+
+        .width-full {
+            width: 100% !important;
+        }
+
+        .Box {
+            background-color: var(--color-canvas-default);
+            border-color: var(--color-border-default);
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 6px;
+        }
+
+        .pinned-item-list-item-content {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .width-full {
+            width: 100% !important;
+        }
+
+        .position-relative {
+            position: relative !important;
+        }
+
+        .flex-items-center {
+            align-items: center !important;
+        }
+
+        @media (min-width: 768px) {
+            .col-md-6 {
+                width: 49.99999998%;
+            }
+        }
+
+        .text-bold {
+            font-weight: 600 !important;
+        }
+
+        .min-width-0 {
+            min-width: 0 !important;
+        }
+
+        .flex-auto {
+            flex: auto !important;
+        }
+
+        .flex-items-center a {
+            color: var(--color-accent-fg);
+            text-decoration: none;
+        }
+
+        .flex-items-center a {
+            background-color: transparent;
+        }
+
+        .Label--secondary {
+            color: var(--color-fg-muted);
+            border-color: var(--color-border-default);
+        }
+
+        .label,
+        .Label {
+            display: inline-block;
+            padding: 0 7px;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 18px;
+            border: 1px solid transparent;
+            border-radius: 2em;
+            background-color: transparent !important;
+            border-color: var(--color-border-default);
+        }
+
+        .view-container {
+            position: relative;
+            margin: 10px;
+            border-radius: 6px;
+            background-color: rgb(255, 255, 255, .7);
+            padding: 24px 16px;
+            -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .05);
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .05);
+            height: 100%;
+        }
+
+        .msg-all {
+            margin: 10px;
+        }
+
+        .msg-info {
+            width: 100%;
+            margin: 0;
+            font-size: 14px;
+            color: #3d3d3d;
+        }
+
+        .msg-info-title {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #6666b8;
+            line-height: 22px;
+        }
+
+        .msg-info-title .msg-info-title-msg {
+            font-size: 16px;
+            font-weight: 600;
+            color: #222226;
+            margin-left: 5%;
+        }
+
+        .msg-list .list-system {
+            position: relative;
+        }
+
+        .msg-list ul {
+            font-size: 14px;
+        }
+
+        .msg-list .list li .drop-content {
+            margin-top: 15px;
+            margin-bottom: -16px;
+            padding: 15px;
+            background-color: #f7f7f7;
+            font-size: 14px;
+            color: #4d4d4d;
+            line-height: 22px;
+            overflow: hidden;
+        }
+
+        .msg-list .list li {
+            width: 100%;
+        }
+
+        .msg-list ul li {
+            position: relative;
+            padding: 16px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .msg-list .list li .drop-content {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: -16px;
+            padding: 15px;
+            background-color: #f7f7f7;
+            font-size: 14px;
+            color: #4d4d4d;
+            line-height: 22px;
+            overflow: hidden;
+        }
+
+        .main {
+            margin: 5px;
+        }
+
+        .main .my-area {
+            margin: 5px;
+        }
+
+        .main .my-area .view-container .msg-all .msg-list ul li {
+            width: 250px;
+            height: 150px;
+            margin-top: 0;
+            display: inline-block;
+            position: relative;
+            transition: .4;
+        }
+
+        .main .my-area .view-container .msg-all .msg-list ul li div .list-card-l {
+            display: inline-block;
+            width: 37.5%;
+            text-align: right;
+        }
+
+        .main .my-area .view-container .msg-all .msg-list ul li div .list-card-r {
+            display: inline-block;
+            width: 62.5%;
+            text-align: center;
+        }
+
+        .main .my-area .view-container .msg-all .msg-list ul li .request-btn .btn-danger {
+            margin-left: 30px;
+            margin-top: 5px;
+        }
+
+        .main .my-area .view-container .msg-all .msg-list ul li .request-btn .btn-success {
+            margin-left: 65px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--背景图片-->
+    <div class="body-background"></div>
+    <ul class="bg-bubbles" id="bubbles">
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+        <li class="bubble"></li>
+    </ul>
+    <!--主界面-->
+    <div class="main">
+        <!--区域-->
+        <div class="my-area">
+            <div class="view-container">
+                <div class="msg-all">
+                    <div class="msg-info clearfix">
+                        <div class="msg-info-title">
+                            <p class="msg-info-title-msg">管理员</p><span class="msg-info-title-msg" style="color: red"
+                                th:text="${num}+'条未读消息'"></span>
+
+                        </div>
+                    </div>
+                    <div class="msg-list">
+                        <ul class="list list-system">
+                            <!--单个卡片-->
+                            <li class="card" th:each="u : ${students}">
+                                <div><label class="list-card-l">姓名:</label><label class="list-card-r"
+                                        th:text="${u.name}"></label></div>
+                                <div><label class="list-card-l">学校:</label><label class="list-card-r"
+                                        th:text="${u.school}"></label>
+                                </div>
+                                <div><label class="list-card-l">性别:</label><label class="list-card-r"
+                                        th:text="${u.sex}? '男' : '女'"></label></div>
+                                <div><label class="list-card-l">学号:</label><label
+                                        class="list-card-r" th:text="${u.id}">919106230111</label></div>
+                                <div class="request-btn">
+                                    <input type="text" style="display: none;" th:value="${u.user}"></input>
+                                    <button class="btn btn-success admit-btn">允许</button>
+                                    <button class="btn btn-danger deny-btn">拒绝</button>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
