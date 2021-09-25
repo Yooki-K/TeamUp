@@ -74,14 +74,15 @@ public class TeamController {
     /*查看个人组队信息*/
     @GetMapping("/{studentNo}/team")
     public ModelAndView queryMyTeamInf(HttpSession session, @PathVariable int studentNo, HttpServletRequest request){
-        Student user = (Student)session.getAttribute("user");
-        if (user==null) {
-            return Util.createError("false","请先登录","index");
-        }
-        if (studentNo!=user.getNo()){
-            return Util.createError("404","访问错误页面",request.getRequestURI());
-        }else
-        {
+//        Student user = (Student)session.getAttribute("user");
+//        System.out.println("jafioa"+user.getNo());
+//        if (user==null) {
+//            return Util.createError("false","请先登录","index");
+//        }
+//        if (studentNo!=user.getNo()){
+//            return Util.createError("404","访问错误页面",request.getRequestURI());
+//        }else
+//        {
             ModelAndView mav = new ModelAndView();
             String table = session.getAttribute("table").toString();
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
