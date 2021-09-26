@@ -35,37 +35,18 @@ public class UserController {
     @Resource
     Custom custom;
 
-    @PostMapping(value = "/signIn")
-    //注册 传参type 1学生 2老师 ，只需输入参数 {user,pwd,mail}
-    public Message signIn(@Param(value = "type") String type, Student user){
-        if(userService.addUser(user, Integer.parseInt(type)) == 1){
-            return new Message(true,"注册成功(sign in success)");
-        }else{
-            return new Message(false,"注册失败(sign in fail)");
-        }
-    }
-    @GetMapping(value = "/sign-up-page/1")
-    public ModelAndView sign_up_student(HttpSession session,HttpServletRequest request){
+    @GetMapping(value = "/sign-up-page/{table}")
+    public ModelAndView sign_up_student(HttpSession session, HttpServletRequest request, @PathVariable String table){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("sign-up-student");
+        modelAndView.setViewName("sign-up-page");
+        modelAndView.addObject("table",table);
         return modelAndView;
     }
-    @GetMapping(value = "/sign-up-page/2")
-    public ModelAndView sign_up_teacher(HttpSession session,HttpServletRequest request){
+    @GetMapping(value = "/forget-pwd-page/{table}")
+    public ModelAndView forget_pwd_student(HttpSession session, HttpServletRequest request, @PathVariable String table){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("sign-up-teacher");
-        return modelAndView;
-    }
-    @GetMapping(value = "/forget-pwd-page/1")
-    public ModelAndView forget_pwd_student(HttpSession session,HttpServletRequest request){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("sign-up-student");
-        return modelAndView;
-    }
-    @GetMapping(value = "/forget-pwd-page/2")
-    public ModelAndView forget_pwd_teacher(HttpSession session,HttpServletRequest request){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("sign-up-teacher");
+        modelAndView.setViewName("sign-up-page");
+        modelAndView.addObject("table",table);
         return modelAndView;
     }
     @GetMapping(value = "/sign-up-page")
@@ -84,8 +65,8 @@ public class UserController {
     /*注册时判断用户名是否已使用，焦点离开user input时使用*/
     public Message userIsExist(@RequestParam("user") String user, @RequestParam("table") String table){
         Student USER=userService.findUserByUser(user,table);
-        if(USER==null)
-            return new Message(false);
+        if(USER!=null)
+            return new Message(false,"当前用户名已使用");
         else
             return new Message(true);
     }
@@ -114,18 +95,49 @@ public class UserController {
     //验证验证码 接受数据json
     public Message verifyCode(@Param(value = "user") String user,
                               @Param(value = "captcha") String captcha,
-                              @Param(value = "type") String type){
+                              @Param(value = "mail") String mail,
+                              @Param(value = "pwd") String pwd,
+                              @Param(value = "table") String table,
+                              @Param(value = "type") int type){
         long time = new Date().getTime();
         codeService.deleteInvalid(time);
-        String code = codeService.findCodeByUser(user,time,Integer.parseInt(type));
+        String code = codeService.findCodeByUser(user,time,type);
         if(code!=null)
-            if(code.equals(captcha))
-                return new Message(true);
+            if(code.equals(captcha)){
+                if (type==1){
+                    Student USER = new Student();
+                    USER.setUser(user);
+                    USER.setMail(mail);
+                    USER.setPwd(pwd);
+                    if(userService.addUser(USER, table) == 1){
+                        return new Message(true,"注册成功(sign in success)");
+                    }else{
+                        return new Message(false,"注册失败(sign in fail)");
+                    }
+                }else{
+                    Student USER= userService.findUserByUser(user,table);
+                    if(USER==null)
+                        return new Message(false,"当前用户不存在");
+                    if (!USER.getMail().equals(mail))
+                        return new Message(false,"邮箱错误");
+                    if(USER.getPwd().equals(pwd)) {
+                        return new Message(false, "新密码与原密码相同");
+                    }
+                    Map<String,String>map = new HashMap<>();
+                    map.put("pwd",pwd);
+                    int num = userService.updateUser(USER,map);
+                    if(num>=1)
+                        return new Message(true,"修改密码成功(update password success)");
+                    else
+                        return new Message(false,"修改密码失败");
+                }
+            }
             else
                 return new Message(false,"验证码错误(captcha error)");
         else
             return new Message(false,"验证码失效(captcha invalid)");
     }
+
     @PostMapping("/signUp")
     /*登录 参数table 1学生 2老师 3管理员*/
     public ModelAndView signUp(@Param(value="user") String user, @Param(value="pwd") String pwd, @Param(value="table") String table,

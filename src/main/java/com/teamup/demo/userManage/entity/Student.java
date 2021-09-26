@@ -13,7 +13,6 @@ public class Student extends Teacher{
                 '}';
     }
 
-
     public String getLabel() {
         return label;
     }

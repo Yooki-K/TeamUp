@@ -70,8 +70,59 @@ $(function(){
 			$('.hylb-1c4').hide();
 		})
 	})
+	$("#zcbtn").click(function () {
+		if ($("#dlpwd").val() != $("#qrpwd").val()) {
+			alert("两次输入密码不一样");
+			return;
+		}
+		sendQUERY("post","/verifyCode",{
+			user:$("#userName").val(),
+			captcha:$("#mail_code").val(),
+			type:$("#type").val(),
+			mail: $("#mailcode").val(),
+			table: $("#table").val(),
+			pwd: $("#dlpwd").val()},
+			function(data){
+				alert(data.mes);
+				window.location.href="/";
+		})
+	});
+
     //姓名输入框失焦事件
 	$("#userName").blur(function () {
-		check_userchs();
-	})
+		$.ajax({
+			type: "get",
+			url: "/judge/user",
+			data: {user:$(this).val(),table:$("#table").val()},
+			contentType: 'application/x-www-form-urlencoded',
+			success: function(data){
+				if(!data.successful) {
+					$("#only").show();
+				}else{
+					$("#only").hide();
+				}
+			},
+			error:function (XMLHttpRequest) {
+				const errorInfo = JSON.parse(XMLHttpRequest.responseText);
+				const data = {
+					status:errorInfo.status,
+					mes:errorInfo.message,
+					from:window.location.href
+				};
+				// console.log(data);
+				formPost("/errorPage",data);
+			}
+		});
+	});
 })
+
+function sendMessage() {
+	sendQUERY("post","/getCaptcha",{
+		type:$("#type").val(),
+		user:$("#userName").val(),
+		mail: $("#mailcode").val(),
+		table:$("#table").val()
+	},function (data) {
+		alert(data.mes);
+	});
+}

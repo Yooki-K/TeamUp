@@ -138,13 +138,13 @@
                 <h2>选择账号类型</h2>
                 <h6>请选择以下任一种类型完成操作</h6>
                 <ul>
-                    <li th:if="${#request.getRequestURI().contains('sign')}" id="naturalRegisterBtn" onclick="window.location='/sign-up-page/2'"><img
+                    <li th:if="${#request.getRequestURI().contains('sign')}" id="naturalRegisterBtn" onclick="window.location='/sign-up-page/teacher'"><img
                             src="img/teacher.png"><span>老师</span></li>
-                    <li th:if="${#request.getRequestURI().contains('sign')}" id="legalRegisterBtn" onclick="window.location='/sign-up-page/1'"><img
+                    <li th:if="${#request.getRequestURI().contains('sign')}" id="legalRegisterBtn" onclick="window.location='/sign-up-page/student'"><img
                             src="img/student.png"><span>学生</span></li>
-                    <li th:if="${#request.getRequestURI().contains('pwd')}" id="naturalRegisterBtn" onclick="window.location='/forget-pwd-page/2'"><img
+                    <li th:if="${#request.getRequestURI().contains('pwd')}" id="naturalRegisterBtn" onclick="window.location='/forget-pwd-page/teacher'"><img
                             src="img/teacher.png"><span>老师</span></li>
-                    <li th:if="${#request.getRequestURI().contains('pwd')}" id="legalRegisterBtn" onclick="window.location='/forget-pwd-page/1'"><img
+                    <li th:if="${#request.getRequestURI().contains('pwd')}" id="legalRegisterBtn" onclick="window.location='/forget-pwd-page/student'"><img
                             src="img/student.png"><span>学生</span></li>
                 </ul>
             </div>

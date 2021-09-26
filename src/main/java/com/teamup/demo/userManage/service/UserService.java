@@ -39,12 +39,9 @@ public class UserService {
     public Student findUserByNo(int no,String table) {
         return userMapper.findUserByNo(no,table);
     }
-    public int addUser(Student user,int Type) {
+    public int addUser(Student user,String table) {
             try {
-                if (Type == 1)
-                    return userMapper.addUser(user,"student");
-                else
-                    return userMapper.addUser(user,"teacher");
+                return userMapper.addUser(user,table);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return 0;

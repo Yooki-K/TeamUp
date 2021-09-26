@@ -48,7 +48,7 @@ public class SendMail {
         message.setSentDate(new Date());
         // 设置邮件的正文
         String code = getRandomString();
-        message.setText(String.format("欢迎注册大学生组队辅助系统，您的验证码为：%s",code));
+        message.setText(String.format("欢迎注册大学生组队辅助系统，您的验证码为：%s(该验证码5分钟内有效)",code));
         // 发送邮件
         javaMailSender.send(message);
 
