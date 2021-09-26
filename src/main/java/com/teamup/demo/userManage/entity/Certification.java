@@ -11,7 +11,6 @@ public class Certification {
     private String school;
     private String name;
     private Date time;
-
     private Date operateTime;
 
     private boolean isAgree;

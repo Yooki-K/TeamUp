@@ -135,6 +135,7 @@ public class UserController {
             if(user!=null && user.equals(admin.getUser())){
                 if(pwd!=null && pwd.equals(admin.getPwd())){
                     session.setAttribute("table",table);
+                    session.setAttribute("user",admin);
                     session.setMaxInactiveInterval(60*60);//设置一小时后过期
                     ModelAndView modelAndView = new ModelAndView("redirect:/root/identify-manage");
                     modelAndView.addObject("user",admin);
@@ -203,16 +204,19 @@ public class UserController {
     }
     @GetMapping(value = "/root/identify-manage")
     public ModelAndView identify(HttpSession session,HttpServletRequest request){
-        Student user = (Student) session.getAttribute("user");
+        Admin user = (Admin) session.getAttribute("user");
         if (user==null)
             return Util.createError("false","请先登录","/");
         if(user.getUser()!= admin.getUser()){
             return Util.createError("false","只有管理员有权限访问",request.getRequestURI());
         }
         ModelAndView modelAndView = new ModelAndView();
-        Map<String, List<Certification>> clist = this.queryCertification();
-        modelAndView.addObject("students",clist.get("student"));
-        modelAndView.addObject("teachers",clist.get("teacher"));
+        Map<String, List<Certification>> cList = new HashMap<String, List<Certification>>();
+        cList.put("student",userService.getCertificationByType(1));
+        cList.put("teacher",userService.getCertificationByType(2));
+        modelAndView.addObject("students",cList.get("student"));
+        modelAndView.addObject("teachers",cList.get("teacher"));
+        modelAndView.addObject("num",cList.get("teacher").size()+cList.get("student").size());
         modelAndView.setViewName("manager");
         return modelAndView;
     }

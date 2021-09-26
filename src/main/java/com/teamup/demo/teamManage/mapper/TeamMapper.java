@@ -26,6 +26,8 @@ public interface TeamMapper {
     List<Team> getDissolveTeam(String user);
     List<Team> getTeamByTeacherNo(int teacherNo);
     List<TeamInf> getTeamInfByUser(String user);
+    List<TeamInf> getTeamInfByClassId(int classId);
+    List<TeamInf> getNeedTeamInfByUser(String user);
     int dissolveTeam(int teamId)throws SQLException;
     Team getTeamById(int teamId);
     List<Student> getStuNotTeam(@Param("classId")int classId);//查看班级未组队成员

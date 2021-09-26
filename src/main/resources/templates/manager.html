@@ -28,7 +28,6 @@
             $(".admit-btn").click(function () {
                 //var paramdata = $("#bck_qry_criteria_form").serializeJson();//serializeJson()是自定义的form 格式化为json函数
                 var paramdata = [$(this).prev().val()];
-                alert(paramdata);
                 paramdata = JSON.stringify(paramdata);
                 $.ajax({
                     type: "post",
@@ -40,7 +39,7 @@
                     },
                     success: function (data) {
 
-                        //$("#input_phone").val("");//清空输入框
+                        location.reload();
                     }
                 });
                 $(this).parent().parent().hide();
@@ -48,7 +47,6 @@
             $(".deny-btn").click(function () {
                 //var paramdata = $("#bck_qry_criteria_form").serializeJson();//serializeJson()是自定义的form 格式化为json函数
                 var paramdata = [$(this).prev().prev().val()];
-                alert(paramdata);
                 paramdata = JSON.stringify(paramdata);
                 $.ajax({
                     type: "post",
@@ -59,8 +57,7 @@
                         "Content-Type": "application/json;charset=utf-8"
                     },
                     success: function (data) {
-
-                        //$("#input_phone").val("");//清空输入框
+                        location.reload();
                     }
                 });
                 $(this).parent().parent().hide();
@@ -385,7 +382,22 @@
                                     <button class="btn btn-danger deny-btn">拒绝</button>
                                 </div>
                             </li>
-
+                            <li class="card" th:each="u : ${teachers}">
+                                <div><label class="list-card-l">姓名:</label><label class="list-card-r"
+                                                                                  th:text="${u.name}"></label></div>
+                                <div><label class="list-card-l">学校:</label><label class="list-card-r"
+                                                                                  th:text="${u.school}"></label>
+                                </div>
+                                <div><label class="list-card-l">性别:</label><label class="list-card-r"
+                                                                                  th:text="${u.sex}? '男' : '女'"></label></div>
+                                <div><label class="list-card-l">学号:</label><label
+                                        class="list-card-r" th:text="${u.id}">919106230111</label></div>
+                                <div class="request-btn">
+                                    <input type="text" style="display: none;" th:value="${u.user}"></input>
+                                    <button class="btn btn-success admit-btn">允许</button>
+                                    <button class="btn btn-danger deny-btn">拒绝</button>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>

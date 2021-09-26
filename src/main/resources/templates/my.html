@@ -369,7 +369,7 @@
                                 autofocus='' style="margin-bottom: 15px;">
                                 <option th:value="${x}" th:each="x: ${schools}" th:text="${x}"></option>
                             </select>
-                            <input type="text" class="form-control" name="id" value="" placeholder="学号"
+                            <input type="text" class="form-control" name="id" value="" placeholder="学号/工号"
                                 autofocus='' style="margin-bottom: 15px;">
                         </div>
                     </div>
@@ -467,7 +467,7 @@
                                     </li>
                                     <li id="studentId">
                                         <div class="content-show-l">
-                                            学号
+                                            学号/工号
                                         </div>
                                         <div class="content-show-r"  th:text="*{id == null}?'未认证':*{id}">
                                         </div>

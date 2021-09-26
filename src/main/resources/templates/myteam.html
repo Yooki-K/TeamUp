@@ -296,12 +296,8 @@
     <div class="main">
         <!--班级区域-->
         <div class="my-area">
-            <!--“我的班级”-->
-            <ul class="zla_m_tab" id="zla_title">
-                <li class="zla_m_item"><a th:href="@{'/'+${user.no}+'/class'}">我的班级</a></li>
-                <li class="zla_m_item zla_m_cur"><a th:href="@{'/'+${user.no}+'/team'}">我的团队</a></li>
-                <li class="zla_m_item"><a th:href="@{'/'+${user.no}+'/room'}">我的房间</a></li>
-            </ul>
+            <!--“我的团体”-->
+            <ul class="zla_m_tab" id="zla_title" th:replace="model::group(${user},4)"></ul>
 
             <br />
 

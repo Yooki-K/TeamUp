@@ -150,12 +150,16 @@ public class ClassController {
     @PostMapping("/join/class")
     public Message joinClass(@Param("invCode")String invCode,HttpSession session){
         Student user = (Student) session.getAttribute("user");
+//        String table =  session.getAttribute("table").toString();
+//        user = userService.findUserByUser(user.getUser(),table);
+//        session.setAttribute("user",user);
         if(user.getId()==null)
             return new Message(false,"请先实名认证");
         Class c = classService.codeIsExist(invCode);
         if (c==null)
             return new Message(false,"当前邀请码不存在");
-        ClassInf classInf = classService.getClassInf(user.getUser(), c.getId());
+        ClassInf classInf = classService.getClassInf(user.getId(), c.getId());
+        classInf.setUser(user.getUser());
         if(classInf==null)
             return new Message(false,"未在当前班级名单中");
         if(classService.joinClass(classInf)>0)

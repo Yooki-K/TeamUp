@@ -22,6 +22,12 @@ public class TeamService {
     public List<TeamInf> getTeamInfByUser(Student student){
         return teamMapper.getTeamInfByUser(student.getUser());
     }
+    public List<TeamInf> getTeamInfByClassId(int classId){
+        return teamMapper.getTeamInfByClassId(classId);
+    }
+    public List<TeamInf> getNeedTeamInfByUser(String user){
+        return teamMapper.getNeedTeamInfByUser(user);
+    }
     public List<Team> getTeamByClass(int classId){
         return teamMapper.getTeamByClass(classId);
     }

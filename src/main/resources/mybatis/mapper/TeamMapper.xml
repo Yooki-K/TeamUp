@@ -45,6 +45,12 @@
     <select id="getTeamInfByUser" resultType="com.teamup.demo.teamManage.entity.TeamInf">
         select * from public."teamInf" where "user" = #{user} order by "teamId" asc
     </select>
+    <select id="getTeamInfByClassId" resultType="com.teamup.demo.teamManage.entity.TeamInf">
+        select * from public."teamInf" where "classId" = #{classId}
+    </select>
+    <select id="getNeedTeamInfByUser" resultType="com.teamup.demo.teamManage.entity.TeamInf">
+        select * from public."teamInf" where "user" = #{user} and "teamId" is null
+    </select>
     <select id="getNumNeedTeam" resultType="int">
         select count(*) from public."teamInf" where "user" = #{user} and "teamId" is null group by "teamId"
     </select>

@@ -12,7 +12,11 @@ function updateAnoun(e) {
     })
 }
 
-
+function createTeamInfos() {
+    sendQUERY("post","/create/mission",{classId: $("input[name='classId']").val()},function (data) {
+        alert(data.mes);
+    })
+}
 function autoUpload(e) {
     $(e).parent().submit();
 }

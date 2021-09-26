@@ -1,6 +1,7 @@
 package com.teamup.demo.teamManage.controller;
 
 import com.teamup.demo.classManage.entity.Class;
+import com.teamup.demo.classManage.service.ClassService;
 import com.teamup.demo.teamManage.entity.ChatLog;
 import com.teamup.demo.teamManage.entity.Evaluation;
 import com.teamup.demo.teamManage.entity.Team;
@@ -30,6 +31,8 @@ public class TeamController {
     private TeamService teamService;
     @Resource
     private UserService userService;
+    @Resource
+    private ClassService classService;
 
     /*创建评价 json isAnonymous toUser content*/
     @PostMapping("/create/evaluation")
@@ -54,11 +57,14 @@ public class TeamController {
     @PostMapping("/create/mission")
     public Message createMission(@Param("classId")int classId, HttpSession session){
         Student user = (Student) session.getAttribute("user");
+        List<TeamInf> teamInfs = teamService.getTeamInfByClassId(classId);
+        if(teamInfs!=null&&teamInfs.size()>0)
+            return new Message(false,"已发布组队任务");
         int num = teamService.addTeamIfs(user,classId);
         if(num>0)
-            return new Message(true);
+            return new Message(true,"发布组队任务成功");
         else
-            return new Message(false);
+            return new Message(false,"发布组队任务失败");
     }
     /*获取组队任务个数*/
     @PostMapping("/data/query/num/needTeam")
@@ -91,19 +97,21 @@ public class TeamController {
                 ) {
                     Map<String, Object> map = new HashMap<String, Object>();
                     Team team = teamService.getTeamById(teamInf.getTeamId());
-                    map.put("team", team);
-                    if (team.getLeader().equals(user.getUser())) {
-                        map.put("position", "队长");
-                        map.put("leaderUser", user.getUser());
-                        map.put("leaderNo", user.getNo());
+                    if (team!=null){
+                        map.put("team", team);
+                        if (team.getLeader().equals(user.getUser())) {
+                            map.put("position", "队长");
+                            map.put("leaderUser", user.getUser());
+                            map.put("leaderNo", user.getNo());
+                        }
+                        else{
+                            map.put("position", "队员");
+                            Student leader = userService.findUserByUser(team.getLeader(),"student");
+                            map.put("leaderUser",leader.getUser());
+                            map.put("leaderNo",leader.getNo());
+                        }
+                        list.add(map);
                     }
-                    else{
-                        map.put("position", "队员");
-                        Student leader = userService.findUserByUser(team.getLeader(),"student");
-                        map.put("leaderUser",leader.getUser());
-                        map.put("leaderNo",leader.getNo());
-                    }
-                    list.add(map);
                 }
             }else{
                 List<Team> teams = teamService.getTeamByTeacherNo(user.getNo());
@@ -130,6 +138,38 @@ public class TeamController {
             mav.addObject("data", list);
             mav.addObject("user", user);
             mav.setViewName("myteam");
+            return mav;
+        }
+    }
+    /*查看个人组队任务*/
+    @GetMapping("/{studentNo}/mission")
+    public ModelAndView queryMyNeedTeamInf(HttpSession session, @PathVariable int studentNo, HttpServletRequest request){
+        Student user = (Student) session.getAttribute("user");
+        if (user==null) {
+            return Util.createError("false","请先登录","/");
+        }
+        if (studentNo!=user.getNo()){
+            return Util.createError("404","访问错误页面",request.getRequestURI());
+        }else
+        {
+            ModelAndView mav = new ModelAndView();
+            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+            List<TeamInf> TeamInfs = teamService.getNeedTeamInfByUser(user.getUser());
+            for (TeamInf teamInf : TeamInfs
+            ) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("teamInf", teamInf);
+                    Class c = classService.getClassById(teamInf.getClassId());
+                    map.put("classId", c.getId());
+                    map.put("className", c.getName());
+                    Student teacher = userService.findUserByNo(teamInf.getTeacherId(),"teacher");
+                    map.put("teacherName",teacher.getName());
+                    map.put("teacherNo",teacher.getNo());
+                    list.add(map);
+            }
+            mav.addObject("data", list);
+            mav.addObject("user", user);
+            mav.setViewName("mymission");
             return mav;
         }
     }

@@ -29,7 +29,7 @@
 
     <select id="getCertificationByType" parameterType="int"
             resultType="com.teamup.demo.userManage.entity.Certification">
-        select * from public.certification where "isAgree" = false and type = #{type} order by time
+        select * from public.certification where "isAgree" is null and type = #{type} order by time
     </select>
     
     <update id="operateCertification" >

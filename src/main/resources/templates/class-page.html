@@ -406,6 +406,7 @@
                         <a class="mr10 orgbtn greenbtn  btn_s bdrad18" th:href="@{'/rooms/class/'+${class.id}}">
                             进入组队
                         </a>
+                        <a class="mr10 orgbtn greenbtn  btn_s bdrad18" th:if="${user!=null and user.user==teacher.user}" href="javascript:void(0)" onclick="createTeamInfos()">发布组队任务</a>
                     </div>
                 </div>
             </div>

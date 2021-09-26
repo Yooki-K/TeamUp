@@ -15,7 +15,7 @@ public interface ClassMapper {
     int addClass(Class c)throws SQLException;//创建班级
     List<Class> getClassByTea(String user);//根据老师用户名查询所创建班级
     List<Class> getClassByStu(String user);//根据学生用户名查询所创建班级
-    ClassInf getClassInf(@Param("user") String user,@Param("id") int id);//根据学生用户名查询所创建班级
+    ClassInf getClassInf(@Param("userId") String userId,@Param("id") int id);//根据学生用户名查询所创建班级
     List<Student> getStuByClass(int classId);//根据班级编号查询班级成员
     Class getClassById(int classId);//根据编号查找班级
     int deleteClass(List<String> list)throws SQLException;//根据编号删除班级

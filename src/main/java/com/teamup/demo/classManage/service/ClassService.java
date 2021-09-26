@@ -70,8 +70,8 @@ public class ClassService {
             return 0;
         }
     }
-    public ClassInf getClassInf(String user,int id){
-        return classMapper.getClassInf(user, id);
+    public ClassInf getClassInf(String userId,int id){
+        return classMapper.getClassInf(userId, id);
     }
     public int setAnnouncement(String text,int classId){
         try {

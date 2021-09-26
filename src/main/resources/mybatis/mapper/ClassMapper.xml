@@ -32,7 +32,7 @@
         where "user" in ( select "user" from public.class where "id" = #{classId} )
     </select>
     <update id="updateClassInf" parameterType="com.teamup.demo.classManage.entity.ClassInf">
-        update public."classInfo" set "user"=#{classInf.user} where "userId" = #{classInf.userId};
+        update public."classInfo" set "user"=#{user} where "userId" = #{userId} and "id" = #{id};
     </update>
     <insert id="joinClass" parameterType="java.util.List">
         insert into public."classInfo" ("id", "user", "userId" )
@@ -45,7 +45,7 @@
         select * from public.class where "invCode"=#{invCode}
     </select>
     <select id="getClassInf" resultType="com.teamup.demo.classManage.entity.ClassInf">
-        select * from public."classInfo" where "user" = #{user} and "id" = #{id}
+        select * from public."classInfo" where "userId" = #{userId} and "id" = #{id}
     </select>
     <update id="setAnnouncement">
         update public.class set announcement = #{text} where "id" = #{classId}

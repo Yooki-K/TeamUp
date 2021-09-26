@@ -164,12 +164,8 @@
     <div class="main">
         <!--班级区域-->
         <div class="my-area">
-            <!--“我的班级”-->
-            <ul class="zla_m_tab" id="zla_title" style="margin-bottom: 0;">
-                <li class="zla_m_item"><a th:href="@{'/'+${user.no}+'/class'}">我的班级</a></li>
-                <li class="zla_m_item "><a th:href="@{'/'+${user.no}+'/team'}">我的团队</a></li>
-                <li class="zla_m_item zla_m_cur"><a th:href="@{'/'+${user.no}+'/room'}">我的房间</a></li>
-            </ul>
+            <!--“我的团体”-->
+            <ul class="zla_m_tab" id="zla_title" th:replace="model::group(${user},1)"></ul>
             <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4" th:if="${data.size()>0}" th:each="x :${data}">
                 <!--单个房间卡片-->
                 <li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6"  th:replace="model::room(${x},${user})">

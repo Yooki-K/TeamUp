@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--todo # 补充-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -74,7 +73,26 @@
         </div>
     </div>
 </li>
+<!--任务卡片-->
+<li class="mb-3 d-flex flex-content-stretch col-12 col-md-6 col-lg-6" th:fragment="mission(obj)">
+    <div class="Box pinned-item-list-item d-flex p-3 width-full public fork" >
+        <div class="pinned-item-list-item-content">
+            <div class="d-flex width-full flex-items-center position-relative">
+                <a th:href="@{'/class/'+${obj.classId}}" class="text-bold flex-auto min-width-0">
+                    <span class="repo" th:title="${obj.className}" th:text="${obj.className}"></span>
+                </a>
+            </div>
 
+            <p class="color-text-secondary text-small mb-2">
+                指导老师 <a class="Link--muted" th:href="@{'/'+${obj.teacherNo}+'/index'}" th:text="${obj.teacherName}"></a>
+            </p>
+            <p class="pinned-item-desc color-text-secondary text-small d-block mt-2 mb-3"></p>
+            <p class="mb-0 f6 color-text-secondary">
+                <span class="d-inline-block mr-3"></span>
+            </p>
+        </div>
+    </div>
+</li>
 <!--顶部导航栏 start-->
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="navbar(obj)">
     <div class="container">
@@ -104,7 +122,7 @@
         <a href="#" class="box"><i class="fa fa-navicon"></i><span></span></a>
         <a href="index.html" class="box"><i class="fa fa-home"></i><span>首页</span></a>
         <a th:href="@{'/'+${obj.no}+'/index'}" class="box"><i class="fa fa-user"></i><span>我的</span></a>
-        <a th:href="@{'/'+${obj.no}+'/class'}" class="box"><i class="fa fa-users"></i><span>团体</span></a>
+        <a th:href="@{'/'+${obj.no}+'/room'}" class="box"><i class="fa fa-users"></i><span>团体</span></a>
         <a th:href="@{/rooms/public}" class="box"><i class="fa fa-television"></i><span>组队大厅</span></a>
         <a th:href="@{'/'+${obj.no}+'/team'}" class="box"><i class="fa fa-history"></i><span>组队记录</span></a>
         <a th:href="@{'/'+${obj.no}+'/message'}" class="box"><i class="fa fa-envelope"></i><span>信息</span></a>
@@ -112,5 +130,14 @@
     </div>
 </div>
 <!--侧方导航栏 end-->
+
+<!--“我的团体”-->
+<ul class="zla_m_tab" id="zla_title" th:fragment="group(obj,type)">
+    <li th:class="'zla_m_item'+(${type==1}?' zla_m_cur':'')"><a th:href="@{'/'+${obj.no}+'/room'}">我的房间</a></li>
+    <li th:class="'zla_m_item'+(${type==2}?' zla_m_cur':'')"><a th:href="@{'/'+${obj.no}+'/class'}">我的班级</a></li>
+    <li th:class="'zla_m_item'+(${type==3}?' zla_m_cur':'')"><a th:href="@{'/'+${obj.no}+'/mission'}">我的任务</a></li>
+    <li th:class="'zla_m_item'+(${type==4}?' zla_m_cur':'')"><a th:href="@{'/'+${obj.no}+'/team'}">我的团队</a></li>
+</ul>
+
 </body>
 </html>
